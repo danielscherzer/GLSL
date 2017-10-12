@@ -104,11 +104,11 @@ included in the project:
 
    ```bash
    # Clone your fork of the repo into the current directory
-   git clone https://github.com/<your-username>/<this-repro-name>.git
+   git clone https://github.com/danielscherzer/GLSL.git
    # Navigate to the newly cloned directory
    cd <folder-name>
    # Assign the original repo to a remote called "upstream"
-   git remote add upstream https://github.com/madskristensen/<this-repro-name>.git
+   git remote add upstream https://github.com/danielscherzer/GLSL.git
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream:
