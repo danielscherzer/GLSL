@@ -8,12 +8,12 @@ install:
 - ps: (new-object Net.WebClient).DownloadString("https://raw.github.com/madskristensen/ExtensionScripts/master/AppVeyor/vsix.ps1") | iex
 
 before_build:
-  - ps: Vsix-IncrementVsixVersion | Vsix-UpdateBuildVersion
-  #- ps: Vsix-TokenReplacement src\source.extension.cs 'Version = "([0-9\\.]+)"' 'Version = "{version}"'
+- ps: Vsix-IncrementVsixVersion | Vsix-UpdateBuildVersion
 - nuget restore -Verbosity quiet
+  #- ps: Vsix-TokenReplacement src\source.extension.cs 'Version = "([0-9\\.]+)"' 'Version = "{version}"'
 
 build_script:
-  - msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m
+- msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m
 
 after_test:
-  - ps: Vsix-PushArtifacts | Vsix-PublishToGallery
+- ps: Vsix-PushArtifacts | Vsix-PublishToGallery
