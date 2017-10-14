@@ -15,16 +15,29 @@ namespace DMS.GLSL.Errors
 	{
 		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
 		{
+			if (ReferenceEquals(null, textView)) return null;
 			// Make sure we are only tagging the top buffer
-			if (buffer != textView.TextBuffer) return null;
+			if (!ReferenceEquals(buffer, textView.TextBuffer)) return null;
+			//make sure only one tagger for a textbuffer is created all views should share
+			if (!taggers.ContainsKey(buffer))
+			{
+				var tagger = new SquiggleTagger(buffer);
+				taggers[buffer] = tagger;
+				var typeName = buffer.ContentType.TypeName;
+				buffer.Changed += (s, e) => RequestCompileShader(tagger, e.After.GetText(), typeName); //compile on text change. can be very often!
+				RequestCompileShader(tagger, buffer.CurrentSnapshot.GetText(), typeName); //initial compile
+			}
+			return taggers[buffer] as ITagger<T>;
+		}
 
-			var tagger = new SquiggleTagger(buffer);
-			var typeName = buffer.ContentType.TypeName;
+		[Import] private ShaderCompiler shaderCompiler = null;
+		private Dictionary<ITextBuffer, SquiggleTagger> taggers = new Dictionary<ITextBuffer, SquiggleTagger>();
 
-			tagger.RequestCompileShader(buffer.CurrentSnapshot.GetText(), typeName); //initial compile
-			
-			buffer.Changed += (s, e) => tagger.RequestCompileShader(e.After.GetText(), typeName); //compile on text change. can be very often!
-			return tagger as ITagger<T>;
+		private void RequestCompileShader(SquiggleTagger tagger, string shaderCode, string shaderType)
+		{
+			if (ReferenceEquals(null, shaderCompiler)) return;
+			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
+			shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors);
 		}
 	}
 
@@ -61,21 +74,8 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		internal void RequestCompileShader(string shaderCode, string shaderType)
+		public void UpdateErrors(List<ShaderLogLine> errorLog)
 		{
-			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
-			shaderCompiler.RequestCompile(shaderCode, shaderType);
-			shaderCompiler.CompilationFinished += ShaderCompiler_CompilationFinished;
-		}
-
-		private List<ShaderLogLine> errors = new List<ShaderLogLine>();
-		private static ShaderCompiler shaderCompiler = new ShaderCompiler();
-		private ITextBuffer buffer;
-		private string filePath;
-
-		private void ShaderCompiler_CompilationFinished(List<ShaderLogLine> errorLog)
-		{
-			shaderCompiler.CompilationFinished -= ShaderCompiler_CompilationFinished;
 			errors = errorLog;
 			ErrorList.GetInstance().Clear();
 			foreach (var error in errors)
@@ -86,5 +86,9 @@ namespace DMS.GLSL.Errors
 			var span = new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length);
 			TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
 		}
+
+		private List<ShaderLogLine> errors = new List<ShaderLogLine>();
+		private ITextBuffer buffer;
+		private string filePath;
 	}
 }
