@@ -8,12 +8,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB3F8079-DA22-47E0-A5D2-11483F73FEBD}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
+		CHANGELOG.md = CHANGELOG.md
 		clean.bat = clean.bat
 		CONTRIBUTING.md = CONTRIBUTING.md
-		CHANGELOG.md = CHANGELOG.md
-		README.md = README.md
 		ISSUE_TEMPLATE.md = ISSUE_TEMPLATE.md
 		LICENSE = LICENSE
+		quick commit push.bat = quick commit push.bat
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global

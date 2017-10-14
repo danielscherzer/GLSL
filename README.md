@@ -15,18 +15,9 @@ See the [change log](CHANGELOG.md) for changes and road map.
 
 ## Features
 
-- Feature 1
-- Feature 2
-  - Sub feature
-
-### Feature 1
-Describe feature 1. Add screenshots/code samples etc.
-
-### Feature 2
-Describe feature 2. Add screenshots/code samples etc.
-
-#### Sub feature
-Describe sub feature. Add screenshots/code samples etc.
+- Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
+- Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
+- Error tagging with squiggles and in error list (error list support is very alpha)
 
 ## Contribute
 Check out the [contribution guidelines](CONTRIBUTING.md)

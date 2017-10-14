@@ -1,25 +1,19 @@
 # Road map
+- [x] Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
+- [x] Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
+- [x] Error tagging with squiggles and in error list (error list support is very alpha)
+- [ ] Error list jump to line
+- [ ] Better parsing of glsl compiler errors for shorter squiggle spans
+- [ ] Allow switching between native compile on separate thread and glslang reference compiler
 
-- [x] A feature that has been completed
-- [ ] A feature that has NOT yet been completed
-
-Features that have a checkmark are complete and available for
-download in the
+Features that have a check mark are complete and available for download in the
 [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6158ade63816/).
 
 # Change log
+These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
-These are the changes to each version that has been released
-on the official Visual Studio extension gallery.
-
-## 1.1
-
-- [x] Feature 3
-- [x] Feature 4
-
-## 1.0
-
+## 0.2
 - [x] Initial release
-- [x] Feature 1
-- [x] Feature 2
-  - [x] Sub feature
+- [x] Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
+- [x] Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
+- [x] Error tagging with squiggles and in error list (error list support is very alpha)
