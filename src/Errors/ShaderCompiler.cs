@@ -9,15 +9,6 @@ namespace DMS.GLSL.Errors
 {
 	internal class ShaderCompiler
 	{
-		internal enum ShaderContentType {
-			GlslFragmentShader = ShaderType.FragmentShader,
-			GlslVertexShader = ShaderType.VertexShader,
-			GlslGeometryShader = ShaderType.GeometryShader,
-			GlslTessEvaluationShader = ShaderType.TessEvaluationShader,
-			GlslTessControlShader = ShaderType.TessControlShader,
-			GlslComputeShader = ShaderType.ComputeShader,
-		}
-
 		internal delegate void OnCompilationFinished(List<ShaderLogLine> errorLog);
 		internal event OnCompilationFinished CompilationFinished;
 
@@ -27,19 +18,35 @@ namespace DMS.GLSL.Errors
 			taskGL = Task.Factory.StartNew(TaskGlAction);
 		}
 
-		internal void RequestCompile(string shaderCode, ShaderContentType contentType)
+		internal void RequestCompile(string shaderCode, string shaderType)
+		{
+			if (!Enum.TryParse(shaderType, true, out ShaderContentType contentType)) contentType = ShaderContentType.GlslFragmentShader;
+			RequestCompile(shaderCode, (ShaderType)contentType);
+		}
+
+		private void RequestCompile(string shaderCode, ShaderType shaderType)
 		{
 			CompileData data;
 			while (compileInput.TryTake(out data)) ; //remove pending compiles
 			data.shaderCode = shaderCode;
-			data.contentType = contentType;
+			data.shaderType = shaderType;
 			compileInput.TryAdd(data); //add new
 		}
 
 		private struct CompileData
 		{
 			public string shaderCode;
-			public ShaderContentType contentType;
+			public ShaderType shaderType;
+		}
+
+		private enum ShaderContentType
+		{
+			GlslFragmentShader = ShaderType.FragmentShader,
+			GlslVertexShader = ShaderType.VertexShader,
+			GlslGeometryShader = ShaderType.GeometryShader,
+			GlslTessEvaluationShader = ShaderType.TessEvaluationShader,
+			GlslTessControlShader = ShaderType.TessControlShader,
+			GlslComputeShader = ShaderType.ComputeShader,
 		}
 
 		private Task taskGL;
@@ -53,15 +60,14 @@ namespace DMS.GLSL.Errors
 			while (!compileInput.IsAddingCompleted)
 			{
 				var compileData = compileInput.Take(); //block until compile requested
-				var log = Compile(compileData.shaderCode, compileData.contentType);
+				var log = Compile(compileData.shaderCode, compileData.shaderType);
 				var errorLog = ShaderLog.Parse(log);
 				CompilationFinished?.Invoke(errorLog);
 			}
 		}
 		
-		private string Compile(string shaderCode, ShaderContentType contentType)
+		private static string Compile(string shaderCode, ShaderType shaderType)
 		{
-			var shaderType = (ShaderType)contentType;
 			int shaderObject = GL.CreateShader(shaderType);
 			if (0 == shaderObject) throw new SystemException("Could not create " + shaderType.ToString() + " object");
 			// Compile vertex shader

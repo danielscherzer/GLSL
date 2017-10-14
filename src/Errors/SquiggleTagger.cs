@@ -64,9 +64,8 @@ namespace DMS.GLSL.Errors
 		internal void RequestCompileShader(string shaderCode, string shaderType)
 		{
 			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
-			if (!Enum.TryParse(shaderType, true, out ShaderCompiler.ShaderContentType contentType)) contentType = ShaderCompiler.ShaderContentType.GlslFragmentShader;
+			shaderCompiler.RequestCompile(shaderCode, shaderType);
 			shaderCompiler.CompilationFinished += ShaderCompiler_CompilationFinished;
-			shaderCompiler.RequestCompile(shaderCode, contentType);
 		}
 
 		private List<ShaderLogLine> errors = new List<ShaderLogLine>();
