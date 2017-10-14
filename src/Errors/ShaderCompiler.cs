@@ -1,5 +1,4 @@
-﻿using ContextGL;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
