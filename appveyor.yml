@@ -1,3 +1,5 @@
+skip_tags: true # avoid deploy to GitHub loop 
+
 image: Visual Studio 2017
 
 configuration:
@@ -12,8 +14,10 @@ before_build:
 - nuget restore -Verbosity quiet
   #- ps: Vsix-TokenReplacement src\source.extension.cs 'Version = "([0-9\\.]+)"' 'Version = "{version}"'
 
-build_script:
-- msbuild /p:configuration=Release /p:DeployExtension=false /p:ZipPackageCompressionLevel=normal /v:m
+
+build:
+  verbosity: minimal              # MSBuild verbosity level
+
 
 after_test:
 - ps: Vsix-PushArtifacts | Vsix-PublishToGallery
