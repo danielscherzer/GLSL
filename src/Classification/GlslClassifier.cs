@@ -16,6 +16,9 @@ namespace DMS.GLSL.Classification
 	{
 		public void OnImportsSatisfied()
 		{
+			//var contentTypes = from element in contentTypeRegistryService.ContentTypes
+			//				   select new { name = element.DisplayName, ances = element.BaseTypes};
+
 			glslTokenTypeClassifications[GlslTokenTypes.Function] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
 			glslTokenTypeClassifications[GlslTokenTypes.Keyword] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
 			glslTokenTypeClassifications[GlslTokenTypes.Variable] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Variable);
@@ -37,6 +40,8 @@ namespace DMS.GLSL.Classification
 
 		[Import]
 		internal IBufferTagAggregatorFactoryService aggregatorFactory = null;
+
+		//[Import] internal IContentTypeRegistryService contentTypeRegistryService = null;
 
 		IDictionary<GlslTokenTypes, IClassificationType> glslTokenTypeClassifications = new Dictionary<GlslTokenTypes, IClassificationType>();
 	}

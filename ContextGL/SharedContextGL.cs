@@ -13,7 +13,10 @@ namespace ContextGL
 			window = new GameWindow(1, 1);
 		}
 
-		public IGraphicsContext Context => window.Context;
+		public void MakeCurrent()
+		{
+			window.MakeCurrent();
+		}
 
 		private GameWindow window;
 	}

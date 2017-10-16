@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using ContextGL;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
@@ -16,12 +17,11 @@ namespace DMS.GLSL.Errors
 
 		internal ShaderCompiler()
 		{
-			//start up gl task for doing shader compilations in background
-			taskGL = Task.Factory.StartNew(TaskGlAction);
 		}
 
 		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler)
 		{
+			StartGlThreadOnce();
 			//conversion
 			if (!Enum.TryParse(sShaderType, true, out ShaderContentType contentType)) contentType = ShaderContentType.GlslFragmentShader;
 			var shaderType = (ShaderType)contentType;
@@ -53,7 +53,14 @@ namespace DMS.GLSL.Errors
 
 		private Task taskGL;
 		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
-		//[Import] SharedContextGL context = null;
+		[Import(AllowDefault = true)] SharedContextGL context = null;
+
+		private void StartGlThreadOnce()
+		{
+			if (!ReferenceEquals(null, taskGL)) return;
+			//start up gl task for doing shader compilations in background
+			taskGL = Task.Factory.StartNew(TaskGlAction);
+		}
 
 		private void TaskGlAction()
 		{
@@ -68,8 +75,9 @@ namespace DMS.GLSL.Errors
 			}
 		}
 		
-		private static string Compile(string shaderCode, ShaderType shaderType)
+		private string Compile(string shaderCode, ShaderType shaderType)
 		{
+			//context.MakeCurrent();
 			int shaderObject = GL.CreateShader(shaderType);
 			if (0 == shaderObject) throw new SystemException("Could not create " + shaderType.ToString() + " object");
 			// Compile vertex shader

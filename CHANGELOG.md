@@ -12,7 +12,7 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
-## 0.2
+## 0.1
 - [x] Initial release
 - [x] Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
 - [x] Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
