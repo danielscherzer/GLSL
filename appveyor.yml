@@ -21,7 +21,7 @@ after_test:
 - ps: Vsix-PushArtifacts | Vsix-PublishToGallery
 
 deploy:
-  release: GLSL.v$(appveyor_build_version)
+  release: GLSL
   description: 'Release auto generated from AppVeyor'
   provider: GitHub
   auth_token:

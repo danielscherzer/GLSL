@@ -3,6 +3,7 @@
 - [x] Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
 - [x] Error tagging with squiggles and in error list (error list support is very alpha)
 - [ ] Error list jump to line
+- [ ] Show `glsl' shader in ToolBoxWindow
 - [ ] Better parsing of glsl compiler errors for shorter squiggle spans
 - [ ] Allow switching between native compile on separate thread and glslang reference compiler
 

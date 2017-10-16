@@ -53,7 +53,7 @@ namespace DMS.GLSL.Errors
 
 		private Task taskGL;
 		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
-		[Import(AllowDefault = true)] SharedContextGL context = null;
+		//[Import(AllowDefault = true)] SharedContextGL context = null;
 
 		private void StartGlThreadOnce()
 		{
