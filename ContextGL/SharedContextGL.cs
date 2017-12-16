@@ -1,5 +1,4 @@
 ﻿using OpenTK;
-using OpenTK.Graphics;
 using System.ComponentModel.Composition;
 
 namespace ContextGL
