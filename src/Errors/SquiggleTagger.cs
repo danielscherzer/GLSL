@@ -15,7 +15,7 @@ namespace DMS.GLSL.Errors
 	{
 		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
 		{
-			if (ReferenceEquals(null, textView)) return null;
+			if (textView is null) return null;
 			// Make sure we are only tagging the top buffer
 			if (!ReferenceEquals(buffer, textView.TextBuffer)) return null;
 			//make sure only one tagger for a textbuffer is created all views should share
@@ -35,7 +35,7 @@ namespace DMS.GLSL.Errors
 
 		private void RequestCompileShader(SquiggleTagger tagger, string shaderCode, string shaderType)
 		{
-			if (ReferenceEquals(null, shaderCompiler)) return;
+			if (shaderCompiler is null) return;
 			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
 			shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors);
 		}
@@ -57,7 +57,7 @@ namespace DMS.GLSL.Errors
 		public IEnumerable<ITagSpan<IErrorTag>> GetTags(NormalizedSnapshotSpanCollection inputSpans)
 		{
 			if (errors.Count == 0) yield break;
-			//todo: parse error.message for offending words to narrow down span
+			//TODO: parse error.message for offending words to narrow down span
 			//error.Message.
 			foreach (var inputSpan in inputSpans)
 			{
@@ -82,7 +82,7 @@ namespace DMS.GLSL.Errors
 			{
 				ErrorList.GetInstance().Write(error.Message, error.LineNumber - 1, filePath);
 			}
-			//todo: use PredefinedErrorTypeNames
+			//TODO: use PredefinedErrorTypeNames
 			var span = new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length);
 			TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
 		}
