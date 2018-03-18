@@ -1,5 +1,15 @@
 skip_tags: true # avoid deploy to GitHub loop 
 
+version: 0.3.{build}
+
+# enable patching of AssemblyInfo.* files with APPVEYOR version
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
 image: Visual Studio 2017
 
 configuration:
