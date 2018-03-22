@@ -6,7 +6,7 @@
         <Description xml:space="preserve">VSIX Project that provides GLSL language integration.
 Includes syntax highlighting (file extensions: glsl, frag, vert, geom, comp, tesse, tessc), code completion (OpenGL 4.5 + identifiers in shader file), error tagging with squiggles and in error list (error list support is very alpha). For error tagging a separate OpenGL thread is used for shader compiling.</Description>
         <MoreInfo>https://github.com/danielscherzer/GLSL</MoreInfo>
-        <License>https://github.com/danielscherzer/GLSL/blob/master/LICENSE</License>
+        <License>Resources\LICENSE.txt</License>
         <GettingStartedGuide>https://github.com/danielscherzer/GLSL/blob/master/README.md</GettingStartedGuide>
         <ReleaseNotes>https://github.com/danielscherzer/GLSL/blob/master/CHANGELOG.md</ReleaseNotes>
         <Icon>Resources\ShaderIcon.png</Icon>

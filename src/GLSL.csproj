@@ -141,6 +141,10 @@
     <Resource Include="Resources\Add.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\ShaderPreview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
