@@ -2,7 +2,7 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/dgkpbnfgna2gakrd?svg=true)](https://ci.appveyor.com/project/danielscherzer/glsl)
 
-Download this extension from the [VS Gallery](https://visualstudiogallery.msdn.microsoft.com/[GuidFromGallery])
+Download this extension from the [VS Gallery](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.ZenselessVsix)
 or get the [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6158ade63816/).
 
 ---------------------------------------
