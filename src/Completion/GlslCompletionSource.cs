@@ -63,7 +63,7 @@ namespace DMS.GLSL
 				var tokens = tagger.GetTags(new NormalizedSnapshotSpanCollection(snapshotSpan));
 				//only those tokens that are identifiers and do not overlap the input position because we do not want to add char that started session to completions
 				var filtered = from token in tokens
-							   where token.Tag.type == GlslTokenTypes.Identifier
+							   where token.Tag.Type == GlslTokenTypes.Identifier
 								&& !token.Span.Contains(snapshotSpan.End - 1)
 							   let text = token.Span.GetText()
 							   orderby text

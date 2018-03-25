@@ -11,11 +11,11 @@ namespace DMS.GLSL
 {
 	public class GlslTokenTag : ITag
 	{
-		public GlslTokenTypes type { get; private set; }
+		public GlslTokenTypes Type { get; private set; }
 
 		public GlslTokenTag(GlslTokenTypes type)
 		{
-			this.type = type;
+			this.Type = type;
 		}
 	}
 
@@ -28,13 +28,13 @@ namespace DMS.GLSL
 	{
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
-			if (ReferenceEquals(null, cppClassifierProvider)) throw new ArgumentNullException(nameof(cppClassifierProvider));
-			if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-			GlslTokenTagger tagger;
-			if (!m_bufferTagger.TryGetValue(buffer, out tagger))
+			if (cppClassifierProvider is null) throw new ArgumentNullException(nameof(cppClassifierProvider));
+			if (buffer is null) throw new ArgumentNullException(nameof(buffer));
+			if (!m_bufferTagger.TryGetValue(buffer, out GlslTokenTagger tagger))
 			{
 				var cppClassifier = cppClassifierProvider.GetClassifier(buffer);
 				tagger = new GlslTokenTagger(cppClassifier);
+				buffer.Changed += tagger.TextChanged;
 				m_bufferTagger[buffer] = tagger;
 			}
 			return tagger as ITagger<T>;
@@ -76,12 +76,28 @@ namespace DMS.GLSL
 					else
 					{
 						//everything else
-						var type = ClassificationToTokenType(classification.ClassificationType.Classification, span.GetText());
+						var spanText = span.GetText();
+						var type = ClassificationToTokenType(classification.ClassificationType.Classification, spanText);
 						var tag = new GlslTokenTag(type);
+						//if(GlslTokenTypes.Comment == type && spanText.StartsWith("/*"))
+						//{
+						//	var start = span.Start;
+						//	var text = span.Snapshot.GetText().Substring(start);
+						//	var indexEnd = text.IndexOf("*/");
+						//	if (-1 == indexEnd) indexEnd = text.Length;
+						//	span = new SnapshotSpan(span.Snapshot, start, indexEnd);
+						//}
 						var tagSpan = new TagSpan<GlslTokenTag>(span, tag);
 						yield return tagSpan;
 					}
 				}
+			}
+		}
+
+		internal void TextChanged(object sender, TextContentChangedEventArgs e)
+		{
+			foreach(var change in e.Changes)
+			{
 			}
 		}
 

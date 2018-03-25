@@ -51,10 +51,10 @@ namespace DMS.GLSL.Classification
 		ITagAggregator<GlslTokenTag> aggregator;
 		IDictionary<GlslTokenTypes, IClassificationType> glslTypes;
 
-		internal GlslClassifier(ITagAggregator<GlslTokenTag> ookTagAggregator, 
+		internal GlslClassifier(ITagAggregator<GlslTokenTag> glslTagAggregator, 
 			IDictionary<GlslTokenTypes, IClassificationType> glslTokenTypeClassifications)
 		{
-			aggregator = ookTagAggregator;
+			aggregator = glslTagAggregator;
 			glslTypes = glslTokenTypeClassifications;
 		}
 
@@ -66,7 +66,7 @@ namespace DMS.GLSL.Classification
 			foreach (var tagSpan in aggregator.GetTags(inputSpan))
 			{
 				var tagSpans = tagSpan.Span.GetSpans(inputSpan.Snapshot);
-				var type = glslTypes[tagSpan.Tag.type];
+				var type = glslTypes[tagSpan.Tag.Type];
 				foreach (var span in tagSpans)
 				{
 					output.Add(new ClassificationSpan(span, type));
