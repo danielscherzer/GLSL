@@ -6,6 +6,7 @@ gl_GlobalInvocationID
 gl_LocalInvocationIndex
 
 gl_VertexID
+gl_VertexIndex
 gl_InstanceID
 gl_PerVertex
 gl_Position

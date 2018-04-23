@@ -3,7 +3,7 @@ using System;
 
 namespace DMS.GLSL.Errors
 {
-	public class ErrorList : System.IServiceProvider
+	public class ErrorList : IServiceProvider
 	{
 		private ErrorList()
 		{
@@ -25,15 +25,17 @@ namespace DMS.GLSL.Errors
 			provider.Tasks.Clear();
 		}
 
-		public void Write(string message, int line, string filePath)
+		public void Write(string message, int line, string filePath, bool isWarning = false)
 		{
 			var task = new ErrorTask
 			{
 				Category = TaskCategory.BuildCompile,
 				Text = message,
 				Line = line,
-				Document = filePath
+				Document = filePath,
+				ErrorCategory = isWarning ? TaskErrorCategory.Warning : TaskErrorCategory.Error,
 			};
+			
 			provider.Tasks.Add(task);
 		}
 

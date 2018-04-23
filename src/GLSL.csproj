@@ -81,6 +81,7 @@
     <Compile Include="Errors\ShaderCompiler.cs" />
     <Compile Include="Errors\ShaderLog.cs" />
     <Compile Include="Errors\SquiggleTagger.cs" />
+    <Compile Include="Errors\SquiggleTaggerProvider.cs" />
     <Compile Include="Language\CppClassifier.cs" />
     <Compile Include="Language\GlslTokenTag.cs" />
     <Compile Include="Language\GlslTokenTypes.cs" />

@@ -57,7 +57,7 @@ namespace DMS.GLSL.Errors
 
 		private void StartGlThreadOnce()
 		{
-			if (!ReferenceEquals(null, taskGL)) return;
+			if (!(taskGL is null)) return;
 			//start up gl task for doing shader compilations in background
 			taskGL = Task.Factory.StartNew(TaskGlAction);
 		}
