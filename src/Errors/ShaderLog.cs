@@ -30,6 +30,8 @@ namespace DMS.GLSL.Errors
 
 	public static class ShaderLog
 	{
+		public const string ERROR_TOKEN = "ERROR";
+
 		public static List<ShaderLogLine> Parse(string log)
 		{
 			//parse error log
@@ -47,7 +49,7 @@ namespace DMS.GLSL.Errors
 				{
 					logLine = ParseLogLine(line);
 				}
-				if (logLine.Type.StartsWith("ERROR"))
+				if (logLine.Type.StartsWith(ERROR_TOKEN))
 				{
 					errorLines.Add(logLine);
 				}

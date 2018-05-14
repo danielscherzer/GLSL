@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace DMS.GLSL.Errors
@@ -74,23 +75,31 @@ namespace DMS.GLSL.Errors
 				compileData.CompilationFinished?.Invoke(errorLog);
 			}
 		}
-		
+
+		[HandleProcessCorruptedStateExceptions]
 		private string Compile(string shaderCode, ShaderType shaderType)
 		{
-			//context.MakeCurrent();
-			int shaderObject = GL.CreateShader(shaderType);
-			if (0 == shaderObject) throw new SystemException("Could not create " + shaderType.ToString() + " object");
-			// Compile vertex shader
-			GL.ShaderSource(shaderObject, shaderCode);
-			GL.CompileShader(shaderObject);
-			GL.GetShader(shaderObject, ShaderParameter.CompileStatus, out int status_code);
-			string log = string.Empty;
-			if (1 != status_code)
+			try
 			{
-				log = GL.GetShaderInfoLog(shaderObject);
+				//context.MakeCurrent();
+				int shaderObject = GL.CreateShader(shaderType);
+				if (0 == shaderObject) throw new SystemException("Could not create " + shaderType.ToString() + " object");
+				// Compile vertex shader
+				GL.ShaderSource(shaderObject, shaderCode);
+				GL.CompileShader(shaderObject);
+				GL.GetShader(shaderObject, ShaderParameter.CompileStatus, out int status_code);
+				string log = string.Empty;
+				if (1 != status_code)
+				{
+					log = GL.GetShaderInfoLog(shaderObject);
+				}
+				GL.DeleteShader(shaderObject);
+				return log;
 			}
-			GL.DeleteShader(shaderObject);
-			return log;
+			catch (AccessViolationException e)
+			{
+				return $"(1 1):ERROR: OpenGL shader compiler has crashed";
+			}
 		}
 	}
 }
