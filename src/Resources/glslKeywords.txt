@@ -67,3 +67,10 @@ sampler3DRect
 sizeof cast
 namespace
 using
+constant_id
+local_size_x_id
+local_size_y_id
+local_size_z_id
+input_attachment_index push_constant set binding
+sampler
+subpassInput subpassInputMS isubpassInput isubpassInputMS usubpassInput usubpassInputMS

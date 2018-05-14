@@ -8,6 +8,7 @@ gl_LocalInvocationIndex
 gl_VertexID
 gl_VertexIndex
 gl_InstanceID
+gl_InstanceIndex
 gl_PerVertex
 gl_Position
 gl_PointSize

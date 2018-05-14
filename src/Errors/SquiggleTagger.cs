@@ -45,7 +45,7 @@ namespace DMS.GLSL.Errors
 			//Debug.WriteLine(type);
 			if (type.Contains("ERROR"))
 			{
-				return PredefinedErrorTypeNames.CompilerError;
+				return PredefinedErrorTypeNames.SyntaxError;
 			}
 			else if (type.Contains("WARNING"))
 			{
@@ -60,7 +60,7 @@ namespace DMS.GLSL.Errors
 			ErrorList.GetInstance().Clear();
 			foreach (var error in errors)
 			{
-				ErrorList.GetInstance().Write(error.Message, error.LineNumber - 1, filePath);
+				ErrorList.GetInstance().Write(error.Message, error.LineNumber - 1, filePath, error.Type == "WARNING"); //TODO: warning is not properly handled by vs
 			}
 			var span = new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length);
 			TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
@@ -68,6 +68,6 @@ namespace DMS.GLSL.Errors
 
 		private List<ShaderLogLine> errors = new List<ShaderLogLine>();
 		private ITextBuffer buffer;
-		private string filePath;
+		private readonly string filePath;
 	}
 }
