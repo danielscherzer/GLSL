@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -74,6 +75,7 @@ namespace DMS.GLSL
 						return VSConstants.S_OK;
 				}
 			}
+			ThreadHelper.ThrowIfNotOnUIThread();
 			return Next.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
 		}
 
@@ -112,7 +114,7 @@ namespace DMS.GLSL
 						break;
 				}
 			}
-
+			ThreadHelper.ThrowIfNotOnUIThread();
 			if (!handled) hresult = Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 
 			if (ErrorHandler.Succeeded(hresult))

@@ -1,4 +1,5 @@
 ﻿using ContextGL;
+using DMS.GLSL.Classification;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System;
@@ -16,16 +17,11 @@ namespace DMS.GLSL.Errors
 	{
 		internal delegate void OnCompilationFinished(List<ShaderLogLine> errorLog);
 
-		internal ShaderCompiler()
-		{
-		}
-
 		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler)
 		{
 			StartGlThreadOnce();
 			//conversion
-			if (!Enum.TryParse(sShaderType, true, out ShaderContentType contentType)) contentType = ShaderContentType.GlslFragmentShader;
-			var shaderType = (ShaderType)contentType;
+			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType)) shaderType = ShaderType.FragmentShader;
 			
 			CompileData data;
 			while (compileRequests.TryTake(out data)) ; //remove pending compiles
@@ -42,15 +38,15 @@ namespace DMS.GLSL.Errors
 			public OnCompilationFinished CompilationFinished;
 		}
 
-		private enum ShaderContentType
+		private readonly Dictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
 		{
-			GlslFragmentShader = ShaderType.FragmentShader,
-			GlslVertexShader = ShaderType.VertexShader,
-			GlslGeometryShader = ShaderType.GeometryShader,
-			GlslTessEvaluationShader = ShaderType.TessEvaluationShader,
-			GlslTessControlShader = ShaderType.TessControlShader,
-			GlslComputeShader = ShaderType.ComputeShader,
-		}
+			[ContentTypesGlsl.FragmentShader] = ShaderType.FragmentShader,
+			[ContentTypesGlsl.VertexShader] = ShaderType.VertexShader,
+			[ContentTypesGlsl.GeometryShader] = ShaderType.GeometryShader,
+			[ContentTypesGlsl.TessControlShader] = ShaderType.TessControlShader,
+			[ContentTypesGlsl.TessEvaluationShader] = ShaderType.TessEvaluationShader,
+			[ContentTypesGlsl.ComputeShader] = ShaderType.ComputeShader,
+		};
 
 		private Task taskGL;
 		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
@@ -96,7 +92,7 @@ namespace DMS.GLSL.Errors
 				GL.DeleteShader(shaderObject);
 				return log;
 			}
-			catch (AccessViolationException e)
+			catch (AccessViolationException)
 			{
 				return $"(1 1):ERROR: OpenGL shader compiler has crashed";
 			}
