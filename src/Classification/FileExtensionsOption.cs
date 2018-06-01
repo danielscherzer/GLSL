@@ -4,6 +4,7 @@
 	using Microsoft.VisualStudio.Utilities;
 	using System;
 	using System.ComponentModel.Composition;
+	using System.Windows;
 
 	[Export(typeof(EditorOptionDefinition))]
 	public sealed class FileExtensionsOption : EditorOptionDefinition<string>
@@ -28,7 +29,16 @@
 			var extensions = sExtensions.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (var ext in extensions)
 			{
-				fileExtensionRegistry.AddFileExtension(ext, contentType);
+				try
+				{
+					fileExtensionRegistry.AddFileExtension(ext, contentType);
+				}
+				catch(InvalidOperationException)
+				{
+					MessageBox.Show($"Extension {ext} is ignored because it is already registered " +
+						$"with a different Visual Studio component. " +
+						$"Please remove it from the GLSL language integration options page!","GLSL language integration");
+				}
 			}
 		}
 

@@ -1,7 +1,4 @@
 # Road map
-- [x] Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
-- [x] Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
-- [x] Error tagging with squiggles and in error list (error list support is very alpha)
 - [ ] Error list jump to line
 - [ ] Show `glsl' shader in ToolBoxWindow
 - [ ] Better parsing of glsl compiler errors for shorter squiggle spans
@@ -18,3 +15,6 @@ These are the changes to each version that has been released on the official Vis
 - [x] Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
 - [x] Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
 - [x] Error tagging with squiggles and in error list (error list support is very alpha)
+
+## 0.2
+- [x] Options page for custom file extensions and disabling of live compilation
