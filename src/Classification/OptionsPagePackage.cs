@@ -48,7 +48,7 @@
 
 		private static void EnsurePackageLoaded()
 		{
-			ThreadHelper.ThrowIfNotOnUIThread();
+			//ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); //TODO: check if assembly not found errors comes up again
 			lock (_syncRoot)
 			{
 				var shell = (IVsShell)GetGlobalService(typeof(SVsShell));

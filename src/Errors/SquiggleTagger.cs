@@ -4,6 +4,8 @@ using Microsoft.VisualStudio.Text.Tagging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Zenseless.HLGL;
 
 namespace DMS.GLSL.Errors
 {
@@ -22,7 +24,7 @@ namespace DMS.GLSL.Errors
 
 		public IEnumerable<ITagSpan<IErrorTag>> GetTags(NormalizedSnapshotSpanCollection inputSpans)
 		{
-			if (errors.Count == 0) yield break;
+			if (!errors.Any()) yield break;
 			//TODO: parse error.message for offending words to narrow down span
 			//error.Message.
 			foreach (var inputSpan in inputSpans)
@@ -54,7 +56,7 @@ namespace DMS.GLSL.Errors
 			return PredefinedErrorTypeNames.OtherError;
 		}
 
-		public void UpdateErrors(List<ShaderLogLine> errorLog)
+		public void UpdateErrors(IEnumerable<ShaderLogLine> errorLog)
 		{
 			errors = errorLog;
 			ErrorList.GetInstance().Clear();
@@ -66,7 +68,7 @@ namespace DMS.GLSL.Errors
 			TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
 		}
 
-		private List<ShaderLogLine> errors = new List<ShaderLogLine>();
+		private IEnumerable<ShaderLogLine> errors = new List<ShaderLogLine>();
 		private ITextBuffer buffer;
 		private readonly string filePath;
 	}
