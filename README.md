@@ -14,9 +14,10 @@ See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELO
 
 ## Features
 
-- Syntax highlighting (file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
-- Code completion (OpenGL 4.5 keywords + all identifiers in shader file)
+- Syntax highlighting (default file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`)
+- Code completion (OpenGL 4.6 keywords + all identifiers in shader file)
 - Error tagging with squiggles and in error list (error list support is very alpha)
+- Configurable (file extensions, code compilation, highlighting style)
 
 ## Contribute
 Check out the [contribution guidelines](https://github.com/danielscherzer/GLSL/blob/master/CONTRIBUTING.md)

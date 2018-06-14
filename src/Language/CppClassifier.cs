@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Windows;
 
 namespace DMS.GLSL
 {
@@ -34,7 +35,11 @@ namespace DMS.GLSL
 
 		public IClassifier GetClassifier(ITextBuffer textBuffer)
 		{
-			return cppClassifierProvider.GetClassifier(textBuffer);
+			if(cppClassifierProvider is null)
+			{
+				MessageBox.Show("Could not find the Microsoft.VisualC.CppClassifierProvider. Installing the C++ Visual Studio aspect should help.");
+			}
+			return cppClassifierProvider?.GetClassifier(textBuffer);
 		}
 
 		private IClassifierProvider cppClassifierProvider;

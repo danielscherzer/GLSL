@@ -32,6 +32,10 @@ namespace DMS.GLSL
 			if (buffer is null) throw new ArgumentNullException(nameof(buffer));
 			if (!m_bufferTagger.TryGetValue(buffer, out GlslTokenTagger tagger))
 			{
+				if(cppClassifierProvider is null)
+				{
+					return null;
+				}
 				var cppClassifier = cppClassifierProvider.GetClassifier(buffer);
 				tagger = new GlslTokenTagger(cppClassifier);
 				buffer.Changed += tagger.TextChanged;
