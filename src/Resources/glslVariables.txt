@@ -15,6 +15,7 @@ gl_PointSize
 gl_ClipDistance
 gl_CullDistance
 gl_in
+gl_out
 
 gl_PrimitiveIDIn
 gl_InvocationID
@@ -33,6 +34,7 @@ gl_TessLevelInner
 gl_PatchVerticesIn
 gl_PrimitiveID
 gl_TessCoord
+gl_MaxPatchVertices
 
 gl_FragColor
 gl_FragCoord

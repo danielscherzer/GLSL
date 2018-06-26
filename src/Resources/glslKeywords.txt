@@ -2,9 +2,9 @@ attribute const
 uniform varying buffer shared
 coherent volatile restrict readonly writeonly
 atomic_uint
-layout
+layout quads equal_spacing fractional_even_spacing fractional_odd_spacing cw ccw points
 centroid flat smooth noperspective
-patch sample
+patch sample 
 break continue do for while switch case default 
 if else
 subroutine
