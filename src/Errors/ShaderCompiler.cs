@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Zenseless.HLGL;
 using Zenseless.OpenGL;
+using Zenseless.Patterns;
 using ShaderType = Zenseless.HLGL.ShaderType;
 
 namespace DMS.GLSL.Errors
@@ -82,12 +83,28 @@ namespace DMS.GLSL.Errors
 		[HandleProcessCorruptedStateExceptions]
 		private static string Compile(string shaderCode, ShaderType shaderType, string shaderFileDir)
 		{
+			string SpecialCommentReplacement(string code, string specialComment)
+			{
+				var lines = code.Split(new[] { '\n' }, StringSplitOptions.None); //if UNIX style line endings still working so do not use Envirnoment.NewLine
+				for(int i = 0; i < lines.Length; ++i)
+				{
+					var index = lines[i].IndexOf(specialComment); // search for special comment
+					if(-1 != index)
+					{
+						lines[i] = lines[i].Substring(index + specialComment.Length); // remove everything before special comment
+					}
+				}
+				return lines.Combine("\n");
+			}
+
 			string GetIncludeCode(string includeName)
 			{
 				var includeFileName = Path.Combine(shaderFileDir, includeName);
 				if (File.Exists(includeFileName))
 				{
-					return File.ReadAllText(includeFileName);
+					var includeCode = File.ReadAllText(includeFileName);
+					includeCode = SpecialCommentReplacement(includeCode, "//!");
+					return includeCode;
 				}
 				return $"#error include file '{includeName}' not found";
 			}
@@ -95,6 +112,8 @@ namespace DMS.GLSL.Errors
 			{
 				using (var shader = new ShaderGL(shaderType))
 				{
+					shaderCode = SpecialCommentReplacement(shaderCode, "//!");
+					shaderCode = SpecialCommentReplacement(shaderCode, "//?");
 					var expandedCode = ShaderLoader.ResolveIncludes(shaderCode, GetIncludeCode);
 					shader.Compile(expandedCode);
 					return shader.Log;

@@ -10,6 +10,9 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 0.3
+- [x] Controlling the extension with comments
+
 ## 0.2
 - [x] Options page for custom file extensions and disabling of live compilation (disables error squiggles)
 - [x] Include support
