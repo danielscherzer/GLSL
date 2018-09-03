@@ -23,6 +23,8 @@ mat3x2 mat3x3 mat3x4 dmat3x2 dmat3x3 dmat3x4
 mat4x2 mat4x3 mat4x4 dmat4x2 dmat4x3 dmat4x4
 vec2 vec3 vec4 ivec2 ivec3 ivec4 bvec2 bvec3 bvec4 dvec2 dvec3 dvec4
 uint uvec2 uvec3 uvec4
+int64_t i64vec2 i64vec3 i64vec4
+uint64_t u64vec2 u64vec3 u64vec4
 sampler1D sampler2D sampler3D 
 samplerCube
 sampler1DShadow sampler2DShadow samplerCubeShadow
@@ -74,3 +76,6 @@ local_size_z_id
 input_attachment_index push_constant set binding
 sampler
 subpassInput subpassInputMS isubpassInput isubpassInputMS usubpassInput usubpassInputMS
+
+early_fragment_tests
+post_depth_coverage

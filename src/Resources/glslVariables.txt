@@ -51,3 +51,15 @@ gl_ViewportIndex
 gl_HelperInvocation
 gl_FragDepth
 gl_SampleMask
+
+gl_DrawIDARB
+gl_BaseVertexARB
+gl_BaseInstanceARB
+
+gl_SubGroupSizeARB
+gl_SubGroupInvocationARB
+gl_SubGroupEqMaskARB
+gl_SubGroupGeMaskARB
+gl_SubGroupGtMaskARB
+gl_SubGroupLeMaskARB
+gl_SubGroupLtMaskARB
