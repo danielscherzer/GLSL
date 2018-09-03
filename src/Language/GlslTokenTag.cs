@@ -83,7 +83,7 @@ namespace DMS.GLSL
 						var spanText = span.GetText();
 						var type = ClassificationToTokenType(classification.ClassificationType.Classification, spanText);
 						var tag = new GlslTokenTag(type);
-						//if(GlslTokenTypes.Comment == type && spanText.StartsWith("/*"))
+						//if (GlslTokenTypes.Comment == type && spanText.StartsWith("/*"))
 						//{
 						//	var start = span.Start;
 						//	var text = span.Snapshot.GetText().Substring(start);

@@ -1,6 +1,5 @@
 ﻿using DMS.GLSL.Classification;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

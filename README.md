@@ -8,13 +8,13 @@ or get the [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6
 ---------------------------------------
 
 VSIX Project that provides GLSL language integration.
-Includes syntax highlighting (default file extensions: glsl, frag, vert, geom, comp, tesse, tessc), code completion (OpenGL 4.6 + identifiers in shader file), error tagging with squiggles and in error list (error list support is very alpha). For error tagging a separate OpenGL thread is used for shader compiling on the primary graphics card.
+Includes syntax highlighting (default file extensions: glsl, frag, vert, geom, comp, tese, tesc), code completion (OpenGL 4.6 + identifiers in shader file), error tagging with squiggles and in error list (error list support is very alpha). For error tagging a separate OpenGL thread is used for shader compiling on the primary graphics card.
 
 See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELOG.md) for changes and road map.
 
 ## Features
 
-- Syntax highlighting (default file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tesse`, `tessc`) Set color under Options (Fonts and Colors)
+- Syntax highlighting (default file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tese`, `tesc`) Set color under Options (Fonts and Colors)
 - Code completion (OpenGL 4.6 keywords + all identifiers in shader file)
 - Error tagging with squiggles and in error list (error list support is very alpha)
 - Configurable (file extensions, code compilation, highlighting style)

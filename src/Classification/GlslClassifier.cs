@@ -17,7 +17,7 @@ namespace DMS.GLSL.Classification
 		public void OnImportsSatisfied()
 		{
 			//var contentTypes = from element in contentTypeRegistryService.ContentTypes
-			//				   select new { name = element.DisplayName, ances = element.BaseTypes};
+			//				   select new { name = element.DisplayName, ances = element.BaseTypes };
 
 			glslTokenTypeClassifications[GlslTokenTypes.Function] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
 			glslTokenTypeClassifications[GlslTokenTypes.Keyword] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
