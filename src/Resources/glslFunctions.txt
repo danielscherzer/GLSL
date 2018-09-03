@@ -45,3 +45,24 @@ barrier
 memoryBarrier memoryBarrierAtomicCounter memoryBarrierBuffer memoryBarrierShared memoryBarrierImage groupMemoryBarrier  
 subpassLoad
 
+ballotARB
+readInvocationARB
+readInvocationARB
+readInvocationARB
+readFirstInvocationARB
+readFirstInvocationARB
+readFirstInvocationARB
+
+atomicCounterAddARB
+atomicCounterSubtractARB
+atomicCounterMinARB
+atomicCounterMaxARB
+atomicCounterAndARB
+atomicCounterOrARB
+atomicCounterXorARB
+atomicCounterExchangeARB
+atomicCounterCompSwapARB
+
+anyInvocationARB
+allInvocationsARB
+allInvocationsEqualARB
