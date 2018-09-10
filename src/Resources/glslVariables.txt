@@ -4,6 +4,7 @@ gl_WorkGroupID
 gl_LocalInvocationID
 gl_GlobalInvocationID
 gl_LocalInvocationIndex
+gl_LocalGroupSizeARB
 
 gl_VertexID
 gl_VertexIndex
