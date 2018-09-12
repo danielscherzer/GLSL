@@ -73,6 +73,7 @@ constant_id
 local_size_x_id
 local_size_y_id
 local_size_z_id
+local_size_variable
 input_attachment_index push_constant set binding
 sampler
 subpassInput subpassInputMS isubpassInput isubpassInputMS usubpassInput usubpassInputMS
