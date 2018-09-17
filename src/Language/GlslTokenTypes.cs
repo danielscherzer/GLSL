@@ -1,4 +1,7 @@
-﻿namespace DMS.GLSL
+﻿using System;
+using System.Collections.Generic;
+
+namespace DMS.GLSL
 {
 	public enum GlslTokenTypes
 	{
@@ -7,24 +10,21 @@
 
 	public static class GlslSpecification
 	{
-		public static GlslTypeInstances Keywords { get; private set; } = new GlslTypeInstances(Resources.glslKeywords);
-		public static GlslTypeInstances Functions { get; private set; } = new GlslTypeInstances(Resources.glslFunctions);
-		public static GlslTypeInstances Variables { get; private set; } = new GlslTypeInstances(Resources.glslVariables);
+		public static HashSet<string> Keywords { get; private set; } = ParseTokens(Resources.glslKeywords);
+		public static HashSet<string> Functions { get; private set; } = ParseTokens(Resources.glslFunctions);
+		public static HashSet<string> Variables { get; private set; } = ParseTokens(Resources.glslVariables);
 
-		public static GlslTokenTypes AssignType(string predefinedWord)
+		private static HashSet<string> ParseTokens(string tokens)
 		{
-			if (Keywords.IsInstance(predefinedWord))
-			{
-				return GlslTokenTypes.Keyword;
-			}
-			else if (Functions.IsInstance(predefinedWord))
-			{
-				return GlslTokenTypes.Function;
-			}
-			else if (Variables.IsInstance(predefinedWord))
-			{
-				return GlslTokenTypes.Variable;
-			}
+			char[] blanks = { ' ', '\n', '\r' };
+			return new HashSet<string>(tokens.Split(blanks, StringSplitOptions.RemoveEmptyEntries));
+		}
+
+		public static GlslTokenTypes AssignType(string word)
+		{
+			if (Keywords.Contains(word)) return GlslTokenTypes.Keyword;
+			if (Functions.Contains(word)) return GlslTokenTypes.Function;
+			if (Variables.Contains(word)) return GlslTokenTypes.Variable;
 			return GlslTokenTypes.Identifier;
 		}
 
@@ -32,6 +32,7 @@
 		{
 			return char.IsLetterOrDigit(c) || '_' == c;
 		}
+
 		public static bool IsIdentifierStartChar(char c)
 		{
 			return char.IsLetter(c) || '_' == c;
