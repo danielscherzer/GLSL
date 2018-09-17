@@ -4,13 +4,13 @@ coherent volatile restrict readonly writeonly
 atomic_uint
 layout quads equal_spacing fractional_even_spacing fractional_odd_spacing cw ccw points
 centroid flat smooth noperspective
-patch sample 
-break continue do for while switch case default 
+patch sample
+break continue do for while switch case default
 if else
 subroutine
-in out 
+in out
 inout
-float double int void 
+float double int void
 bool
 true false
 invariant precise
@@ -25,7 +25,7 @@ vec2 vec3 vec4 ivec2 ivec3 ivec4 bvec2 bvec3 bvec4 dvec2 dvec3 dvec4
 uint uvec2 uvec3 uvec4
 int64_t i64vec2 i64vec3 i64vec4
 uint64_t u64vec2 u64vec3 u64vec4
-sampler1D sampler2D sampler3D 
+sampler1D sampler2D sampler3D
 samplerCube
 sampler1DShadow sampler2DShadow samplerCubeShadow
 sampler1DArray sampler2DArray
@@ -54,17 +54,17 @@ struct
 
 common partition active
 asm
-class union 
+class union
 enum
-typedef template this 
-resource goto 
+typedef template this
+resource goto
 inline
 noinline
 public static extern external interface
 long short half fixed unsigned superp
 input output
 hvec2 hvec3 hvec4 fvec2 fvec3 fvec4
-sampler3DRect 
+sampler3DRect
  filter
 sizeof cast
 namespace
