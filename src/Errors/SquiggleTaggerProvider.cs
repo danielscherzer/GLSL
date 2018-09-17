@@ -1,13 +1,13 @@
-﻿using Microsoft.VisualStudio.Text;
+﻿using DMS.GLSL.Classification;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
-using Microsoft.VisualStudio.Text.Editor;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using DMS.GLSL.Classification;
-using Zenseless.HLGL;
-using System.Linq;
+using System.Diagnostics;
 using System.IO;
+using Zenseless.HLGL;
 
 namespace DMS.GLSL.Errors
 {
@@ -18,23 +18,27 @@ namespace DMS.GLSL.Errors
 	{
 		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
 		{
-			if (textView is null) return null;
+			//Debug.WriteLine($"CreateTagger: textView={textView}, buffer={buffer}");
+
 			// Make sure we are only tagging the top buffer
-			if (!ReferenceEquals(buffer, textView.TextBuffer)) return null;
-			//make sure only one tagger for a text buffer is created all views should share
-			if (!taggers.ContainsKey(buffer))
+			if (!ReferenceEquals(buffer, textView.TextBuffer))
+				return null;
+
+			return buffer.Properties.GetOrCreateSingletonProperty(() =>
 			{
 				var tagger = new SquiggleTagger(buffer);
-				taggers[buffer] = tagger;
+
+				// TODO: Move all this stuff into the SquiggleTagger constructor
 				var typeName = buffer.ContentType.TypeName;
 				buffer.Changed += (s, e) => RequestCompileShader(tagger, e.After.GetText(), typeName, GetDocumentDir(buffer)); //compile on text change. can be very often!
 				RequestCompileShader(tagger, buffer.CurrentSnapshot.GetText(), typeName, GetDocumentDir(buffer)); //initial compile
-			}
-			return taggers[buffer] as ITagger<T>;
+
+				return tagger;
+
+			}) as ITagger<T>;
 		}
 
 		[Import] private ShaderCompiler shaderCompiler = null;
-		private Dictionary<ITextBuffer, SquiggleTagger> taggers = new Dictionary<ITextBuffer, SquiggleTagger>();
 
 		private string GetDocumentDir(ITextBuffer textBuffer)
 		{
