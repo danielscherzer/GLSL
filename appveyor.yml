@@ -1,6 +1,6 @@
 skip_tags: true # avoid deploy to GitHub loop 
 
-version: 0.3.{build}
+version: 0.4.{build}
 
 # enable patching of AssemblyInfo.* files with APPVEYOR version
 assembly_info:

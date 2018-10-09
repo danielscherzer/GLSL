@@ -25,7 +25,7 @@ namespace DMS.GLSL.Errors
 		{
 			StartGlThreadOnce();
 			//conversion
-			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType)) shaderType = ShaderType.FragmentShader;
+			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType)) shaderType = AutoDetectShaderType(shaderCode);
 			
 			while (compileRequests.TryTake(out CompileData dataOld)) ; //remove pending compiles
 			var data = new CompileData
@@ -58,6 +58,18 @@ namespace DMS.GLSL.Errors
 
 		private Task taskGL;
 		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
+
+		private static ShaderType AutoDetectShaderType(string shaderCode)
+		{
+			if(shaderCode.Contains("EmitVertex")) return ShaderType.GeometryShader;
+			if (shaderCode.Contains(") out;")) return ShaderType.TessControlShader;
+			if (shaderCode.Contains("gl_TessLevel")) return ShaderType.TessControlShader;
+			if (shaderCode.Contains(") in;")) return ShaderType.TessEvaluationShader;
+			if (shaderCode.Contains("gl_TessCoord")) return ShaderType.TessEvaluationShader;
+			if (shaderCode.Contains("gl_Position")) return ShaderType.VertexShader;
+			if (shaderCode.Contains("local_size_")) return ShaderType.ComputeShader;
+			return ShaderType.FragmentShader;
+		}
 
 		private void StartGlThreadOnce()
 		{
