@@ -54,6 +54,8 @@ File B.glsl
 #include "/utils.glsl" //! #include "A.glsl"
 ```
 
+## Errors and questions
+Please us the GitHub [Issue function](https://github.com/danielscherzer/GLSL/issues/new) to report errors or ask questions.
 
 ## Contribute
 Check out the [contribution guidelines](https://github.com/danielscherzer/GLSL/blob/master/CONTRIBUTING.md)
