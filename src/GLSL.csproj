@@ -47,7 +47,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DMS.GLSL</RootNamespace>
     <AssemblyName>GLSL</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
     <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
@@ -321,17 +321,17 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="Zenseless.Geometry, Version=0.5.91.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.Geometry.0.5.91\lib\net46\Zenseless.Geometry.dll</HintPath>
+    <Reference Include="Zenseless.Geometry, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.Geometry.0.5.101\lib\net461\Zenseless.Geometry.dll</HintPath>
     </Reference>
-    <Reference Include="Zenseless.HLGL, Version=0.5.91.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.HLGL.0.5.91\lib\net46\Zenseless.HLGL.dll</HintPath>
+    <Reference Include="Zenseless.HLGL, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.HLGL.0.5.101\lib\net461\Zenseless.HLGL.dll</HintPath>
     </Reference>
-    <Reference Include="Zenseless.OpenGL, Version=0.5.91.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.OpenGL.0.5.91\lib\net46\Zenseless.OpenGL.dll</HintPath>
+    <Reference Include="Zenseless.OpenGL, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.OpenGL.0.5.101\lib\net461\Zenseless.OpenGL.dll</HintPath>
     </Reference>
-    <Reference Include="Zenseless.Patterns, Version=0.5.91.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.Patterns.0.5.91\lib\net46\Zenseless.Patterns.dll</HintPath>
+    <Reference Include="Zenseless.Patterns, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.Patterns.0.5.101\lib\netstandard2.0\Zenseless.Patterns.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

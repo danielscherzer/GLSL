@@ -61,26 +61,26 @@ namespace DMS.GLSL {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to radians degrees 
-        ///sin cos tan 
+        ///   Looks up a localized string similar to radians degrees
+        ///sin cos tan
         ///asin acos atan
-        ///sinh cosh tanh 
-        ///asinh acosh atanh 
-        ///pow exp log exp2 log2 
+        ///sinh cosh tanh
+        ///asinh acosh atanh
+        ///pow exp log exp2 log2
         ///sqrt inversesqrt
         ///abs sign floor trunc round roundEven ceil fract mod modf
         ///min max clamp mix step smoothstep
         ///isnan isinf
-        ///floatBitsToInt floatBitsToUint 
+        ///floatBitsToInt floatBitsToUint
         ///intBitsToFloat uintBitsToFloat
         ///fma frexp ldexp
-        ///packUnorm2x16 packSnorm2x16 packUnorm4x8 packSnorm4x8 
-        ///unpackUnorm2x16 unpackSnorm2x16 unpackUnorm4x8 unpackSnorm4x8 
+        ///packUnorm2x16 packSnorm2x16 packUnorm4x8 packSnorm4x8
+        ///unpackUnorm2x16 unpackSnorm2x16 unpackUnorm4x8 unpackSnorm4x8
         ///packDouble2x32
         ///unpackDouble2x32
         ///packHalf2x16
         ///unpackHalf2x16
-        ///length distan [rest of string was truncated]&quot;;.
+        ///length distance dot c [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string glslFunctions {
             get {
@@ -93,15 +93,15 @@ namespace DMS.GLSL {
         ///uniform varying buffer shared
         ///coherent volatile restrict readonly writeonly
         ///atomic_uint
-        ///layout
+        ///layout quads equal_spacing fractional_even_spacing fractional_odd_spacing cw ccw points
         ///centroid flat smooth noperspective
         ///patch sample
-        ///break continue do for while switch case default 
+        ///break continue do for while switch case default
         ///if else
         ///subroutine
-        ///in out 
+        ///in out
         ///inout
-        ///float double int void 
+        ///float double int void
         ///bool
         ///true false
         ///invariant precise
@@ -109,9 +109,7 @@ namespace DMS.GLSL {
         ///lowp mediump highp precision
         ///
         ///mat2 mat3 mat4 dmat2 dmat3 dmat4
-        ///mat2x2 mat2x3 mat2x4 dmat2x2 dmat2x3 dmat2x4
-        ///mat3x2 mat3x3 mat3x4 dmat3x2 dmat3x3 dmat3x4
-        ///mat4x2 mat4x3 mat4x4 dma [rest of string was truncated]&quot;;.
+        ///mat2x2 mat2x3 mat2x4 dmat2x2 dmat2x3 d [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string glslKeywords {
             get {
@@ -126,15 +124,19 @@ namespace DMS.GLSL {
         ///gl_LocalInvocationID
         ///gl_GlobalInvocationID
         ///gl_LocalInvocationIndex
+        ///gl_LocalGroupSizeARB
         ///
         ///gl_VertexID
+        ///gl_VertexIndex
         ///gl_InstanceID
+        ///gl_InstanceIndex
         ///gl_PerVertex
         ///gl_Position
         ///gl_PointSize
         ///gl_ClipDistance
         ///gl_CullDistance
         ///gl_in
+        ///gl_out
         ///
         ///gl_PrimitiveIDIn
         ///gl_InvocationID
@@ -151,13 +153,7 @@ namespace DMS.GLSL {
         ///gl_TessLevelInner
         ///
         ///gl_PatchVerticesIn
-        ///gl_PrimitiveID
-        ///gl_TessCoord
-        ///
-        ///gl_FragColor
-        ///gl_FragCoord
-        ///gl_FrontFacing
-        ///gl [rest of string was truncated]&quot;;.
+        ///gl_PrimitiveID [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string glslVariables {
             get {
