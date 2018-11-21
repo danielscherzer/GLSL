@@ -48,18 +48,22 @@
 
 		private static void EnsurePackageLoaded()
 		{
-			//ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(); //TODO: check if assembly not found errors comes up again
-			lock (_syncRoot)
+			var joinableTaskFactory = ThreadHelper.JoinableTaskFactory;
+			joinableTaskFactory.Run(async delegate
 			{
-				var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
-				var guid = new Guid(PackageGuidString);
-				if (shell.IsPackageLoaded(ref guid, out IVsPackage package) != VSConstants.S_OK)
+				await joinableTaskFactory.SwitchToMainThreadAsync();
+				lock (_syncRoot)
 				{
-					ErrorHandler.Succeeded(shell.LoadPackage(ref guid, out package));
-					var myPack = package as OptionsPagePackage;
-					_options = (Options)myPack.GetDialogPage(typeof(Options));
+					var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
+					var guid = new Guid(PackageGuidString);
+					if (shell.IsPackageLoaded(ref guid, out IVsPackage package) != VSConstants.S_OK)
+					{
+						ErrorHandler.Succeeded(shell.LoadPackage(ref guid, out package));
+						var myPack = package as OptionsPagePackage;
+						_options = (Options)myPack.GetDialogPage(typeof(Options));
+					}
 				}
-			}
+			});
 		}
 	}
 }

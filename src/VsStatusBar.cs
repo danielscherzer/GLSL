@@ -5,16 +5,22 @@ namespace DMS.GLSL
 {
 	public static class VsStatusBar
 	{
-		private static IVsStatusbar statusBar = (IVsStatusbar)Package.GetGlobalService(typeof(SVsStatusbar));
-
 		public static void SetText(string message)
 		{
-			if (statusBar is null) return;
+			var joinableTaskFactory = ThreadHelper.JoinableTaskFactory;
+			joinableTaskFactory.Run(async delegate
+			{
+				await joinableTaskFactory.SwitchToMainThreadAsync();
 
-			statusBar.IsFrozen(out var frozen);
-			if (0 != frozen) statusBar.FreezeOutput(0);
+				var statusBar = (IVsStatusbar)Package.GetGlobalService(typeof(SVsStatusbar));
 
-			statusBar.SetText(message);
+				if (statusBar is null) return;
+
+				statusBar.IsFrozen(out var frozen);
+				if (0 != frozen) statusBar.FreezeOutput(0);
+
+				statusBar.SetText(message);
+			});
 		}
 	}
 }
