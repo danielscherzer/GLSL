@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Threading;
@@ -85,22 +86,22 @@ namespace DMS.GLSL.Errors
 			while (!compileRequests.IsAddingCompleted)
 			{
 				var compileData = compileRequests.Take(); //block until compile requested
-				var log = Compile(compileData.ShaderCode, compileData.ShaderType, compileData.DocumentDir);
+				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
+				var log = Compile(expandedCode, compileData.ShaderType);
 				var errorLog = new ShaderLog(log);
 				compileData.CompilationFinished?.Invoke(errorLog.Lines);
 			}
 		}
 
-		[HandleProcessCorruptedStateExceptions]
-		private static string Compile(string shaderCode, ShaderType shaderType, string shaderFileDir)
+		private static string ExpandedCode(string shaderCode, string shaderFileDir)
 		{
 			string SpecialCommentReplacement(string code, string specialComment)
 			{
 				var lines = code.Split(new[] { '\n' }, StringSplitOptions.None); //if UNIX style line endings still working so do not use Envirnoment.NewLine
-				for(int i = 0; i < lines.Length; ++i)
+				for (int i = 0; i < lines.Length; ++i)
 				{
 					var index = lines[i].IndexOf(specialComment); // search for special comment
-					if(-1 != index)
+					if (-1 != index)
 					{
 						lines[i] = lines[i].Substring(index + specialComment.Length); // remove everything before special comment
 					}
@@ -119,14 +120,71 @@ namespace DMS.GLSL.Errors
 				}
 				return $"#error include file '{includeName}' not found";
 			}
+
+			shaderCode = SpecialCommentReplacement(shaderCode, "//!");
+			shaderCode = SpecialCommentReplacement(shaderCode, "//?");
+			return ShaderLoader.ResolveIncludes(shaderCode, GetIncludeCode);
+		}
+
+		private static string Compile(string shaderCode, ShaderType shaderType)
+		{
+			var options = OptionsPagePackage.Options;
+			if (!(options is null))
+			{
+				if(File.Exists(options.ExternalCompilerExeFilePath))
+				{
+					//create temp shader file
+					var shaderFileName = GetShaderFileName(shaderType);
+					try
+					{
+						File.WriteAllText(shaderFileName, shaderCode);
+						using (var process = new Process())
+						{
+							process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
+							process.StartInfo.Arguments = shaderFileName; //arguments
+							process.StartInfo.UseShellExecute = false;
+							process.StartInfo.RedirectStandardOutput = true;
+							process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+							process.StartInfo.CreateNoWindow = true; //do not display a windows
+							process.Start();
+							process.WaitForExit(10000);
+							return process.StandardOutput.ReadToEnd(); //The output result
+						}
+					}
+					catch(Exception) { }
+				}
+			}
+			return CompileOnGPU(shaderCode, shaderType);
+		}
+
+		private static string GetShaderFileName(ShaderType shaderType)
+		{
+			var extension = FileExtension(shaderType);
+			return Path.Combine(Path.GetTempPath(), $"shader.{extension}");
+		}
+
+		private static string FileExtension(ShaderType shaderType)
+		{
+			switch(shaderType)
+			{
+				case ShaderType.ComputeShader: return "comp";
+				case ShaderType.FragmentShader: return "frag";
+				case ShaderType.GeometryShader: return "geom";
+				case ShaderType.TessControlShader: return "tesc";
+				case ShaderType.TessEvaluationShader: return "tese";
+				case ShaderType.VertexShader: return "vert";
+			}
+			return "frag";
+		}
+
+		[HandleProcessCorruptedStateExceptions]
+		private static string CompileOnGPU(string shaderCode, ShaderType shaderType)
+		{
 			try
 			{
 				using (var shader = new ShaderGL(shaderType))
 				{
-					shaderCode = SpecialCommentReplacement(shaderCode, "//!");
-					shaderCode = SpecialCommentReplacement(shaderCode, "//?");
-					var expandedCode = ShaderLoader.ResolveIncludes(shaderCode, GetIncludeCode);
-					shader.Compile(expandedCode);
+					shader.Compile(shaderCode);
 					return shader.Log;
 				}
 			}

@@ -6,6 +6,11 @@
 	public class Options : DialogPage
 	{
 		[Category("General")]
+		[DisplayName("File Path to external compiler exe(cutable)")]
+		[Description("If non empty this compiler will be executed and the output parsed for showing error squiggles")]
+		public string ExternalCompilerExeFilePath { get; set; } = string.Empty;
+
+		[Category("General")]
 		[DisplayName("Live Compiling")]
 		[Description("Compile the shader code in the background and show resulting errors")]
 		public bool LiveCompiling { get; set; } = true;

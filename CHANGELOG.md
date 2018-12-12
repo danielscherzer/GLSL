@@ -2,7 +2,6 @@
 - [ ] Error list jump to line
 - [ ] Show `glsl' shader in ToolBoxWindow
 - [ ] Better parsing of glsl compiler errors for shorter squiggle spans
-- [ ] Allow switching between native compile on separate thread and glslang reference compiler
 
 Features that have a check mark are complete and available for download in the
 [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6158ade63816/).
@@ -10,9 +9,11 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 0.5
+- [x] Allow switching between graphics card shader compiler and external compiler.
+
 ## 0.4
 - [x] Auto detect shader type for the file extension `glsl` based on reserved words used in the shader code.
-
 
 ## 0.3
 - [x] Controlling the extension with comments
