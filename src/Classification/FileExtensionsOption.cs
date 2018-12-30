@@ -14,7 +14,6 @@
 		public FileExtensionsOption([Import] IContentTypeRegistryService contentTypeRegistry, [Import] IFileExtensionRegistryService fileExtensionRegistry)
 		{
 			var options = OptionsPagePackage.Options;
-			if (options is null) return;
 			RegisterFileExtensions(fileExtensionRegistry, options.AutoDetectShaderTypeFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.GlslShader));
 			RegisterFileExtensions(fileExtensionRegistry, options.FragmentShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.FragmentShader));
 			RegisterFileExtensions(fileExtensionRegistry, options.VertexShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.VertexShader));

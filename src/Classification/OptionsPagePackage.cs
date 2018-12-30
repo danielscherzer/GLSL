@@ -38,6 +38,7 @@
 				if (_options is null)
 				{
 					EnsurePackageLoaded();
+					if (_options is null) return new Options();
 				}
 				return _options;
 			}

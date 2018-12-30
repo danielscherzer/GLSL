@@ -129,30 +129,27 @@ namespace DMS.GLSL.Errors
 		private static string Compile(string shaderCode, ShaderType shaderType)
 		{
 			var options = OptionsPagePackage.Options;
-			if (!(options is null))
+			if(File.Exists(options.ExternalCompilerExeFilePath))
 			{
-				if(File.Exists(options.ExternalCompilerExeFilePath))
+				//create temp shader file
+				var shaderFileName = GetShaderFileName(shaderType);
+				try
 				{
-					//create temp shader file
-					var shaderFileName = GetShaderFileName(shaderType);
-					try
+					File.WriteAllText(shaderFileName, shaderCode);
+					using (var process = new Process())
 					{
-						File.WriteAllText(shaderFileName, shaderCode);
-						using (var process = new Process())
-						{
-							process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
-							process.StartInfo.Arguments = shaderFileName; //arguments
-							process.StartInfo.UseShellExecute = false;
-							process.StartInfo.RedirectStandardOutput = true;
-							process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-							process.StartInfo.CreateNoWindow = true; //do not display a windows
-							process.Start();
-							process.WaitForExit(10000);
-							return process.StandardOutput.ReadToEnd(); //The output result
-						}
+						process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
+						process.StartInfo.Arguments = shaderFileName; //arguments
+						process.StartInfo.UseShellExecute = false;
+						process.StartInfo.RedirectStandardOutput = true;
+						process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+						process.StartInfo.CreateNoWindow = true; //do not display a windows
+						process.Start();
+						process.WaitForExit(10000);
+						return process.StandardOutput.ReadToEnd(); //The output result
 					}
-					catch(Exception) { }
 				}
+				catch(Exception) { }
 			}
 			return CompileOnGPU(shaderCode, shaderType);
 		}

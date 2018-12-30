@@ -56,7 +56,6 @@ namespace DMS.GLSL.Errors
 			if (shaderCompiler is null) return;
 			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
 			var options = OptionsPagePackage.Options;
-			if (options is null) return;
 			if (!options.LiveCompiling)
 			{
 				tagger.UpdateErrors(new List<ShaderLogLine>());
