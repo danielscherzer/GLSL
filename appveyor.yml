@@ -1,6 +1,6 @@
-skip_tags: true # avoid deploy to GitHub loop 
-
 version: 0.4.{build}
+
+skip_tags: true # avoid deploy to GitHub loop 
 
 # enable patching of AssemblyInfo.* files with APPVEYOR version
 assembly_info:
@@ -13,7 +13,6 @@ assembly_info:
 image: Visual Studio 2017
 
 configuration:
-#- Debug
 - Release
 
 install:
@@ -31,7 +30,7 @@ after_test:
 - ps: Vsix-PushArtifacts | Vsix-PublishToGallery
 
 deploy:
-  release: GLSL
+  release: $(appveyor_build_version)
   description: 'Release auto generated from AppVeyor'
   provider: GitHub
   auth_token:
