@@ -37,7 +37,7 @@
 			{
 				if (_options is null)
 				{
-					EnsurePackageLoaded();
+					try { EnsurePackageLoaded(); } catch { }
 					if (_options is null) return new Options();
 				}
 				return _options;
