@@ -14,9 +14,6 @@ namespace DMS.GLSL.Classification
 	[Order(Before = Priority.Default)]
 	internal sealed class GlslReservedWordClassificationFormatDefinition : ClassificationFormatDefinition
 	{
-		/// <summary>
-		/// Defines the visual format for the "exclamation" classification type
-		/// </summary>
 		public GlslReservedWordClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL keyword"; //human readable version of the name
@@ -33,9 +30,6 @@ namespace DMS.GLSL.Classification
 	[Order(Before = Priority.Default)]
 	internal sealed class GlslFunctionClassificationFormatDefinition : ClassificationFormatDefinition
 	{
-		/// <summary>
-		/// Defines the visual format for the "exclamation" classification type
-		/// </summary>
 		public GlslFunctionClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL function"; //human readable version of the name
@@ -52,13 +46,26 @@ namespace DMS.GLSL.Classification
 	[Order(Before = Priority.Default)]
 	internal sealed class GlslVariableClassificationFormatDefinition : ClassificationFormatDefinition
 	{
-		/// <summary>
-		/// Defines the visual format for the "exclamation" classification type
-		/// </summary>
 		public GlslVariableClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL variable"; //human readable version of the name
 			ForegroundColor = Colors.LawnGreen;
+		}
+	}
+
+	[Export(typeof(EditorFormatDefinition))]
+	[ClassificationType(ClassificationTypeNames = GlslClassificationTypes.UserKeyWord)]
+	[Name(nameof(GlslUserKeyWordClassificationFormatDefinition))]
+	//this should be visible to the end user
+	[UserVisible(true)]
+	//set the priority to be after the default classifiers
+	[Order(Before = Priority.Default)]
+	internal sealed class GlslUserKeyWordClassificationFormatDefinition : ClassificationFormatDefinition
+	{
+		public GlslUserKeyWordClassificationFormatDefinition()
+		{
+			DisplayName = "GLSL user key word"; //human readable version of the name
+			ForegroundColor = Colors.DarkOrange;
 		}
 	}
 }

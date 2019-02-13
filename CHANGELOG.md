@@ -11,6 +11,7 @@ These are the changes to each version that has been released on the official Vis
 
 ## 0.5
 - [x] Allow switching between graphics card shader compiler and external compiler.
+- [x] User key words with own color.
 
 ## 0.4
 - [x] Auto detect shader type for the file extension `glsl` based on reserved words used in the shader code.

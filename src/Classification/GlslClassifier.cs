@@ -22,6 +22,7 @@ namespace DMS.GLSL.Classification
 			glslTokenTypeClassifications[GlslTokenTypes.Function] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
 			glslTokenTypeClassifications[GlslTokenTypes.Keyword] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
 			glslTokenTypeClassifications[GlslTokenTypes.Variable] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Variable);
+			glslTokenTypeClassifications[GlslTokenTypes.UserKeyWord] = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord);
 			glslTokenTypeClassifications[GlslTokenTypes.Identifier] = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Identifier);
 			glslTokenTypeClassifications[GlslTokenTypes.Comment] = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Comment);
 			glslTokenTypeClassifications[GlslTokenTypes.Number] = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Number);

@@ -97,7 +97,7 @@
     <Compile Include="Errors\SquiggleTaggerProvider.cs" />
     <Compile Include="Language\CppClassifier.cs" />
     <Compile Include="Language\GlslTokenTag.cs" />
-    <Compile Include="Language\GlslTokenTypes.cs" />
+    <Compile Include="Language\GlslSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

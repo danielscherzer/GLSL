@@ -9,6 +9,7 @@ namespace DMS.GLSL.Classification
 		public const string Function = nameof(glslFunction); //must be unique name!
 		public const string Keyword = nameof(glslKeyword); //must be unique name!
 		public const string Variable = nameof(glslVariable); //must be unique name!
+		public const string UserKeyWord = nameof(glslUserKeyWord); //must be unique name!
 
 #pragma warning disable 169 //"never used" warning
 		[Export]
@@ -25,6 +26,11 @@ namespace DMS.GLSL.Classification
 		[Name(Variable)]
 		[BaseDefinition("code")]
 		private static ClassificationTypeDefinition glslVariable;
+
+		[Export]
+		[Name(UserKeyWord)]
+		[BaseDefinition("code")]
+		private static ClassificationTypeDefinition glslUserKeyWord;
 #pragma warning restore 169
 	}
 }

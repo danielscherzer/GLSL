@@ -5,8 +5,10 @@
 
 	public class Options : DialogPage
 	{
+		private string _userKeyWords;
+
 		[Category("General")]
-		[DisplayName("File Path to external compiler exe(cutable)")]
+		[DisplayName("File Path to external compiler executable")]
 		[Description("If non empty this compiler will be executed and the output parsed for showing error squiggles")]
 		public string ExternalCompilerExeFilePath { get; set; } = string.Empty;
 
@@ -14,6 +16,19 @@
 		[DisplayName("Live Compiling")]
 		[Description("Compile the shader code in the background and show resulting errors")]
 		public bool LiveCompiling { get; set; } = true;
+
+		[Category("General")]
+		[DisplayName("User Key Words")]
+		[Description("Space separated list of user key words (used for coloring)")]
+		public string UserKeyWords
+		{
+			get => _userKeyWords;
+			set
+			{
+				_userKeyWords = value;
+				GlslSpecification.SetUserKeyWords(value);
+			}
+		}
 
 		[Category("Files")]
 		[DisplayName("Auto Detect Shader Type File Extensions")]
