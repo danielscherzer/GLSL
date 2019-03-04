@@ -7,10 +7,9 @@ namespace DMS.GLSL
 	{
 		public static void SetText(string message)
 		{
-			var joinableTaskFactory = ThreadHelper.JoinableTaskFactory;
-			joinableTaskFactory.Run(async delegate
+			ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
 			{
-				await joinableTaskFactory.SwitchToMainThreadAsync();
+				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
 				var statusBar = (IVsStatusbar)Package.GetGlobalService(typeof(SVsStatusbar));
 

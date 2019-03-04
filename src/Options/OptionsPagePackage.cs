@@ -1,4 +1,4 @@
-﻿namespace DMS.GLSL.Classification
+﻿namespace DMS.GLSL.Options
 {
 	using System;
 	using System.Runtime.InteropServices;

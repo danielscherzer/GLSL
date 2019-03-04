@@ -44,7 +44,7 @@ namespace DMS.GLSL.Classification
 
 		//[Import] internal IContentTypeRegistryService contentTypeRegistryService = null;
 
-		IDictionary<GlslTokenTypes, IClassificationType> glslTokenTypeClassifications = new Dictionary<GlslTokenTypes, IClassificationType>();
+		readonly IDictionary<GlslTokenTypes, IClassificationType> glslTokenTypeClassifications = new Dictionary<GlslTokenTypes, IClassificationType>();
 	}
 
 	internal sealed class GlslClassifier : IClassifier

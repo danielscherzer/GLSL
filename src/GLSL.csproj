@@ -80,15 +80,15 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classification\FileExtensionsOption.cs" />
+    <Compile Include="Options\FileExtensionsOption.cs" />
     <Compile Include="Classification\GlslClassificationFormatDefinition.cs" />
     <Compile Include="Classification\GlslClassificationTypes.cs" />
     <Compile Include="Classification\ContentTypesGlsl.cs" />
     <Compile Include="Classification\GlslClassifier.cs" />
-    <Compile Include="Classification\Options.cs">
+    <Compile Include="Options\Options.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Classification\OptionsPagePackage.cs" />
+    <Compile Include="Options\OptionsPagePackage.cs" />
     <Compile Include="Completion\GlslCompletionController.cs" />
     <Compile Include="Completion\GlslCompletionSource.cs" />
     <Compile Include="Errors\ErrorList.cs" />
@@ -121,7 +121,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Classification\VSPackage.resx">
+    <EmbeddedResource Include="Options\VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
@@ -161,7 +161,7 @@
     <Resource Include="Resources\Add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Classification\Resources\OptionsPagePackage.ico" />
+    <Content Include="Options\Resources\OptionsPagePackage.ico" />
     <Content Include="Resources\LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

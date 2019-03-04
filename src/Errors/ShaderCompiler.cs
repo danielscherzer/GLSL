@@ -1,4 +1,5 @@
 ﻿using DMS.GLSL.Classification;
+using DMS.GLSL.Options;
 using OpenTK;
 using System;
 using System.Collections.Concurrent;
@@ -129,7 +130,7 @@ namespace DMS.GLSL.Errors
 		private static string Compile(string shaderCode, ShaderType shaderType)
 		{
 			var options = OptionsPagePackage.Options;
-			if(File.Exists(options.ExternalCompilerExeFilePath))
+			if(!string.IsNullOrWhiteSpace(options.ExternalCompilerExeFilePath))
 			{
 				//create temp shader file
 				var shaderFileName = GetShaderFileName(shaderType);
@@ -149,7 +150,11 @@ namespace DMS.GLSL.Errors
 						return process.StandardOutput.ReadToEnd(); //The output result
 					}
 				}
-				catch(Exception) { }
+				catch(Exception e)
+				{
+					var message = "Error executing external compiler with message\n" + e.ToString();
+					VsStatusBar.SetText(message);
+				}
 			}
 			return CompileOnGPU(shaderCode, shaderType);
 		}

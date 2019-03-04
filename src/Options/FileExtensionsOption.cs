@@ -1,5 +1,6 @@
-﻿namespace DMS.GLSL.Classification
+﻿namespace DMS.GLSL.Options
 {
+	using DMS.GLSL.Classification;
 	using Microsoft.VisualStudio.Text.Editor;
 	using Microsoft.VisualStudio.Utilities;
 	using System;
@@ -26,7 +27,6 @@
 		private static void RegisterFileExtensions(IFileExtensionRegistryService fileExtensionRegistry, string sExtensions, IContentType contentType)
 		{
 			var extensions = sExtensions.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-			var titel = "GLSL language integration";
 			foreach (var ext in extensions)
 			{
 				try
@@ -35,10 +35,10 @@
 				}
 				catch(InvalidOperationException)
 				{
+					var titel = "GLSL language integration";
 					var message = $"{titel}:Extension {ext} is ignored because it is already registered " +
 						$"with a different Visual Studio component. " +
 						$"Please remove it from the {titel} options page!";
-					Console.WriteLine(message);
 					VsStatusBar.SetText(message);
 				}
 			}

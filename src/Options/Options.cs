@@ -1,4 +1,4 @@
-﻿namespace DMS.GLSL.Classification
+﻿namespace DMS.GLSL.Options
 {
 	using Microsoft.VisualStudio.Shell;
 	using System.ComponentModel;
@@ -8,7 +8,7 @@
 		private string _userKeyWords;
 
 		[Category("General")]
-		[DisplayName("File Path to external compiler executable")]
+		[DisplayName("File Path (without quotes) to external compiler executable")]
 		[Description("If non empty this compiler will be executed and the output parsed for showing error squiggles")]
 		public string ExternalCompilerExeFilePath { get; set; } = string.Empty;
 
