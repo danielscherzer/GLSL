@@ -8,8 +8,13 @@
 		private string _userKeyWords;
 
 		[Category("General")]
-		[DisplayName("File Path (without quotes) to external compiler executable")]
-		[Description("If non empty this compiler will be executed and the output parsed for showing error squiggles")]
+		[DisplayName("Arguments for the external compiler executable")]
+		[Description("Command line arguments for the external compiler executable")]
+		public string ExternalCompilerArguments { get; set; } = string.Empty;
+
+		[Category("General")]
+		[DisplayName("External compiler executable file path (without quotes)")]
+		[Description("If non empty this file will be executed for each shader and the output parsed for error squiggles")]
 		public string ExternalCompilerExeFilePath { get; set; } = string.Empty;
 
 		[Category("General")]

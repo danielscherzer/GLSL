@@ -132,7 +132,7 @@ namespace DMS.GLSL.Errors
 			var options = OptionsPagePackage.Options;
 			if(!string.IsNullOrWhiteSpace(options.ExternalCompilerExeFilePath))
 			{
-				//create temp shader file
+				//create temp shader file for external compiler
 				var shaderFileName = GetShaderFileName(shaderType);
 				try
 				{
@@ -140,11 +140,12 @@ namespace DMS.GLSL.Errors
 					using (var process = new Process())
 					{
 						process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
-						process.StartInfo.Arguments = shaderFileName; //arguments
+						process.StartInfo.Arguments = $"{options.ExternalCompilerArguments} {shaderFileName}"; //arguments
 						process.StartInfo.UseShellExecute = false;
 						process.StartInfo.RedirectStandardOutput = true;
 						process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 						process.StartInfo.CreateNoWindow = true; //do not display a windows
+						VsStatusBar.SetText($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}'");
 						process.Start();
 						process.WaitForExit(10000);
 						return process.StandardOutput.ReadToEnd(); //The output result
@@ -156,6 +157,7 @@ namespace DMS.GLSL.Errors
 					VsStatusBar.SetText(message);
 				}
 			}
+			VsStatusBar.SetText("Using driver compiler");
 			return CompileOnGPU(shaderCode, shaderType);
 		}
 
