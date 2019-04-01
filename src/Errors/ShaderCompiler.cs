@@ -148,7 +148,8 @@ namespace DMS.GLSL.Errors
 						VsStatusBar.SetText($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}'");
 						process.Start();
 						process.WaitForExit(10000);
-						return process.StandardOutput.ReadToEnd(); //The output result
+						var output = process.StandardOutput.ReadToEnd(); //The output result
+						return output.Replace(shaderFileName, "0"); //HACK: glslLangValidator produces inconsistent error message format when using vulkan vs glsl compilation
 					}
 				}
 				catch(Exception e)
