@@ -31,6 +31,12 @@
 	{
 		public const string PackageGuidString = "fd8ee466-e18c-45fc-b1a1-ca0dc1ec67fb";
 
+		//protected override System.Threading.Tasks.Task InitializeAsync(System.Threading.CancellationToken cancellationToken, IProgress<Microsoft.VisualStudio.Shell.ServiceProgressData> progress)
+		//{
+		//	//this.AddService(typeof(SMyTestService), CreateService, true);
+		//	return System.Threading.Tasks.Task.FromResult<object>(null);
+		//}
+
 		public static Options Options
 		{
 			get

@@ -25,6 +25,16 @@ namespace DMS.GLSL.Errors
 
 		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler, string documentDir)
 		{
+			IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
+			{
+				[ContentTypesGlsl.FragmentShader] = ShaderType.FragmentShader,
+				[ContentTypesGlsl.VertexShader] = ShaderType.VertexShader,
+				[ContentTypesGlsl.GeometryShader] = ShaderType.GeometryShader,
+				[ContentTypesGlsl.TessControlShader] = ShaderType.TessControlShader,
+				[ContentTypesGlsl.TessEvaluationShader] = ShaderType.TessEvaluationShader,
+				[ContentTypesGlsl.ComputeShader] = ShaderType.ComputeShader,
+			};
+
 			StartGlThreadOnce();
 			//conversion
 			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType)) shaderType = AutoDetectShaderType(shaderCode);
@@ -47,16 +57,6 @@ namespace DMS.GLSL.Errors
 			public OnCompilationFinished CompilationFinished { get; set; }
 			public string DocumentDir { get; set; }
 		}
-
-		private readonly Dictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
-		{
-			[ContentTypesGlsl.FragmentShader] = ShaderType.FragmentShader,
-			[ContentTypesGlsl.VertexShader] = ShaderType.VertexShader,
-			[ContentTypesGlsl.GeometryShader] = ShaderType.GeometryShader,
-			[ContentTypesGlsl.TessControlShader] = ShaderType.TessControlShader,
-			[ContentTypesGlsl.TessEvaluationShader] = ShaderType.TessEvaluationShader,
-			[ContentTypesGlsl.ComputeShader] = ShaderType.ComputeShader,
-		};
 
 		private Task taskGL;
 		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();

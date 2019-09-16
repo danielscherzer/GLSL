@@ -14,14 +14,16 @@
 		[ImportingConstructor]
 		public FileExtensionsOption([Import] IContentTypeRegistryService contentTypeRegistry, [Import] IFileExtensionRegistryService fileExtensionRegistry)
 		{
+			var baseType = new string[] { ContentTypesGlsl.GlslShader };
+			contentTypeRegistry.AddContentType(ContentTypesGlsl.FragmentShader, baseType);
 			var options = OptionsPagePackage.Options;
-			RegisterFileExtensions(fileExtensionRegistry, options.AutoDetectShaderTypeFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.GlslShader));
+			RegisterFileExtensions(fileExtensionRegistry, options.AutoDetectShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.GlslShader));
 			RegisterFileExtensions(fileExtensionRegistry, options.FragmentShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.FragmentShader));
 			RegisterFileExtensions(fileExtensionRegistry, options.VertexShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.VertexShader));
 			RegisterFileExtensions(fileExtensionRegistry, options.GeometryShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.GeometryShader));
 			RegisterFileExtensions(fileExtensionRegistry, options.ComputeShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.ComputeShader));
-			RegisterFileExtensions(fileExtensionRegistry, options.TessControlShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.TessControlShader));
-			RegisterFileExtensions(fileExtensionRegistry, options.TessEvaluationShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.TessEvaluationShader));
+			RegisterFileExtensions(fileExtensionRegistry, options.TessellationControlShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.TessControlShader));
+			RegisterFileExtensions(fileExtensionRegistry, options.TessellationEvaluationShaderFileExtensions, contentTypeRegistry.GetContentType(ContentTypesGlsl.TessEvaluationShader));
 		}
 
 		private static void RegisterFileExtensions(IFileExtensionRegistryService fileExtensionRegistry, string sExtensions, IContentType contentType)

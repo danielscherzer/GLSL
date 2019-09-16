@@ -19,10 +19,10 @@ namespace DMS.GLSL.Classification
 		[BaseDefinition("code")]
 		internal static readonly ContentTypeDefinition glslContentType;
 
-		[Export]
-		[Name(FragmentShader)]
-		[BaseDefinition(GlslShader)]
-		internal static readonly ContentTypeDefinition glslFragmentContentType;
+		//[Export]
+		//[Name(FragmentShader)]
+		//[BaseDefinition(GlslShader)]
+		//internal static readonly ContentTypeDefinition glslFragmentContentType;
 
 		[Export]
 		[Name(VertexShader)]
@@ -48,42 +48,6 @@ namespace DMS.GLSL.Classification
 		[Name(TessEvaluationShader)]
 		[BaseDefinition(GlslShader)]
 		internal static readonly ContentTypeDefinition glslTessEvaluationContentType;
-
-		//[Export]
-		//[FileExtension(".glsl")]
-		//[ContentType(FragmentShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition glslFileType;
-
-		//[Export]
-		//[FileExtension(".frag")]
-		//[ContentType(FragmentShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition fragFileType;
-
-		//[Export]
-		//[FileExtension(".vert")]
-		//[ContentType(VertexShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition vertFileType;
-
-		//[Export]
-		//[FileExtension(".geom")]
-		//[ContentType(GeometryShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition geometryFileType;
-
-		//[Export]
-		//[FileExtension(".comp")]
-		//[ContentType(ComputeShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition computeFileType;
-
-		//[Export]
-		//[FileExtension(".tesc")]
-		//[ContentType(TessControlShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition tessControlFileType;
-
-		//[Export]
-		//[FileExtension(".tese")]
-		//[ContentType(TessEvaluationShader)]
-		//internal static readonly FileExtensionToContentTypeDefinition tessEvaluationFileType;
-
 #pragma warning restore 649 //never used warning
 	}
 }
