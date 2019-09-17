@@ -25,25 +25,13 @@ namespace DMS.GLSL.Errors
 
 		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler, string documentDir)
 		{
-			IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
-			{
-				[ContentTypesGlsl.FragmentShader] = ShaderType.FragmentShader,
-				[ContentTypesGlsl.VertexShader] = ShaderType.VertexShader,
-				[ContentTypesGlsl.GeometryShader] = ShaderType.GeometryShader,
-				[ContentTypesGlsl.TessControlShader] = ShaderType.TessControlShader,
-				[ContentTypesGlsl.TessEvaluationShader] = ShaderType.TessEvaluationShader,
-				[ContentTypesGlsl.ComputeShader] = ShaderType.ComputeShader,
-			};
-
 			StartGlThreadOnce();
-			//conversion
-			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType)) shaderType = AutoDetectShaderType(shaderCode);
 			
 			while (compileRequests.TryTake(out CompileData dataOld)) ; //remove pending compiles
 			var data = new CompileData
 			{
 				ShaderCode = shaderCode,
-				ShaderType = shaderType,
+				ShaderType = sShaderType,
 				DocumentDir = documentDir,
 				CompilationFinished = compilationFinishedHandler
 			};
@@ -53,7 +41,7 @@ namespace DMS.GLSL.Errors
 		private struct CompileData
 		{
 			public string ShaderCode { get; set; }
-			public ShaderType ShaderType { get; set; }
+			public string ShaderType { get; set; }
 			public OnCompilationFinished CompilationFinished { get; set; }
 			public string DocumentDir { get; set; }
 		}
@@ -127,13 +115,13 @@ namespace DMS.GLSL.Errors
 			return ShaderLoader.ResolveIncludes(shaderCode, GetIncludeCode);
 		}
 
-		private static string Compile(string shaderCode, ShaderType shaderType)
+		private static string Compile(string shaderCode, string shaderType)
 		{
 			var options = OptionsPagePackage.Options;
 			if(!string.IsNullOrWhiteSpace(options.ExternalCompilerExeFilePath))
 			{
 				//create temp shader file for external compiler
-				var shaderFileName = GetShaderFileName(shaderType);
+				var shaderFileName = Path.Combine(Path.GetTempPath(), $"shader{ShaderContentTypes.DefaultFileExtension(shaderType)}");
 				try
 				{
 					File.WriteAllText(shaderFileName, shaderCode);
@@ -145,7 +133,7 @@ namespace DMS.GLSL.Errors
 						process.StartInfo.RedirectStandardOutput = true;
 						process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 						process.StartInfo.CreateNoWindow = true; //do not display a windows
-						VsStatusBar.SetText($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}'");
+						VsStatusBar.SetText($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}' on temporal shader file '{shaderFileName}'");
 						process.Start();
 						process.WaitForExit(10000);
 						var output = process.StandardOutput.ReadToEnd(); //The output result
@@ -162,29 +150,21 @@ namespace DMS.GLSL.Errors
 			return CompileOnGPU(shaderCode, shaderType);
 		}
 
-		private static string GetShaderFileName(ShaderType shaderType)
-		{
-			var extension = FileExtension(shaderType);
-			return Path.Combine(Path.GetTempPath(), $"shader.{extension}");
-		}
-
-		private static string FileExtension(ShaderType shaderType)
-		{
-			switch(shaderType)
-			{
-				case ShaderType.ComputeShader: return "comp";
-				case ShaderType.FragmentShader: return "frag";
-				case ShaderType.GeometryShader: return "geom";
-				case ShaderType.TessControlShader: return "tesc";
-				case ShaderType.TessEvaluationShader: return "tese";
-				case ShaderType.VertexShader: return "vert";
-			}
-			return "frag";
-		}
-
 		[HandleProcessCorruptedStateExceptions]
-		private static string CompileOnGPU(string shaderCode, ShaderType shaderType)
+		private static string CompileOnGPU(string shaderCode, string sShaderType)
 		{
+			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType))
+			{
+				if (ShaderContentTypes.AutoDetect == sShaderType)
+				{
+					shaderType = AutoDetectShaderType(shaderCode);
+					VsStatusBar.SetText($"Auto detecting shader type to '{shaderType}'");
+				}
+				else
+				{
+					VsStatusBar.SetText($"Unsupported shader type '{sShaderType}' by OpenTK shader compiler. Use an external compiler");
+				}
+			}
 			try
 			{
 				using (var shader = new ShaderGL(shaderType))
@@ -198,5 +178,15 @@ namespace DMS.GLSL.Errors
 				return $"(1 1):ERROR: OpenGL shader compiler has crashed";
 			}
 		}
+
+		private static IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
+		{
+			[ShaderContentTypes.Fragment] = ShaderType.FragmentShader,
+			[ShaderContentTypes.Vertex] = ShaderType.VertexShader,
+			[ShaderContentTypes.Geometry] = ShaderType.GeometryShader,
+			[ShaderContentTypes.TessellationControl] = ShaderType.TessControlShader,
+			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
+			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
+		};
 	}
 }

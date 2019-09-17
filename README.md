@@ -14,10 +14,11 @@ See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELO
 
 ## Features
 
-- Syntax highlighting (default file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tese`, `tesc`) Set color under Options (Fonts and Colors)
+- Syntax highlighting (default file extensions: `glsl`, `frag`, `vert`, `geom`, `comp`, `tese`, `tesc`, `mesh`, `task`, `rgen`, `rint`, `rmiss`, `rahit`, `rchit`, `rcall`) Set color under Options (Fonts and Colors)
 - Code completion (OpenGL 4.6 keywords + all identifiers in shader file)
 - Error tagging with squiggles and in error list (error list support is very alpha)
   - For the file extension `glsl` the extension tries to auto detect the type of shader you use based on reserved words used in the shader code.
+  - Note that `GLSL_NV_ray_tracing` shader types support for error tagging is currently only proivded via an external compiler.
 - Configurable (file extensions, code compilation, highlighting style, compiler)
 - Controlling the extension with comments (see below)
 

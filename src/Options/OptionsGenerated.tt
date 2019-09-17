@@ -3,25 +3,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ output extension=".cs" #>
-<#		var mappingShaderTypeToExtension = new Dictionary<string, string>()
-		{
-			["Auto detect"] = ".glsl",
-			["Fragment"] = ".frag",
-			["Vertex"] = ".vert",
-			["Geometry"] = ".geom",
-			["Compute"] = ".comp",
-			["Tessellation control"] = ".tesc",
-			["Tessellation evaluation"] = ".tese",
-			["Mesh"] = ".mesh",
-			["Task"] = ".task",
-			["Ray generation"] = ".rgen",
-			["Ray intersection"] = ".rint",
-			["Ray miss"] = ".rmiss",
-			["Ray any hit"] = ".rahit",
-			["Ray closest hit"] = ".rchit",
-			["Ray callable"] = ".rcall",
-		};
-#>
+<#@ include file="..\Classification\ShaderTypesAndDefaultExtension.t4" #>
 namespace DMS.GLSL.Options
 {
 	using Microsoft.VisualStudio.Shell;
@@ -35,18 +17,9 @@ namespace DMS.GLSL.Options
 
 		[Category("File extensions")]
 		[DisplayName("<#=shaderType.Key#> shader type file extensions")]
-		[Description("File extensions that will receive syntax coloring")]
+		[Description("Space or semicolon separated list of extensions that will receive syntax coloring")]
 		public string <#=ToCamelCase(shaderType.Key)#>ShaderFileExtensions { get; set; } = "<#=shaderType.Value#>";
 		<#}#>
-	
+
 	}
 }
-
-<#+
-string ToCamelCase(string text)
-	{
-		var words = text.Split();
-		var firstUpperCase = words.Select(i => char.ToUpper(i[0]) + i.Substring(1));
-		return string.Join("", firstUpperCase);
-	}
-#>

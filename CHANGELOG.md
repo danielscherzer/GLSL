@@ -9,6 +9,9 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 0.6
+- [x] Supports for GLSL_NV_ray_tracing via external compiler.
+
 ## 0.5
 - [x] Allow switching between graphics card shader compiler and external compiler.
 - [x] User key words with own color.

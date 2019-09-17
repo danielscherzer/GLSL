@@ -66,3 +66,5 @@ atomicCounterCompSwapARB
 anyInvocationARB
 allInvocationsARB
 allInvocationsEqualARB
+
+traceNV reportIntersectionNV ignoreIntersectionNV terminateRayNV executeCallableNV 

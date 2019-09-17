@@ -80,10 +80,19 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classification\ShaderContentTypes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShaderContentTypes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Options\FileExtensionOptionsGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileExtensionOptionsGenerated.tt</DependentUpon>
+    </Compile>
     <Compile Include="Options\FileExtensionsOption.cs" />
     <Compile Include="Classification\GlslClassificationFormatDefinition.cs" />
     <Compile Include="Classification\GlslClassificationTypes.cs" />
-    <Compile Include="Classification\ContentTypesGlsl.cs" />
     <Compile Include="Classification\GlslClassifier.cs" />
     <Compile Include="Options\OptionsGenerated.cs">
       <AutoGen>True</AutoGen>
@@ -121,6 +130,7 @@
     <None Include="app.config" />
     <None Include="Key.snk" />
     <None Include="OpenTK.dll.config" />
+    <None Include="Classification\ShaderTypesAndDefaultExtension.t4" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -167,6 +177,14 @@
     <Resource Include="Resources\Add.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Classification\ShaderContentTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShaderContentTypes.cs</LastGenOutput>
+    </Content>
+    <Content Include="Options\FileExtensionOptionsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FileExtensionOptionsGenerated.cs</LastGenOutput>
+    </Content>
     <Content Include="Options\OptionsGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OptionsGenerated.cs</LastGenOutput>

@@ -80,3 +80,10 @@ subpassInput subpassInputMS isubpassInput isubpassInputMS usubpassInput usubpass
 
 early_fragment_tests
 post_depth_coverage
+
+accelerationStructureNV
+rayPayloadNV
+rayPayloadInNV
+hitAttributeNV
+callableDataNV
+callableDataInNV
