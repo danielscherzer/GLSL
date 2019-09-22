@@ -1,5 +1,6 @@
 ﻿using DMS.GLSL.Classification;
 using DMS.GLSL.Options;
+using GLSLhelper;
 using OpenTK;
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +11,6 @@ using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Zenseless.HLGL;
 using Zenseless.OpenGL;
 using Zenseless.Patterns;
 using ShaderType = Zenseless.HLGL.ShaderType;
@@ -77,7 +77,7 @@ namespace DMS.GLSL.Errors
 				var compileData = compileRequests.Take(); //block until compile requested
 				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
 				var log = Compile(expandedCode, compileData.ShaderType);
-				var errorLog = new ShaderLog(log);
+				var errorLog = new ShaderLogParser(log);
 				compileData.CompilationFinished?.Invoke(errorLog.Lines);
 			}
 		}
@@ -112,7 +112,7 @@ namespace DMS.GLSL.Errors
 
 			shaderCode = SpecialCommentReplacement(shaderCode, "//!");
 			shaderCode = SpecialCommentReplacement(shaderCode, "//?");
-			return ShaderLoader.ResolveIncludes(shaderCode, GetIncludeCode);
+			return Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
 		private static string Compile(string shaderCode, string shaderType)
