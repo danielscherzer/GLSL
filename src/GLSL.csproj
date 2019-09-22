@@ -129,8 +129,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Key.snk" />
-    <None Include="OpenTK.dll.config" />
     <None Include="Classification\ShaderTypesAndDefaultExtension.t4" />
+    <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -311,8 +311,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -352,17 +352,17 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="Zenseless.Geometry, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.Geometry.0.5.101\lib\net461\Zenseless.Geometry.dll</HintPath>
+    <Reference Include="Zenseless.Geometry, Version=0.5.105.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.Geometry.0.5.105\lib\net461\Zenseless.Geometry.dll</HintPath>
     </Reference>
-    <Reference Include="Zenseless.HLGL, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.HLGL.0.5.101\lib\net461\Zenseless.HLGL.dll</HintPath>
+    <Reference Include="Zenseless.HLGL, Version=0.5.105.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.HLGL.0.5.105\lib\net461\Zenseless.HLGL.dll</HintPath>
     </Reference>
-    <Reference Include="Zenseless.OpenGL, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.OpenGL.0.5.101\lib\net461\Zenseless.OpenGL.dll</HintPath>
+    <Reference Include="Zenseless.OpenGL, Version=0.5.105.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.OpenGL.0.5.105\lib\net461\Zenseless.OpenGL.dll</HintPath>
     </Reference>
-    <Reference Include="Zenseless.Patterns, Version=0.5.101.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Zenseless.Patterns.0.5.101\lib\netstandard2.0\Zenseless.Patterns.dll</HintPath>
+    <Reference Include="Zenseless.Patterns, Version=0.5.105.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zenseless.Patterns.0.5.105\lib\netstandard2.0\Zenseless.Patterns.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

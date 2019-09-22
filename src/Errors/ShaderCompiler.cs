@@ -95,7 +95,7 @@ namespace DMS.GLSL.Errors
 						lines[i] = lines[i].Substring(index + specialComment.Length); // remove everything before special comment
 					}
 				}
-				return lines.Combine("\n");
+				return string.Join("\n", lines);
 			}
 
 			string GetIncludeCode(string includeName)
