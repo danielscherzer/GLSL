@@ -31,7 +31,29 @@ namespace DMS.GLSL.Errors
 
 				// TODO: Move all this stuff into the SquiggleTagger constructor
 				var typeName = buffer.ContentType.TypeName;
-				buffer.Changed += (s, e) => RequestCompileShader(tagger, e.After.GetText(), typeName, GetDocumentDir(buffer)); //compile on text change. can be very often!
+				string shaderCode = "";
+
+				System.Timers.Timer timer = new System.Timers.Timer();
+				timer.AutoReset = false;
+				timer.Elapsed += (o, e) =>
+				{
+					RequestCompileShader(tagger, shaderCode, typeName, GetDocumentDir(buffer));
+				};
+
+				buffer.Changed += (s, e) => {
+					timer.Stop();
+					int ms = OptionsPagePackage.Options.CompileDelay;
+					if (ms > 0)
+					{
+						shaderCode = e.After.GetText();
+						timer.Interval = ms;
+						timer.Start();
+					}
+					else
+					{
+						RequestCompileShader(tagger, e.After.GetText(), typeName, GetDocumentDir(buffer)); //compile on text change. can be very often!
+					}
+				};
 				RequestCompileShader(tagger, buffer.CurrentSnapshot.GetText(), typeName, GetDocumentDir(buffer)); //initial compile
 
 				return tagger;
