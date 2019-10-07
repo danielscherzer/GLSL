@@ -5,10 +5,12 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
+using System.Reactive.Linq;
 
 namespace DMS.GLSL.Errors
 {
@@ -29,32 +31,14 @@ namespace DMS.GLSL.Errors
 			{
 				var tagger = new SquiggleTagger(buffer);
 
-				// TODO: Move all this stuff into the SquiggleTagger constructor
 				var typeName = buffer.ContentType.TypeName;
-				string shaderCode = "";
 
-				System.Timers.Timer timer = new System.Timers.Timer();
-				timer.AutoReset = false;
-				timer.Elapsed += (o, e) =>
-				{
-					RequestCompileShader(tagger, shaderCode, typeName, GetDocumentDir(buffer));
-				};
-
-				buffer.Changed += (s, e) => {
-					timer.Stop();
-					int ms = OptionsPagePackage.Options.CompileDelay;
-					if (ms > 0)
-					{
-						shaderCode = e.After.GetText();
-						timer.Interval = ms;
-						timer.Start();
-					}
-					else
-					{
-						RequestCompileShader(tagger, e.After.GetText(), typeName, GetDocumentDir(buffer)); //compile on text change. can be very often!
-					}
-				};
-				RequestCompileShader(tagger, buffer.CurrentSnapshot.GetText(), typeName, GetDocumentDir(buffer)); //initial compile
+				var observableSourceCode = Observable.Return(buffer.CurrentSnapshot.GetText()).Concat(
+						Observable.FromEventPattern<TextContentChangedEventArgs>(h => buffer.Changed += h, h => buffer.Changed -= h)
+						.Select(e => e.EventArgs.After.GetText()));
+				observableSourceCode
+					.Throttle(TimeSpan.FromSeconds(OptionsPagePackage.Options.CompileDelay * 0.001f))
+					.Subscribe(sourceCode => RequestCompileShader(tagger, sourceCode, typeName, GetDocumentDir(buffer)));
 
 				return tagger;
 

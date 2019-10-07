@@ -37,7 +37,7 @@
 
 		[Category("General")]
 		[DisplayName("Compile delay(ms)")]
-		[Description("When you change content continuously, only compile the last time")]
-		public int CompileDelay { get; set; } = 1000;
+		[Description("Minimal delay between two compiles.")]
+		public int CompileDelay { get; set; } = 200;
 	}
 }

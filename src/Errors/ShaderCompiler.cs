@@ -12,7 +12,6 @@ using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Zenseless.OpenGL;
-using Zenseless.Patterns;
 using ShaderType = Zenseless.HLGL.ShaderType;
 
 namespace DMS.GLSL.Errors
@@ -155,14 +154,15 @@ namespace DMS.GLSL.Errors
 		{
 			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType))
 			{
+				var time = DateTime.Now.ToString("HH.mm.ss.fff");
 				if (ShaderContentTypes.AutoDetect == sShaderType)
 				{
 					shaderType = AutoDetectShaderType(shaderCode);
-					VsStatusBar.SetText($"Auto detecting shader type to '{shaderType}'");
+					VsStatusBar.SetText($"{time} Auto detecting shader type to '{shaderType}'");
 				}
 				else
 				{
-					VsStatusBar.SetText($"Unsupported shader type '{sShaderType}' by OpenTK shader compiler. Use an external compiler");
+					VsStatusBar.SetText($"{time} Unsupported shader type '{sShaderType}' by OpenTK shader compiler. Use an external compiler");
 				}
 			}
 			try
