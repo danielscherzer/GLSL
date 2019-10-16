@@ -39,5 +39,10 @@
 		[DisplayName("Compile delay(ms)")]
 		[Description("Minimal delay between two compiles.")]
 		public int CompileDelay { get; set; } = 200;
+
+		[Category("General")]
+		[DisplayName("Print compilation result")]
+		[Description("Print shader code compilation result to output window pane")]
+		public bool PrintCompilationResult { get; set; } = true;
 	}
 }
