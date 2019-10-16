@@ -1,5 +1,6 @@
 ﻿namespace DMS.GLSL.Options
 {
+	using DMS.GLSL.Errors;
 	using Microsoft.VisualStudio.Text.Editor;
 	using Microsoft.VisualStudio.Utilities;
 	using System;
@@ -25,7 +26,7 @@
 					var message = $"{titel}:Extension {ext} is ignored because it is already registered " +
 						$"with a different Visual Studio component. " +
 						$"Please remove it from the {titel} options page!";
-					VsStatusBar.SetText(message);
+					OutMessage.StatusBar(message);
 				}
 			}
 		}

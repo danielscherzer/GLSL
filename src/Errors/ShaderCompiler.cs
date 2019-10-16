@@ -76,6 +76,10 @@ namespace DMS.GLSL.Errors
 				var compileData = compileRequests.Take(); //block until compile requested
 				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
 				var log = Compile(expandedCode, compileData.ShaderType);
+				if (OptionsPagePackage.Options.PrintCompilationResult)
+				{
+					OutMessage.OutputWindowPane(log);
+				}
 				var errorLog = new ShaderLogParser(log);
 				compileData.CompilationFinished?.Invoke(errorLog.Lines);
 			}
@@ -132,7 +136,7 @@ namespace DMS.GLSL.Errors
 						process.StartInfo.RedirectStandardOutput = true;
 						process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 						process.StartInfo.CreateNoWindow = true; //do not display a windows
-						VsStatusBar.SetText($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}' on temporal shader file '{shaderFileName}'");
+						OutMessage.StatusBar($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}' on temporal shader file '{shaderFileName}'");
 						process.Start();
 						process.WaitForExit(10000);
 						var output = process.StandardOutput.ReadToEnd(); //The output result
@@ -142,10 +146,10 @@ namespace DMS.GLSL.Errors
 				catch(Exception e)
 				{
 					var message = "Error executing external compiler with message\n" + e.ToString();
-					VsStatusBar.SetText(message);
+					OutMessage.StatusBar(message);
 				}
 			}
-			VsStatusBar.SetText("Using driver compiler");
+			OutMessage.StatusBar("Using driver compiler");
 			return CompileOnGPU(shaderCode, shaderType);
 		}
 
@@ -158,11 +162,11 @@ namespace DMS.GLSL.Errors
 				if (ShaderContentTypes.AutoDetect == sShaderType)
 				{
 					shaderType = AutoDetectShaderType(shaderCode);
-					VsStatusBar.SetText($"{time} Auto detecting shader type to '{shaderType}'");
+					OutMessage.StatusBar($"{time} Auto detecting shader type to '{shaderType}'");
 				}
 				else
 				{
-					VsStatusBar.SetText($"{time} Unsupported shader type '{sShaderType}' by OpenTK shader compiler. Use an external compiler");
+					OutMessage.StatusBar($"{time} Unsupported shader type '{sShaderType}' by OpenTK shader compiler. Use an external compiler");
 				}
 			}
 			try
