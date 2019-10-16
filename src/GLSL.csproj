@@ -85,6 +85,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ShaderContentTypes.tt</DependentUpon>
     </Compile>
+    <Compile Include="Errors\OutMessage.cs" />
     <Compile Include="Options\FileExtensionOptionsGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,7 +125,6 @@
     </Compile>
     <Compile Include="TodoClassification\TodoGlyphFactory.cs" />
     <Compile Include="TodoClassification\TodoTagger.cs" />
-    <Compile Include="VsStatusBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
