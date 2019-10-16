@@ -81,6 +81,10 @@ namespace DMS.GLSL.Errors
 					OutMessage.OutputWindowPane(log);
 				}
 				var errorLog = new ShaderLogParser(log);
+				if (!String.IsNullOrWhiteSpace(log) && OptionsPagePackage.Options.PrintCompilationResult)
+				{
+					OutMessage.OutputWindowPane(log);
+				}
 				compileData.CompilationFinished?.Invoke(errorLog.Lines);
 			}
 		}
