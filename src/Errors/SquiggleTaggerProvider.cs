@@ -1,5 +1,4 @@
-﻿using DMS.GLSL.Classification;
-using DMS.GLSL.Options;
+﻿using DMS.GLSL.Options;
 using GLSLhelper;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -8,7 +7,6 @@ using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.IO;
 using System.Reactive.Linq;
 

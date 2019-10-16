@@ -10,6 +10,12 @@ namespace DMS.GLSL.Errors
 {
 	public static class OutMessage
 	{
+		public static void PaneAndBar(string message)
+		{
+			StatusBar(message);
+			OutputWindowPane(message);
+		}
+
 		public static void StatusBar(string message)
 		{
 			ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
@@ -37,7 +43,7 @@ namespace DMS.GLSL.Errors
 
 				if (outputWindowPane is null) return;
 
-				outputWindowPane.OutputStringThreadSafe(message);
+				outputWindowPane.OutputStringThreadSafe(message + Environment.NewLine);
 			});
 		}
 	}

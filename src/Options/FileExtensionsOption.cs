@@ -26,7 +26,7 @@
 					var message = $"{titel}:Extension {ext} is ignored because it is already registered " +
 						$"with a different Visual Studio component. " +
 						$"Please remove it from the {titel} options page!";
-					OutMessage.StatusBar(message);
+					OutMessage.PaneAndBar(message);
 				}
 			}
 		}

@@ -48,16 +48,16 @@ namespace DMS.GLSL.Errors
 		private Task taskGL;
 		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
 
-		private static ShaderType AutoDetectShaderType(string shaderCode)
+		private static string AutoDetectShaderContentType(string shaderCode)
 		{
-			if(shaderCode.Contains("EmitVertex")) return ShaderType.GeometryShader;
-			if (shaderCode.Contains("local_size_")) return ShaderType.ComputeShader;
-			if (shaderCode.Contains(") out;")) return ShaderType.TessControlShader;
-			if (shaderCode.Contains("gl_TessLevel")) return ShaderType.TessControlShader;
-			if (shaderCode.Contains("gl_TessCoord")) return ShaderType.TessEvaluationShader;
-			if (shaderCode.Contains("gl_Position")) return ShaderType.VertexShader;
-			if (shaderCode.Contains(") in;")) return ShaderType.TessEvaluationShader;
-			return ShaderType.FragmentShader;
+			if (shaderCode.Contains("EmitVertex")) return ShaderContentTypes.Geometry;
+			if (shaderCode.Contains("local_size_")) return ShaderContentTypes.Compute;
+			if (shaderCode.Contains(") out;")) return ShaderContentTypes.TessellationControl;
+			if (shaderCode.Contains("gl_TessLevel")) return ShaderContentTypes.TessellationControl;
+			if (shaderCode.Contains("gl_TessCoord")) return ShaderContentTypes.TessellationEvaluation;
+			if (shaderCode.Contains("gl_Position")) return ShaderContentTypes.Vertex;
+			if (shaderCode.Contains(") in;")) return ShaderContentTypes.TessellationEvaluation;
+			return ShaderContentTypes.Fragment;
 		}
 
 		private void StartGlThreadOnce()
@@ -77,7 +77,7 @@ namespace DMS.GLSL.Errors
 				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
 				var log = Compile(expandedCode, compileData.ShaderType);
 				var errorLog = new ShaderLogParser(log);
-				if (!String.IsNullOrWhiteSpace(log) && OptionsPagePackage.Options.PrintCompilationResult)
+				if (!string.IsNullOrWhiteSpace(log) && OptionsPagePackage.Options.PrintCompilationResult)
 				{
 					OutMessage.OutputWindowPane(log);
 				}
@@ -118,60 +118,70 @@ namespace DMS.GLSL.Errors
 			return Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
-		private static string Compile(string shaderCode, string shaderType)
+		private static string Compile(string shaderCode, string shaderContentType)
+		{
+			if(ShaderContentTypes.AutoDetect == shaderContentType)
+			{
+				shaderContentType = AutoDetectShaderContentType(shaderCode);
+				OutMessage.PaneAndBar($"{DateTime.Now.ToString("HH.mm.ss.fff")} Auto detecting shader type to '{shaderContentType}'");
+			}
+			var externalCompiler = OptionsPagePackage.Options.ExternalCompilerExeFilePath;
+			if (File.Exists(externalCompiler))
+			{
+				return CompileExternal(shaderCode, shaderContentType);
+			}
+			else
+			{
+				if (!string.IsNullOrWhiteSpace(externalCompiler))
+				{
+					OutMessage.PaneAndBar($"External compiler '{externalCompiler}' not found using GPU");
+				}
+				return CompileOnGPU(shaderCode, shaderContentType);
+			}
+		}
+
+		private static string CompileExternal(string shaderCode, string shaderContentType)
 		{
 			var options = OptionsPagePackage.Options;
-			if(!string.IsNullOrWhiteSpace(options.ExternalCompilerExeFilePath))
+			//create temp shader file for external compiler
+			var shaderFileName = Path.Combine(Path.GetTempPath(), $"shader{ShaderContentTypes.DefaultFileExtension(shaderContentType)}");
+			try
 			{
-				//create temp shader file for external compiler
-				var shaderFileName = Path.Combine(Path.GetTempPath(), $"shader{ShaderContentTypes.DefaultFileExtension(shaderType)}");
-				try
+				File.WriteAllText(shaderFileName, shaderCode);
+				using (var process = new Process())
 				{
-					File.WriteAllText(shaderFileName, shaderCode);
-					using (var process = new Process())
-					{
-						process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
-						process.StartInfo.Arguments = $"{options.ExternalCompilerArguments} {shaderFileName}"; //arguments
-						process.StartInfo.UseShellExecute = false;
-						process.StartInfo.RedirectStandardOutput = true;
-						process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-						process.StartInfo.CreateNoWindow = true; //do not display a windows
-						OutMessage.StatusBar($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}' on temporal shader file '{shaderFileName}'");
-						process.Start();
-						process.WaitForExit(10000);
-						var output = process.StandardOutput.ReadToEnd(); //The output result
-						return output.Replace(shaderFileName, "0"); //HACK: glslLangValidator produces inconsistent error message format when using vulkan vs glsl compilation
-					}
-				}
-				catch(Exception e)
-				{
-					var message = "Error executing external compiler with message\n" + e.ToString();
-					OutMessage.StatusBar(message);
+					process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
+					process.StartInfo.Arguments = $"{options.ExternalCompilerArguments} {shaderFileName}"; //arguments
+					process.StartInfo.UseShellExecute = false;
+					process.StartInfo.RedirectStandardOutput = true;
+					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					process.StartInfo.CreateNoWindow = true; //do not display a windows
+					OutMessage.PaneAndBar($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}' on temporal shader file '{shaderFileName}'");
+					process.Start();
+					process.WaitForExit(10000);
+					var output = process.StandardOutput.ReadToEnd(); //The output result
+					return output.Replace(shaderFileName, string.Empty); //HACK: glslLangValidator produces inconsistent error message format when using vulkan vs glsl compilation
 				}
 			}
-			OutMessage.StatusBar("Using driver compiler");
-			return CompileOnGPU(shaderCode, shaderType);
+			catch (Exception e)
+			{
+				var message = "Error executing external compiler with message\n" + e.ToString();
+				OutMessage.PaneAndBar(message);
+				return string.Empty;
+			}
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		private static string CompileOnGPU(string shaderCode, string sShaderType)
+		private static string CompileOnGPU(string shaderCode, string shaderType)
 		{
-			if (!mappingContentTypeToShaderType.TryGetValue(sShaderType, out ShaderType shaderType))
+			// detect shader type
+			if (!mappingContentTypeToShaderType.TryGetValue(shaderType, out ShaderType glShaderType))
 			{
-				var time = DateTime.Now.ToString("HH.mm.ss.fff");
-				if (ShaderContentTypes.AutoDetect == sShaderType)
-				{
-					shaderType = AutoDetectShaderType(shaderCode);
-					OutMessage.StatusBar($"{time} Auto detecting shader type to '{shaderType}'");
-				}
-				else
-				{
-					OutMessage.StatusBar($"{time} Unsupported shader type '{sShaderType}' by OpenTK shader compiler. Use an external compiler");
-				}
+				OutMessage.PaneAndBar($"Unsupported shader type '{shaderType}' by OpenTK shader compiler. Use an external compiler");
 			}
 			try
 			{
-				using (var shader = new ShaderGL(shaderType))
+				using (var shader = new ShaderGL(glShaderType))
 				{
 					shader.Compile(shaderCode);
 					return shader.Log;
