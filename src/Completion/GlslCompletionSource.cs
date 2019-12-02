@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
+using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Tagging;
+using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace DMS.GLSL
 	{
 		public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
 		{
-			var tagger = glslTokenTaggerProvider.CreateTagger<GlslTokenTag>(textBuffer);
-			return new GlslCompletionSource(textBuffer, staticCompletions, identifier, tagger);
+			var classifier = classifierAggregatorService.GetClassifier(textBuffer);
+			return new GlslCompletionSource(textBuffer, staticCompletions, identifier, classifier);
 		}
 
 		public void OnImportsSatisfied()
@@ -31,13 +32,12 @@ namespace DMS.GLSL
 			foreach (var var in GlslSpecification.Keywords) staticCompletions.Add(GlslCompletionSource.NewCompletion(var, keyword));
 			foreach (var var in GlslSpecification.Functions) staticCompletions.Add(GlslCompletionSource.NewCompletion(var, function));
 			foreach (var var in GlslSpecification.Variables) staticCompletions.Add(GlslCompletionSource.NewCompletion(var, variable));
+			//TODO: user keywords could be added if already set
 			staticCompletions.Sort((a, b) => a.DisplayText.CompareTo(b.DisplayText));
 		}
 
-		[Import]
-		internal GlslTokenTaggerProvider glslTokenTaggerProvider = null;
-		[Import]
-		private IGlyphService glyphService = null;
+		[Import] private IClassifierAggregatorService classifierAggregatorService = null;
+		[Import] private IGlyphService glyphService = null;
 
 		private List<Completion> staticCompletions = new List<Completion>();
 		private ImageSource identifier;
@@ -47,12 +47,12 @@ namespace DMS.GLSL
 	{
 		private ITextBuffer currentBuffer;
 		private bool _disposed = false;
-		private IEnumerable<Completion> staticCompletions = new List<Completion>();
+		private readonly IEnumerable<Completion> staticCompletions = new List<Completion>();
 		private Func<SnapshotSpan, IEnumerable<string>> queryIdentifiers;
-		private ImageSource imgIdentifier;
+		private readonly ImageSource imgIdentifier;
 
 		public GlslCompletionSource(ITextBuffer buffer, IEnumerable<Completion> staticCompletions, 
-			ImageSource identifier, ITagger<GlslTokenTag> tagger)
+			ImageSource identifier, IClassifier classifier)
 		{
 			currentBuffer = buffer;
 			this.staticCompletions = staticCompletions;
@@ -60,10 +60,10 @@ namespace DMS.GLSL
 
 			queryIdentifiers = (snapshotSpan) =>
 			{
-				var tokens = tagger.GetTags(new NormalizedSnapshotSpanCollection(snapshotSpan));
+				var tokens = classifier.GetClassificationSpans(snapshotSpan);
 				//only those tokens that are identifiers and do not overlap the input position because we do not want to add char that started session to completions
 				var filtered = from token in tokens
-							   where token.Tag.Type == GlslTokenTypes.Identifier
+							   where PredefinedClassificationTypeNames.Identifier == token.ClassificationType.Classification
 								&& !token.Span.Contains(snapshotSpan.End - 1)
 							   let text = token.Span.GetText()
 							   orderby text

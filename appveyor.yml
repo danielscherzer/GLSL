@@ -1,4 +1,4 @@
-version: 0.4.{build}
+version: 0.7.{build}
 
 skip_tags: true # avoid deploy to GitHub loop 
 

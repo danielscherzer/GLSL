@@ -3,11 +3,6 @@ using System.Collections.Generic;
 
 namespace DMS.GLSL
 {
-	public enum GlslTokenTypes
-	{
-		Keyword, Function, Variable, Identifier, Comment, Operator, Number, PreprocessorKeyword, UserKeyWord
-	}
-
 	public static class GlslSpecification
 	{
 		private static readonly HashSet<string> s_keywords = ParseTokens(Resources.glslKeywords);
@@ -20,14 +15,10 @@ namespace DMS.GLSL
 		public static IEnumerable<string> Variables => s_variables;
 		public static IEnumerable<string> UserKeyWords => s_userKeyWords;
 
-		public static GlslTokenTypes AssignType(string word)
-		{
-			if (s_keywords.Contains(word)) return GlslTokenTypes.Keyword;
-			if (s_functions.Contains(word)) return GlslTokenTypes.Function;
-			if (s_variables.Contains(word)) return GlslTokenTypes.Variable;
-			if (s_userKeyWords.Contains(word)) return GlslTokenTypes.UserKeyWord;
-			return GlslTokenTypes.Identifier;
-		}
+		public static bool IsKeyword(string word) => s_keywords.Contains(word);
+		public static bool IsVariable(string word) => s_variables.Contains(word);
+		public static bool IsFunction(string word) => s_functions.Contains(word);
+		public static bool IsUserKeyWord(string word) => s_userKeyWords.Contains(word);
 
 		public static bool IsIdentifierChar(char c)
 		{

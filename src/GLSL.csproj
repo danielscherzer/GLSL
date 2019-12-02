@@ -80,12 +80,16 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classification\TokenTypes.cs" />
+    <Compile Include="Language\ITokenTypes.cs" />
     <Compile Include="Classification\ShaderContentTypes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ShaderContentTypes.tt</DependentUpon>
     </Compile>
     <Compile Include="Errors\OutMessage.cs" />
+    <Compile Include="Language\Lexer.cs" />
+    <Compile Include="Language\PositionAware.cs" />
     <Compile Include="Options\FileExtensionOptionsGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -111,8 +115,6 @@
     <Compile Include="Errors\ShaderCompiler.cs" />
     <Compile Include="Errors\SquiggleTagger.cs" />
     <Compile Include="Errors\SquiggleTaggerProvider.cs" />
-    <Compile Include="Language\CppClassifier.cs" />
-    <Compile Include="Language\GlslTokenTag.cs" />
     <Compile Include="Language\GlslSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -316,6 +318,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
+    </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>

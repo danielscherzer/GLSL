@@ -10,14 +10,12 @@ using System.ComponentModel.Composition;
 
 namespace DMS.GLSL.TodoClassification
 {
-
 	[Export(typeof(ITaggerProvider))]
 	[ContentType("code")]
 	[TagType(typeof(TodoTag))]
 	internal class TodoTaggerProvider : ITaggerProvider
 	{
-		[Import]
-		internal IClassifierAggregatorService AggregatorService = null;
+		[Import] private IClassifierAggregatorService classifierAggregatorService = null;
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
@@ -25,12 +23,8 @@ namespace DMS.GLSL.TodoClassification
 			{
 				throw new ArgumentNullException("buffer");
 			}
-			return new TodoTagger(cppClassifierProvider.GetClassifier(buffer)) as ITagger<T>;
+			return new TodoTagger(classifierAggregatorService.GetClassifier(buffer)) as ITagger<T>;
 		}
-
-
-		[Import(typeof(CppClassifier))]
-		private IClassifierProvider cppClassifierProvider = null;
 	}
 
 	internal class TodoTag : IGlyphTag
@@ -41,12 +35,12 @@ namespace DMS.GLSL.TodoClassification
 	{
 		public event EventHandler<SnapshotSpanEventArgs> TagsChanged { add { } remove { } }
 
-		private IClassifier m_cppClassifier;
+		private IClassifier classifier;
 		private const string m_searchText = "todo";
 
-		internal TodoTagger(IClassifier cppClassifier)
+		internal TodoTagger(IClassifier classifier)
 		{
-			m_cppClassifier = cppClassifier;
+			this.classifier = classifier;
 		}
 
 		IEnumerable<ITagSpan<TodoTag>> ITagger<TodoTag>.GetTags(NormalizedSnapshotSpanCollection spans)
@@ -54,7 +48,7 @@ namespace DMS.GLSL.TodoClassification
 			foreach (SnapshotSpan span in spans)
 			{
 				//look at each classification span
-				foreach (ClassificationSpan classification in m_cppClassifier.GetClassificationSpans(span))
+				foreach (ClassificationSpan classification in classifier.GetClassificationSpans(span))
 				{
 					//if the classification is a comment
 					if (classification.ClassificationType.IsOfType(PredefinedClassificationTypeNames.Comment))
