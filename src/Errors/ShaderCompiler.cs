@@ -103,7 +103,7 @@ namespace DMS.GLSL.Errors
 
 			string GetIncludeCode(string includeName)
 			{
-			    var includeFileName = Path.Combine(shaderFileDir, includeName);
+				var includeFileName = Path.Combine(shaderFileDir, includeName);
 				if (File.Exists(includeFileName))
 				{
 					var includeCode = File.ReadAllText(includeFileName);
