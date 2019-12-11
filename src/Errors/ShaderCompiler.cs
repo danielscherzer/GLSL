@@ -85,8 +85,11 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		private static string ExpandedCode(string shaderCode, string shaderFileDir)
+		private static string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles=null)
 		{
+			if (includedFiles == null)
+				includedFiles = new HashSet<string>();
+
 			string SpecialCommentReplacement(string code, string specialComment)
 			{
 				var lines = code.Split(new[] { '\n' }, StringSplitOptions.None); //if UNIX style line endings still working so do not use Envirnoment.NewLine
@@ -103,12 +106,18 @@ namespace DMS.GLSL.Errors
 
 			string GetIncludeCode(string includeName)
 			{
-				var includeFileName = Path.Combine(shaderFileDir, includeName);
+				var includeFileName = Path.GetFullPath(Path.Combine(shaderFileDir, includeName));
+
 				if (File.Exists(includeFileName))
 				{
 					var includeCode = File.ReadAllText(includeFileName);
 					includeCode = SpecialCommentReplacement(includeCode, "//!");
-					return ExpandedCode(includeCode, Path.GetDirectoryName(includeFileName));
+
+					if (includedFiles.Contains(includeFileName))
+						return includeCode;
+					includedFiles.Add(includeFileName);
+
+					return ExpandedCode(includeCode, Path.GetDirectoryName(includeFileName), includedFiles: includedFiles);
 				}
 				return $"#error include file '{includeName}' not found";
 			}
