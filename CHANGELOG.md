@@ -2,6 +2,7 @@
 - [ ] Error list jump to line
 - [ ] Show `glsl' shader in ToolBoxWindow
 - [ ] Better parsing of glsl compiler errors for shorter squiggle spans
+- [ ] Block inlining
 
 Features that have a check mark are complete and available for download in the
 [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6158ade63816/).
@@ -10,6 +11,7 @@ Features that have a check mark are complete and available for download in the
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
 ## 0.7
+- [x] GLSL recursive include files.
 - [x] Lexing for syntax coloring with [Sprache](https://github.com/sprache/Sprache) instead of VS CppClassifier.
 
 

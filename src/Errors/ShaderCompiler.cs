@@ -85,10 +85,12 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		private static string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles=null)
+		private static string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles = null)
 		{
-			if (includedFiles == null)
+			if (includedFiles is null)
+			{
 				includedFiles = new HashSet<string>();
+			}
 
 			string SpecialCommentReplacement(string code, string specialComment)
 			{
@@ -114,7 +116,9 @@ namespace DMS.GLSL.Errors
 					includeCode = SpecialCommentReplacement(includeCode, "//!");
 
 					if (includedFiles.Contains(includeFileName))
+					{
 						return includeCode;
+					}
 					includedFiles.Add(includeFileName);
 
 					return ExpandedCode(includeCode, Path.GetDirectoryName(includeFileName), includedFiles: includedFiles);
