@@ -111,7 +111,6 @@ namespace DMS.GLSL.Errors
 				if (File.Exists(includeFileName))
 				{
 					var includeCode = File.ReadAllText(includeFileName);
-					includeCode = SpecialCommentReplacement(includeCode, "//!");
 
 					if (includedFiles.Contains(includeFileName))
 						return includeCode;
@@ -123,7 +122,8 @@ namespace DMS.GLSL.Errors
 			}
 
 			shaderCode = SpecialCommentReplacement(shaderCode, "//!");
-			shaderCode = SpecialCommentReplacement(shaderCode, "//?");
+			if (includedFiles.Count == 0)
+				shaderCode = SpecialCommentReplacement(shaderCode, "//?");
 			return Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
