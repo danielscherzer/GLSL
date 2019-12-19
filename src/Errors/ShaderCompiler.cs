@@ -127,7 +127,9 @@ namespace DMS.GLSL.Errors
 
 			shaderCode = SpecialCommentReplacement(shaderCode, "//!");
 			if (includedFiles.Count == 0)
+			{
 				shaderCode = SpecialCommentReplacement(shaderCode, "//?");
+			}
 			return Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
