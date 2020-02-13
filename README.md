@@ -23,10 +23,9 @@ See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELO
 - Configurable (file extensions, code compilation, highlighting style, compiler)
 - Controlling the extension with comments (see below)
 
-## Configuration
-+ Configuration is done vie the Visual Studio options dialog (Tools -> Options);
+## Configuration (extension options)
++ Options of the extension can be found via the Visual Studio options dialog (`Tools` -> `Options` -> `glsl language integration`).
 + Configure Fonts and Colors via "Environment" -> "Fonts and Colors"). All "Display Items" of the extension start with GLSL.
-+ Configure other parameters via "GLSL language integration".
 
 ## Controlling the extension with comments
 The original idea is from [Clocktown](https://github.com/Clocktown). The discussion can be found under [#15](https://github.com/danielscherzer/GLSL/issues/15). 
