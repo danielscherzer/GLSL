@@ -165,6 +165,7 @@ namespace DMS.GLSL.Errors
 				{
 					process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
 					process.StartInfo.Arguments = $"{options.ExternalCompilerArguments} {shaderFileName}"; //arguments
+					process.StartInfo.WorkingDirectory = Path.GetTempPath();
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
