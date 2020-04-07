@@ -157,7 +157,8 @@ namespace DMS.GLSL.Errors
 		{
 			var options = OptionsPagePackage.Options;
 			//create temp shader file for external compiler
-			var shaderFileName = Path.Combine(Path.GetTempPath(), $"shader{ShaderContentTypesGenerated.DefaultFileExtension(shaderContentType)}");
+			var tempPath = Path.GetTempPath();
+			var shaderFileName = Path.Combine(tempPath, $"shader{ShaderContentTypesGenerated.DefaultFileExtension(shaderContentType)}");
 			try
 			{
 				File.WriteAllText(shaderFileName, shaderCode);
@@ -165,7 +166,7 @@ namespace DMS.GLSL.Errors
 				{
 					process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
 					process.StartInfo.Arguments = $"{options.ExternalCompilerArguments} {shaderFileName}"; //arguments
-					process.StartInfo.WorkingDirectory = Path.GetTempPath();
+					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -174,7 +175,7 @@ namespace DMS.GLSL.Errors
 					process.Start();
 					process.WaitForExit(10000);
 					var output = process.StandardOutput.ReadToEnd(); //The output result
-					return output.Replace(shaderFileName, string.Empty); //HACK: glslLangValidator produces inconsistent error message format when using vulkan vs glsl compilation
+					return output.Replace(shaderFileName, string.Empty); //HACK: glslLangValidator produces inconsistent error message format when using Vulkan vs GLSL compilation
 				}
 			}
 #pragma warning disable CA1031 // Do not catch general exception types
