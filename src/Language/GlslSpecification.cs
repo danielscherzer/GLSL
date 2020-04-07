@@ -3,11 +3,8 @@ using System.Collections.Generic;
 
 namespace DMS.GLSL
 {
-	public static class GlslSpecification
+	public static partial class GlslSpecification
 	{
-		private static readonly HashSet<string> s_keywords = ParseTokens(Resources.glslKeywords);
-		private static readonly HashSet<string> s_functions = ParseTokens(Resources.glslFunctions);
-		private static readonly HashSet<string> s_variables = ParseTokens(Resources.glslVariables);
 		private static HashSet<string> s_userKeyWords = new HashSet<string>();
 
 		public static IEnumerable<string> Keywords => s_keywords;
@@ -34,7 +31,7 @@ namespace DMS.GLSL
 
 		private static HashSet<string> ParseTokens(string tokens)
 		{
-			char[] blanks = { ' ', '\n', '\r' };
+			char[] blanks = { ' ' };
 			return new HashSet<string>(tokens.Split(blanks, StringSplitOptions.RemoveEmptyEntries));
 		}
 	}

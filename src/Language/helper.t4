@@ -1,0 +1,8 @@
+﻿<#+string read(string fileName)
+	{
+		var text = File.ReadAllText(Host.ResolvePath(fileName));
+		char[] blanks = { ' ', '\n', '\r' };
+		var words = text.Split(blanks, StringSplitOptions.RemoveEmptyEntries);
+		return string.Join(" ", words);
+	}
+#>

@@ -48,23 +48,44 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Resources\ShaderPreview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\ShaderIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Language\glslKeywords.txt" />
+    <None Include="Language\glslFunctions.txt" />
+    <None Include="Language\glslVariables.txt" />
     <Compile Include="Language\ITokenTypes.cs" />
     <Compile Include="Language\Lexer.cs" />
     <Compile Include="Language\PositionAware.cs" />
     <Compile Include="Language\GlslSpecification.cs" />
+    <Compile Include="Language\GlslSpecificationGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlslSpecificationGenerated.tt</DependentUpon>
+    </Compile>
+    <None Include="Language\helper.t4" />
+    <Content Include="Language\GlslSpecificationGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslSpecificationGenerated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Classification\TokenTypes.cs" />
     <Compile Include="Classification\ShaderContentTypesGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Errors\OutMessage.cs" />
-    <Compile Include="Options\FileExtensionsOption.cs" />
-    <Compile Include="Options\FileExtensionOptionsGenerated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FileExtensionOptionsGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="Classification\GlslClassificationFormatDefinition.cs" />
     <Compile Include="Classification\GlslClassificationTypes.cs" />
@@ -74,6 +95,21 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShaderContentTypesGenerated.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Errors\OutMessage.cs" />
+    <Compile Include="Errors\ErrorList.cs" />
+    <Compile Include="Errors\ShaderCompiler.cs" />
+    <Compile Include="Errors\SquiggleTagger.cs" />
+    <Compile Include="Errors\SquiggleTaggerProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Options\FileExtensionsOption.cs" />
+    <Compile Include="Options\FileExtensionOptionsGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileExtensionOptionsGenerated.tt</DependentUpon>
+    </Compile>
     <Compile Include="Options\OptionsGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,51 +120,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Options\OptionsPagePackage.cs" />
-    <Compile Include="Completion\GlslCompletionController.cs" />
-    <Compile Include="Completion\GlslCompletionSource.cs" />
-    <Compile Include="Errors\ErrorList.cs" />
-    <Compile Include="Errors\ShaderCompiler.cs" />
-    <Compile Include="Errors\SquiggleTagger.cs" />
-    <Compile Include="Errors\SquiggleTaggerProvider.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="TodoClassification\TodoGlyph.xaml.cs">
-      <DependentUpon>TodoGlyph.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TodoClassification\TodoGlyphFactory.cs" />
-    <Compile Include="TodoClassification\TodoTagger.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source.extension.vsixmanifest">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Options\VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Add.png" />
-    <None Include="Resources\glslKeywords.txt" />
-    <None Include="Resources\glslFunctions.txt" />
-    <None Include="Resources\glslVariables.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="TodoClassification\TodoGlyph.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Options\FileExtensionOptionsGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FileExtensionOptionsGenerated.cs</LastGenOutput>
@@ -142,14 +137,22 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\ShaderPreview.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Resources\ShaderIcon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TodoClassification\TodoGlyph.xaml.cs">
+      <DependentUpon>TodoGlyph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TodoClassification\TodoGlyphFactory.cs" />
+    <Compile Include="TodoClassification\TodoTagger.cs" />
+    <Page Include="TodoClassification\TodoGlyph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Resource Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Completion\GlslCompletionController.cs" />
+    <Compile Include="Completion\GlslCompletionSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
