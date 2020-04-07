@@ -3,7 +3,7 @@ namespace DMS.GLSL.Classification
 {
 	using Microsoft.VisualStudio.Utilities;
 	using System.ComponentModel.Composition;
-	internal class ShaderContentTypes
+	internal class ShaderContentTypesGenerated
 	{
 		public const string GlslShader = "glslShader";
 

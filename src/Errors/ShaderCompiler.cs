@@ -2,6 +2,7 @@
 using DMS.GLSL.Options;
 using GLSLhelper;
 using OpenTK;
+using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,8 +12,6 @@ using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Zenseless.OpenGL;
-using ShaderType = Zenseless.HLGL.ShaderType;
 
 namespace DMS.GLSL.Errors
 {
@@ -25,8 +24,7 @@ namespace DMS.GLSL.Errors
 		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler, string documentDir)
 		{
 			StartGlThreadOnce();
-			
-			while (compileRequests.TryTake(out CompileData dataOld)) ; //remove pending compiles
+			while (compileRequests.TryTake(out _)) ; //remove pending compiles
 			var data = new CompileData
 			{
 				ShaderCode = shaderCode,
@@ -46,18 +44,18 @@ namespace DMS.GLSL.Errors
 		}
 
 		private Task taskGL;
-		private BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
+		private readonly BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
 
 		private static string AutoDetectShaderContentType(string shaderCode)
 		{
-			if (shaderCode.Contains("EmitVertex")) return ShaderContentTypes.Geometry;
-			if (shaderCode.Contains("local_size_")) return ShaderContentTypes.Compute;
-			if (shaderCode.Contains(") out;")) return ShaderContentTypes.TessellationControl;
-			if (shaderCode.Contains("gl_TessLevel")) return ShaderContentTypes.TessellationControl;
-			if (shaderCode.Contains("gl_TessCoord")) return ShaderContentTypes.TessellationEvaluation;
-			if (shaderCode.Contains("gl_Position")) return ShaderContentTypes.Vertex;
-			if (shaderCode.Contains(") in;")) return ShaderContentTypes.TessellationEvaluation;
-			return ShaderContentTypes.Fragment;
+			if (shaderCode.Contains("EmitVertex")) return ShaderContentTypesGenerated.Geometry;
+			if (shaderCode.Contains("local_size_")) return ShaderContentTypesGenerated.Compute;
+			if (shaderCode.Contains(") out;")) return ShaderContentTypesGenerated.TessellationControl;
+			if (shaderCode.Contains("gl_TessLevel")) return ShaderContentTypesGenerated.TessellationControl;
+			if (shaderCode.Contains("gl_TessCoord")) return ShaderContentTypesGenerated.TessellationEvaluation;
+			if (shaderCode.Contains("gl_Position")) return ShaderContentTypesGenerated.Vertex;
+			if (shaderCode.Contains(") in;")) return ShaderContentTypesGenerated.TessellationEvaluation;
+			return ShaderContentTypesGenerated.Fragment;
 		}
 
 		private void StartGlThreadOnce()
@@ -135,10 +133,10 @@ namespace DMS.GLSL.Errors
 
 		private static string Compile(string shaderCode, string shaderContentType)
 		{
-			if(ShaderContentTypes.AutoDetect == shaderContentType)
+			if(ShaderContentTypesGenerated.AutoDetect == shaderContentType)
 			{
 				shaderContentType = AutoDetectShaderContentType(shaderCode);
-				OutMessage.PaneAndBar($"{DateTime.Now.ToString("HH.mm.ss.fff")} Auto detecting shader type to '{shaderContentType}'");
+				OutMessage.PaneAndBar($"{DateTime.Now:HH.mm.ss.fff} Auto detecting shader type to '{shaderContentType}'");
 			}
 			var externalCompiler = OptionsPagePackage.Options.ExternalCompilerExeFilePath;
 			if (File.Exists(externalCompiler))
@@ -159,7 +157,7 @@ namespace DMS.GLSL.Errors
 		{
 			var options = OptionsPagePackage.Options;
 			//create temp shader file for external compiler
-			var shaderFileName = Path.Combine(Path.GetTempPath(), $"shader{ShaderContentTypes.DefaultFileExtension(shaderContentType)}");
+			var shaderFileName = Path.Combine(Path.GetTempPath(), $"shader{ShaderContentTypesGenerated.DefaultFileExtension(shaderContentType)}");
 			try
 			{
 				File.WriteAllText(shaderFileName, shaderCode);
@@ -178,12 +176,14 @@ namespace DMS.GLSL.Errors
 					return output.Replace(shaderFileName, string.Empty); //HACK: glslLangValidator produces inconsistent error message format when using vulkan vs glsl compilation
 				}
 			}
+#pragma warning disable CA1031 // Do not catch general exception types
 			catch (Exception e)
 			{
 				var message = "Error executing external compiler with message\n" + e.ToString();
 				OutMessage.PaneAndBar(message);
 				return string.Empty;
 			}
+#pragma warning restore CA1031 // Do not catch general exception types
 		}
 
 		[HandleProcessCorruptedStateExceptions]
@@ -196,26 +196,35 @@ namespace DMS.GLSL.Errors
 			}
 			try
 			{
-				using (var shader = new ShaderGL(glShaderType))
+				var id = GL.CreateShader(glShaderType);
+				if (0 == id) throw new Exception($"Could not create {shaderType} instance.");
+				GL.ShaderSource(id, shaderCode);
+				GL.CompileShader(id);
+				GL.GetShader(id, ShaderParameter.CompileStatus, out int status_code);
+				string log = string.Empty;
+				if (1 != status_code)
 				{
-					shader.Compile(shaderCode);
-					return shader.Log;
+					log = GL.GetShaderInfoLog(id);
 				}
+				GL.DeleteShader(id);
+				return log;
 			}
+#pragma warning disable CA1031 // Do not catch general exception types
 			catch (AccessViolationException)
 			{
 				return $"(1 1):ERROR: OpenGL shader compiler has crashed";
 			}
+#pragma warning restore CA1031 // Do not catch general exception types
 		}
 
-		private static IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
+		private static readonly IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
 		{
-			[ShaderContentTypes.Fragment] = ShaderType.FragmentShader,
-			[ShaderContentTypes.Vertex] = ShaderType.VertexShader,
-			[ShaderContentTypes.Geometry] = ShaderType.GeometryShader,
-			[ShaderContentTypes.TessellationControl] = ShaderType.TessControlShader,
-			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
-			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
+			[ShaderContentTypesGenerated.Fragment] = ShaderType.FragmentShader,
+			[ShaderContentTypesGenerated.Vertex] = ShaderType.VertexShader,
+			[ShaderContentTypesGenerated.Geometry] = ShaderType.GeometryShader,
+			[ShaderContentTypesGenerated.TessellationControl] = ShaderType.TessControlShader,
+			[ShaderContentTypesGenerated.TessellationEvaluation] = ShaderType.TessEvaluationShader,
+			[ShaderContentTypesGenerated.Compute] = ShaderType.ComputeShader,
 		};
 	}
 }
