@@ -171,7 +171,7 @@
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="15.0.0" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="15.9.3039">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.5.2044">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

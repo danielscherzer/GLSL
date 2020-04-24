@@ -20,12 +20,12 @@
 				{
 					fileExtensionRegistry.AddFileExtension(ext, contentType);
 				}
-				catch(InvalidOperationException)
+				catch(InvalidOperationException ioe)
 				{
 					var titel = "GLSL language integration";
 					var message = $"{titel}:Extension {ext} is ignored because it is already registered " +
 						$"with a different Visual Studio component. " +
-						$"Please remove it from the {titel} options page!";
+						$"Please remove it from the {titel} options page! Following is the detailed exception message {ioe}";
 					OutMessage.PaneAndBar(message);
 				}
 			}
