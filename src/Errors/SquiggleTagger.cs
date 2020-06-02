@@ -68,7 +68,7 @@ namespace DMS.GLSL.Errors
 		}
 
 		private IEnumerable<ShaderLogLine> errors = new List<ShaderLogLine>();
-		private ITextBuffer buffer;
+		private readonly ITextBuffer buffer;
 		private readonly string filePath;
 	}
 }

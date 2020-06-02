@@ -1,4 +1,5 @@
-﻿using DMS.GLSL.Language;
+﻿using DMS.GLSL.Errors;
+using DMS.GLSL.Language;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -6,6 +7,9 @@ using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Linq;
+using System.Reactive.Linq;
 
 namespace DMS.GLSL.Classification
 {
@@ -17,43 +21,92 @@ namespace DMS.GLSL.Classification
 		public void OnImportsSatisfied()
 		{
 			var tokenTypes = new TokenTypes(classificationTypeRegistry);
-			var lexer = new Lexer<IClassificationType>(tokenTypes);
-			classifier = new GlslClassifier(lexer);
+			lexer = new Lexer<IClassificationType>(tokenTypes);
 		}
 
-		public IClassifier GetClassifier(ITextBuffer textBuffer) => classifier;
-	 // buffer.Properties.GetOrCreateSingletonProperty(() => new GlslClassifier(buffer, lexer)); //per buffer classifier
+		public IClassifier GetClassifier(ITextBuffer textBuffer)
+		{
+			return textBuffer.Properties.GetOrCreateSingletonProperty(() => new GlslClassifier(textBuffer, lexer)); //per buffer classifier
+		}
 
 		[Import]
 		internal IClassificationTypeRegistryService classificationTypeRegistry = null;
-
-		private GlslClassifier classifier;
+		private Lexer<IClassificationType> lexer;
 	}
 
 	internal sealed class GlslClassifier : IClassifier
 	{
-		private readonly Lexer<IClassificationType> lexer;
-
-		internal GlslClassifier(Lexer<IClassificationType> lexer)
+		internal GlslClassifier(ITextBuffer textBuffer, Lexer<IClassificationType> lexer)
 		{
-			this.lexer = lexer;
+			var observableSnapshot = Observable.Return(textBuffer.CurrentSnapshot).Concat(
+				Observable.FromEventPattern<TextContentChangedEventArgs>(h => textBuffer.Changed += h, h => textBuffer.Changed -= h)
+				.Select(e => e.EventArgs.After));
+
+			void UpdateSpans()
+			{
+#if DEBUG
+				var time = Stopwatch.StartNew();
+#endif
+				var snapshotSpan = new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length);
+				var spans = CalculateSpans(lexer, snapshotSpan);
+#if DEBUG
+				OutMessage.OutputWindowPane($"[{DateTime.Now:hh:mm:ss:mmm}] {time.ElapsedTicks * 1e3f / Stopwatch.Frequency}ms : tokens={spans.Count}");
+#endif
+				this.spans = spans;
+				ClassificationChanged?.Invoke(this, new ClassificationChangedEventArgs(snapshotSpan));
+			}
+
+			observableSnapshot
+				.Throttle(TimeSpan.FromSeconds(0.3f))
+				.Subscribe(snapshot => UpdateSpans());
+
+			//UpdateSpans(new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length));
+			//textBuffer.Changed += (s, a) =>
+			//{
+			//	// ignore not up-to-date versions
+			//	if (a.After != textBuffer.CurrentSnapshot) return;
+
+
+			//	var start = a.Changes.Min(change => Math.Min(change.OldPosition, change.NewPosition));
+			//	var end = a.Changes.Max(change => Math.Max(change.OldEnd, change.NewEnd));
+			//	var length = Math.Min(end - start, textBuffer.CurrentSnapshot.Length);
+			//	var changeSpan = new SnapshotSpan(textBuffer.CurrentSnapshot, start, length);
+			//	var changeText = changeSpan.GetText();
+			//	//if(changeText.Contains('{') || changeText.Contains('}') || changeText.Contains('*') || )
+			//	//UpdateSpans(changeSpan);
+			//	UpdateSpans(new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length));
+			//};
 		}
 
-		public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged { add { } remove { } }
+		public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
 
 		public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan inputSpan)
 		{
 			var output = new List<ClassificationSpan>();
-			var text = inputSpan.GetText();
-			//var log = new StringBuilder();
-			//var time = Stopwatch.StartNew();
-			foreach (var (start, length, type) in lexer.Tokenize(text))
+			var currentSpans = spans; // if UpdateSpans runs during execution we want to avoid any exceptions
+			if (0 == currentSpans.Count) return output;
+			var translatedInput = inputSpan.TranslateTo(currentSpans[0].Span.Snapshot, SpanTrackingMode.EdgeInclusive);
+
+			foreach (var span in currentSpans)
 			{
-				var lineSpan = new SnapshotSpan(inputSpan.Snapshot, inputSpan.Start + start, length);
-				output.Add(new ClassificationSpan(lineSpan, type));
-				//log.Append($"{lineSpan.Start.Position}:{lineSpan.Length}={type}; ");
+				if (translatedInput.OverlapsWith(span.Span))
+				{
+					output.Add(span);
+				}
 			}
-			//OutMessage.OutputWindowPane(time.ElapsedTicks * 1e3f / Stopwatch.Frequency + ":" + log.ToString());
+			return output;
+		}
+
+		private IList<ClassificationSpan> spans = new List<ClassificationSpan>();
+
+		private static IList<ClassificationSpan> CalculateSpans(Lexer<IClassificationType> lexer, SnapshotSpan snapshotSpan)
+		{
+			var output = new List<ClassificationSpan>();
+			foreach (var (start, length, type) in lexer.Tokenize(snapshotSpan.GetText()))
+			{
+				var lineSpan = new SnapshotSpan(snapshotSpan.Snapshot, start, length);
+				output.Add(new ClassificationSpan(lineSpan, type));
+			}
 			return output;
 		}
 	}

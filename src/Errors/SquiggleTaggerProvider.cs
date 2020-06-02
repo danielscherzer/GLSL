@@ -43,14 +43,13 @@ namespace DMS.GLSL.Errors
 			}) as ITagger<T>;
 		}
 
-		[Import] private ShaderCompiler shaderCompiler = null;
+		[Import] private readonly ShaderCompiler shaderCompiler = null;
 
 		private string GetDocumentDir(ITextBuffer textBuffer)
 		{
 			foreach (var prop in textBuffer.Properties.PropertyList)
 			{
-				var doc = prop.Value as ITextDocument;
-				if (doc is null) continue;
+				if (!(prop.Value is ITextDocument doc)) continue;
 				return Path.GetDirectoryName(doc.FilePath);
 			}
 			return string.Empty;

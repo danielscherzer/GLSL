@@ -15,13 +15,13 @@ namespace DMS.GLSL.TodoClassification
 	[TagType(typeof(TodoTag))]
 	internal class TodoTaggerProvider : ITaggerProvider
 	{
-		[Import] private IClassifierAggregatorService classifierAggregatorService = null;
+		[Import] private readonly IClassifierAggregatorService classifierAggregatorService = null;
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
 			if (buffer == null)
 			{
-				throw new ArgumentNullException("buffer");
+				throw new ArgumentNullException(nameof(buffer));
 			}
 			return new TodoTagger(classifierAggregatorService.GetClassifier(buffer)) as ITagger<T>;
 		}
@@ -35,7 +35,7 @@ namespace DMS.GLSL.TodoClassification
 	{
 		public event EventHandler<SnapshotSpanEventArgs> TagsChanged { add { } remove { } }
 
-		private IClassifier classifier;
+		private readonly IClassifier classifier;
 		private const string m_searchText = "todo";
 
 		internal TodoTagger(IClassifier classifier)

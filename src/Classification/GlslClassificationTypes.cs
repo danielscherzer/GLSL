@@ -15,22 +15,22 @@ namespace DMS.GLSL.Classification
 		[Export]
 		[Name(Function)]
 		[BaseDefinition("code")]
-		private static ClassificationTypeDefinition glslFunction;
+		private static readonly ClassificationTypeDefinition glslFunction;
 
 		[Export]
 		[Name(Keyword)]
 		[BaseDefinition("code")]
-		private static ClassificationTypeDefinition glslKeyword;
+		private static readonly ClassificationTypeDefinition glslKeyword;
 
 		[Export]
 		[Name(Variable)]
 		[BaseDefinition("code")]
-		private static ClassificationTypeDefinition glslVariable;
+		private static readonly ClassificationTypeDefinition glslVariable;
 
 		[Export]
 		[Name(UserKeyWord)]
 		[BaseDefinition("code")]
-		private static ClassificationTypeDefinition glslUserKeyWord;
+		private static readonly ClassificationTypeDefinition glslUserKeyWord;
 #pragma warning restore 169
 	}
 }
