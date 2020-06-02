@@ -9,7 +9,7 @@
 
 		[Category("General")]
 		[DisplayName("Arguments for the external compiler executable")]
-		[Description("Command line arguments for the external compiler executable")]
+		[Description("Command line arguments for the external compiler executable. Can contain environment variables, like %USERPROFILE%.")]
 		public string ExternalCompilerArguments { get; set; } = string.Empty;
 
 		[Category("General")]
