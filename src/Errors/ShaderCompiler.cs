@@ -165,14 +165,14 @@ namespace DMS.GLSL.Errors
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
-					var arguments = Environment.ExpandEnvironmentVariables(options.ExternalCompilerArguments);
+					var arguments = OptionsPagePackage.ExpandEnvironmentVariables(options.ExternalCompilerArguments);
 					process.StartInfo.Arguments = $"{arguments} {shaderFileName}"; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 					process.StartInfo.CreateNoWindow = true; //do not display a windows
-					OutMessage.PaneAndBar($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{options.ExternalCompilerArguments}' on temporal shader file '{shaderFileName}'");
+					OutMessage.PaneAndBar($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'");
 					process.Start();
 					process.WaitForExit(10000);
 					var output = process.StandardOutput.ReadToEnd(); //The output result

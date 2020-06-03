@@ -1,15 +1,15 @@
-﻿namespace DMS.GLSL.Options
-{
-	using Microsoft.VisualStudio.Shell;
-	using System.ComponentModel;
+﻿using Microsoft.VisualStudio.Shell;
+using System.ComponentModel;
 
+namespace DMS.GLSL.Options
+{
 	public partial class Options : DialogPage
 	{
 		private string _userKeyWords;
 
 		[Category("General")]
 		[DisplayName("Arguments for the external compiler executable")]
-		[Description("Command line arguments for the external compiler executable. Can contain environment variables, like %USERPROFILE%.")]
+		[Description("Command line arguments for the external compiler executable. Can contain environment variables, like %USERPROFILE% and also the Visual Studio variable $(SolutionDir).")]
 		public string ExternalCompilerArguments { get; set; } = string.Empty;
 
 		[Category("General")]
