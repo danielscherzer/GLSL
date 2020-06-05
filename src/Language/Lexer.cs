@@ -12,7 +12,7 @@ namespace DMS.GLSL.Language
 		static readonly Parser<string> ParserComment = new CommentParser().AnyComment;
 		static readonly Parser<string> ParserPreprocessor = Parse.Char('#').Once().Concat(Parse.AnyChar.Until(Parse.String(Environment.NewLine))).Text();
 		static readonly Parser<string> ParserIdentifier = Parse.Identifier(Parse.Letter.Or(Parse.Char('_')), Parse.LetterOrDigit.Or(Parse.Char('_')));
-		static readonly Parser<char> ParserOperator = Parse.Chars(".;,+-*/()[]{}<>=&$!\"%?:|");
+		static readonly Parser<char> ParserOperator = Parse.Chars(".;,+-*/()[]{}<>=&$!\"%?:|^");
 		private readonly Parser<IEnumerable<PositionAware<TokenClassificationType>>> tokenParser;
 
 		public Lexer(ITokenTypes<TokenClassificationType> tokenTypes)
