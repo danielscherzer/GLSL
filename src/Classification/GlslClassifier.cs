@@ -59,6 +59,7 @@ namespace DMS.GLSL.Classification
 			observableSnapshot
 				.Throttle(TimeSpan.FromSeconds(0.3f))
 				.Subscribe(snapshot => UpdateSpans());
+			Lexer = lexer;
 
 			//UpdateSpans(new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length));
 			//textBuffer.Changed += (s, a) =>
@@ -99,13 +100,22 @@ namespace DMS.GLSL.Classification
 
 		private IList<ClassificationSpan> spans = new List<ClassificationSpan>();
 
+		public Lexer<IClassificationType> Lexer { get; }
+
 		private static IList<ClassificationSpan> CalculateSpans(Lexer<IClassificationType> lexer, SnapshotSpan snapshotSpan)
 		{
 			var output = new List<ClassificationSpan>();
-			foreach (var (start, length, type) in lexer.Tokenize(snapshotSpan.GetText()))
+			var text = snapshotSpan.GetText();
+			foreach (var (start, length, type) in lexer.Tokenize(text))
 			{
 				var lineSpan = new SnapshotSpan(snapshotSpan.Snapshot, start, length);
 				output.Add(new ClassificationSpan(lineSpan, type));
+//				if (type == lexer.TokenTypes.Identifier)
+//				{
+//#if DEBUG
+//					OutMessage.OutputWindowPane(text.Substring(start, length));
+//#endif
+//				}
 			}
 			return output;
 		}

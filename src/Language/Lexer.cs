@@ -1,5 +1,4 @@
 ﻿using Sprache;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,11 +6,20 @@ namespace DMS.GLSL.Language
 {
 	class Lexer<TokenClassificationType>
 	{
-		static readonly Parser<string> NumberWithTrailingDigit = Parse.Number.Then(result => Parse.Char('.').Select(dot => result + dot));
+		static readonly Parser<string> NumberWithTrailingDigit = from number in Parse.Number
+																 from trailingDot in Parse.Char('.')
+																 select number + trailingDot;
 		static readonly Parser<string> ParserNumber = Parse.DecimalInvariant.Or(NumberWithTrailingDigit);
 		static readonly Parser<string> ParserComment = new CommentParser().AnyComment;
-		static readonly Parser<string> ParserPreprocessor = Parse.Char('#').Once().Concat(Parse.AnyChar.Until(Parse.String(Environment.NewLine))).Text();
-		static readonly Parser<string> ParserIdentifier = Parse.Identifier(Parse.Letter.Or(Parse.Char('_')), Parse.LetterOrDigit.Or(Parse.Char('_')));
+		static readonly Parser<string> ParserPreprocessor = from first in Parse.Char('#') 
+															from rest in Parse.CharExcept('\n').Many().Text() 
+															select rest;
+		static readonly Parser<char> ParserUnderscore = Parse.Char('_');
+		static readonly Parser<string> ParserIdentifier = Parse.Identifier(Parse.Letter.Or(ParserUnderscore), Parse.LetterOrDigit.Or(ParserUnderscore));
+		static readonly Parser<string> ParserFunction = from i in ParserIdentifier
+														from w in Parse.WhiteSpace.Optional()
+														from op in Parse.Char('(')
+														select i;
 		static readonly Parser<char> ParserOperator = Parse.Chars(".;,+-*/()[]{}<>=&$!\"%?:|^");
 		private readonly Parser<IEnumerable<PositionAware<TokenClassificationType>>> tokenParser;
 
