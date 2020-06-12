@@ -1,43 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DMS.GLSL
 {
 	public static partial class GlslSpecification
 	{
-		private static HashSet<string> s_userKeyWords = new HashSet<string>();
-		private static HashSet<string> s_userKeyWords2 = new HashSet<string>();
+		public enum DefinedWordType { Identifier, Keyword, Function, Variable, UserKeyword1, UserKeyword2 };
 
-		public static IEnumerable<string> Keywords => s_keywords;
-		public static IEnumerable<string> Functions => s_functions;
-		public static IEnumerable<string> Variables => s_variables;
+		private static readonly Dictionary<string, DefinedWordType> s_definedWords = Initialize();
 
-		public static IEnumerable<string> DefinedWords => s_variables;
-
-
-		public static bool IsKeyword(string word) => s_keywords.Contains(word);
-		public static bool IsVariable(string word) => s_variables.Contains(word);
-		public static bool IsFunction(string word) => s_functions.Contains(word);
-		public static bool IsUserKeyWord(string word) => s_userKeyWords.Contains(word);
-		public static bool IsUserKeyWord2(string word) => s_userKeyWords2.Contains(word);
-
-		public static bool IsIdentifierChar(char c)
+		public static IEnumerable<KeyValuePair<string, DefinedWordType>> DefinedWords => s_definedWords;
+		
+		public static DefinedWordType GetDefinedWordType(string word)
 		{
-			return char.IsLetterOrDigit(c) || '_' == c;
+			if (s_definedWords.TryGetValue(word, out var type)) return type;
+			return DefinedWordType.Identifier;
 		}
 
-		public static bool IsIdentifierStartChar(char c)
+		public static bool IsIdentifierChar(char c) => char.IsLetterOrDigit(c) || '_' == c;
+
+		public static bool IsIdentifierStartChar(char c) => char.IsLetter(c) || '_' == c;
+
+		public static void ResetType(DefinedWordType type, string userKeyWords)
 		{
-			return char.IsLetter(c) || '_' == c;
+			s_definedWords.RemoveType(type);
+			s_definedWords.AddRange(ParseTokens(userKeyWords), type);
 		}
 
-		public static void SetUserKeyWords(string userKeyWords) => s_userKeyWords = ParseTokens(userKeyWords);
-		public static void SetUserKeyWords2(string userKeyWords) => s_userKeyWords2 = ParseTokens(userKeyWords);
+		private static void AddRange(this Dictionary<string, DefinedWordType> result, IEnumerable<string> words, DefinedWordType type)
+		{
+			foreach (var word in words)
+			{
+				result[word] = type;
+			}
+		}
 
 		private static HashSet<string> ParseTokens(string tokens)
 		{
 			char[] blanks = { ' ' };
 			return new HashSet<string>(tokens.Split(blanks, StringSplitOptions.RemoveEmptyEntries));
+		}
+
+		private static void RemoveType(this Dictionary<string, DefinedWordType> result, DefinedWordType type)
+		{
+			var keysToDelete = result.Where(t => type == t.Value).Select(t => t.Key).ToArray();
+			foreach (var key in keysToDelete) result.Remove(key);
 		}
 	}
 }

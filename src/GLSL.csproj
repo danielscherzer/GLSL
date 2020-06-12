@@ -48,12 +48,32 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Classification\ClassificationTypes.t4" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="Classification\GlslClassificationFormatDefinitionsGenerated.cs">
+      <DependentUpon>GlslClassificationFormatDefinitionsGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Classification\GlslClassificationTypesGenerated.cs">
+      <DependentUpon>GlslClassificationTypesGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Language\IOnType.cs" />
     <Compile Include="Outlining\OutliningTagger.cs" />
     <Compile Include="Outlining\OutliningTaggerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Classification\GlslClassificationFormatDefinitionsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslClassificationFormatDefinitionsGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Classification\GlslClassificationTypesGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslClassificationTypesGenerated.cs</LastGenOutput>
+    </Content>
     <Content Include="Resources\ShaderPreview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -89,8 +109,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
     </Compile>
-    <Compile Include="Classification\GlslClassificationFormatDefinition.cs" />
-    <Compile Include="Classification\GlslClassificationTypes.cs" />
     <Compile Include="Classification\GlslClassifier.cs" />
     <None Include="Classification\ShaderTypesAndDefaultExtension.t4" />
     <Content Include="Classification\ShaderContentTypesGenerated.tt">

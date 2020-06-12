@@ -18,8 +18,11 @@ namespace GLSLTests.Language
 
 		public string PreprocessorKeyword => nameof(PreprocessorKeyword);
 
-		public string UserKeyWord => nameof(UserKeyWord);
+		public string UserKeyWord1 => nameof(UserKeyWord1);
+
+		public string UserKeyWord2 => nameof(UserKeyWord2);
 
 		public string Variable => nameof(Variable);
+
 	}
 }

@@ -24,15 +24,27 @@ namespace DMS.GLSL
 
 		public void OnImportsSatisfied()
 		{
+			identifier = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemFriend);
+
 			var keyword = glyphService.GetGlyph(StandardGlyphGroup.GlyphKeyword, StandardGlyphItem.GlyphItemPublic);
 			var function = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupMethod, StandardGlyphItem.GlyphItemPublic);
 			var variable = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemPublic);
-			identifier = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemFriend);
-
-			foreach (var var in GlslSpecification.Keywords) staticCompletions.Add(GlslCompletionSource.NewCompletion(var, keyword));
-			foreach (var var in GlslSpecification.Functions) staticCompletions.Add(GlslCompletionSource.NewCompletion(var, function));
-			foreach (var var in GlslSpecification.Variables) staticCompletions.Add(GlslCompletionSource.NewCompletion(var, variable));
-			//TODO: user keywords could be added if already set
+			ImageSource Convert(GlslSpecification.DefinedWordType type)
+			{
+				switch(type)
+				{
+					case GlslSpecification.DefinedWordType.UserKeyword1:
+					case GlslSpecification.DefinedWordType.UserKeyword2:
+					case GlslSpecification.DefinedWordType.Keyword: return keyword;
+					case GlslSpecification.DefinedWordType.Function: return function;
+					case GlslSpecification.DefinedWordType.Variable: return variable;
+					default: return identifier;
+				}
+			}
+			foreach (var var in GlslSpecification.DefinedWords)
+			{
+				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, Convert(var.Value)));
+			}
 			staticCompletions.Sort((a, b) => a.DisplayText.CompareTo(b.DisplayText));
 		}
 

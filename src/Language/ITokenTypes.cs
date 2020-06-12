@@ -9,7 +9,8 @@
 		TYPE Number { get; }
 		TYPE Operator { get; }
 		TYPE PreprocessorKeyword { get; }
-		TYPE UserKeyWord { get; }
+		TYPE UserKeyWord1 { get; }
+		TYPE UserKeyWord2 { get; }
 		TYPE Variable { get; }
 	}
 }

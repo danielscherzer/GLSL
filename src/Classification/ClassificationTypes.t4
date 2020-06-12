@@ -1,0 +1,9 @@
+﻿<#var classificationTypes = new Dictionary<string, string>()
+		{
+			["Function"] = "Orange",
+			["Keyword"] = "CornflowerBlue",
+			["Variable"] = "LawnGreen",
+			["UserKeyWord1"] = "DarkOrange",
+			["UserKeyWord2"] = "DarkSalmon",
+		};
+#>

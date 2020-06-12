@@ -5,7 +5,8 @@ namespace DMS.GLSL.Options
 {
 	public partial class Options : DialogPage
 	{
-		private string _userKeyWords;
+		private string _userKeyWords1;
+		private string _userKeyWords2;
 
 		[Category("General")]
 		[DisplayName("Arguments for the external compiler executable")]
@@ -23,15 +24,28 @@ namespace DMS.GLSL.Options
 		public bool LiveCompiling { get; set; } = true;
 
 		[Category("General")]
-		[DisplayName("User key words")]
+		[DisplayName("User key words 1")]
 		[Description("Space separated list of user key words (used for coloring)")]
-		public string UserKeyWords
+		public string UserKeyWords1
 		{
-			get => _userKeyWords;
+			get => _userKeyWords1;
 			set
 			{
-				_userKeyWords = value;
-				GlslSpecification.SetUserKeyWords(value);
+				_userKeyWords1 = value;
+				GlslSpecification.ResetType(GlslSpecification.DefinedWordType.UserKeyword1, value);
+			}
+		}
+
+		[Category("General")]
+		[DisplayName("User key words 2")]
+		[Description("Space separated list of user key words (used for coloring)")]
+		public string UserKeyWords2
+		{
+			get => _userKeyWords2;
+			set
+			{
+				_userKeyWords2 = value;
+				GlslSpecification.ResetType(GlslSpecification.DefinedWordType.UserKeyword2, value);
 			}
 		}
 

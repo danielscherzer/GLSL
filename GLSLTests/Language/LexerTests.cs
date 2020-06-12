@@ -35,7 +35,7 @@ namespace GLSLTests.Language
 
 		private static GlslLexer<string> CreateLexer()
 		{
-			GlslSpecification.SetUserKeyWords("boss sepp heinz");
+			GlslSpecification.ResetType(GlslSpecification.DefinedWordType.UserKeyword1, "boss sepp heinz");
 			return new GlslLexer<string>(tokenTypes);
 		}
 
@@ -52,7 +52,7 @@ namespace GLSLTests.Language
 			yield return new object[] { "1.", tokenTypes.Number };
 			yield return new object[] { "*", tokenTypes.Operator };
 			yield return new object[] { "# pre processor stuff", tokenTypes.PreprocessorKeyword };
-			yield return new object[] { "boss", tokenTypes.UserKeyWord };
+			yield return new object[] { "boss", tokenTypes.UserKeyWord1 };
 			yield return new object[] { "gl_FragCoord", tokenTypes.Variable };
 		}
 

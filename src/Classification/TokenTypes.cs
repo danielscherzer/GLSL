@@ -16,7 +16,8 @@ namespace DMS.GLSL.Classification
 
 			Function = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
 			Keyword = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
-			UserKeyWord = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord);
+			UserKeyWord1 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord1);
+			UserKeyWord2 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord2);
 			Variable = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Variable);
 		}
 
@@ -27,7 +28,9 @@ namespace DMS.GLSL.Classification
 		public IClassificationType Number { get; }
 		public IClassificationType Operator { get; }
 		public IClassificationType PreprocessorKeyword { get; }
-		public IClassificationType UserKeyWord { get; }
+		public IClassificationType UserKeyWord1 { get; }
+		public IClassificationType UserKeyWord2 { get; }
 		public IClassificationType Variable { get; }
+
 	}
 }

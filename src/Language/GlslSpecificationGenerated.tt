@@ -13,8 +13,16 @@ namespace DMS.GLSL
 
 	public static partial class GlslSpecification
 	{
-		private static readonly HashSet<string> s_keywords = new HashSet<string>("<#=read("glslKeywords.txt")#>".Split());
-		private static readonly HashSet<string> s_functions = new HashSet<string>("<#=read("glslFunctions.txt")#>".Split());
-		private static readonly HashSet<string> s_variables = new HashSet<string>("<#=read("glslVariables.txt")#>".Split());
+		private static Dictionary<string, DefinedWordType> Initialize()
+		{
+			var keywords = "<#=read("glslKeywords.txt")#>".Split();
+			var functions = "<#=read("glslFunctions.txt")#>".Split();
+			var variables = "<#=read("glslVariables.txt")#>".Split();
+			var result = new Dictionary<string, DefinedWordType>();
+			result.AddRange(keywords, DefinedWordType.Keyword);
+			result.AddRange(functions, DefinedWordType.Function);
+			result.AddRange(variables, DefinedWordType.Variable);
+			return result;
+		}
 	}
 }
