@@ -21,7 +21,7 @@ namespace DMS.GLSL.Classification
 		public void OnImportsSatisfied()
 		{
 			var tokenTypes = new TokenTypes(classificationTypeRegistry);
-			lexer = new Lexer<IClassificationType>(tokenTypes);
+			lexer = new GlslLexer<IClassificationType>(tokenTypes);
 		}
 
 		public IClassifier GetClassifier(ITextBuffer textBuffer)
@@ -31,12 +31,12 @@ namespace DMS.GLSL.Classification
 
 		[Import]
 		internal IClassificationTypeRegistryService classificationTypeRegistry = null;
-		private Lexer<IClassificationType> lexer;
+		private GlslLexer<IClassificationType> lexer;
 	}
 
 	internal sealed class GlslClassifier : IClassifier
 	{
-		internal GlslClassifier(ITextBuffer textBuffer, Lexer<IClassificationType> lexer)
+		internal GlslClassifier(ITextBuffer textBuffer, GlslLexer<IClassificationType> lexer)
 		{
 			var observableSnapshot = Observable.Return(textBuffer.CurrentSnapshot).Concat(
 				Observable.FromEventPattern<TextContentChangedEventArgs>(h => textBuffer.Changed += h, h => textBuffer.Changed -= h)
@@ -100,9 +100,9 @@ namespace DMS.GLSL.Classification
 
 		private IList<ClassificationSpan> spans = new List<ClassificationSpan>();
 
-		public Lexer<IClassificationType> Lexer { get; }
+		public GlslLexer<IClassificationType> Lexer { get; }
 
-		private static IList<ClassificationSpan> CalculateSpans(Lexer<IClassificationType> lexer, SnapshotSpan snapshotSpan)
+		private static IList<ClassificationSpan> CalculateSpans(GlslLexer<IClassificationType> lexer, SnapshotSpan snapshotSpan)
 		{
 			var output = new List<ClassificationSpan>();
 			var text = snapshotSpan.GetText();

@@ -68,7 +68,7 @@
     <None Include="Language\glslFunctions.txt" />
     <None Include="Language\glslVariables.txt" />
     <Compile Include="Language\ITokenTypes.cs" />
-    <Compile Include="Language\Lexer.cs" />
+    <Compile Include="Language\GlslLexer.cs" />
     <Compile Include="Language\PositionAware.cs" />
     <Compile Include="Language\GlslSpecification.cs" />
     <Compile Include="Language\GlslSpecificationGenerated.cs">

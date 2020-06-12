@@ -36,19 +36,19 @@ namespace DMS.GLSL
 			staticCompletions.Sort((a, b) => a.DisplayText.CompareTo(b.DisplayText));
 		}
 
-		[Import] private IClassifierAggregatorService classifierAggregatorService = null;
-		[Import] private IGlyphService glyphService = null;
+		[Import] private readonly IClassifierAggregatorService classifierAggregatorService = null;
+		[Import] private readonly IGlyphService glyphService = null;
 
-		private List<Completion> staticCompletions = new List<Completion>();
+		private readonly List<Completion> staticCompletions = new List<Completion>();
 		private ImageSource identifier;
 	}
 
 	class GlslCompletionSource : ICompletionSource
 	{
-		private ITextBuffer currentBuffer;
+		private readonly ITextBuffer currentBuffer;
 		private bool _disposed = false;
 		private readonly IEnumerable<Completion> staticCompletions = new List<Completion>();
-		private Func<SnapshotSpan, IEnumerable<string>> queryIdentifiers;
+		private readonly Func<SnapshotSpan, IEnumerable<string>> queryIdentifiers;
 		private readonly ImageSource imgIdentifier;
 
 		public GlslCompletionSource(ITextBuffer buffer, IEnumerable<Completion> staticCompletions, 

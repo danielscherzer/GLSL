@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DMS.GLSL.Language
 {
-	class Lexer<TokenClassificationType>
+	public class GlslLexer<TokenClassificationType>
 	{
 		static readonly Parser<string> NumberWithTrailingDigit = from number in Parse.Number
 																 from trailingDot in Parse.Char('.')
@@ -14,20 +14,20 @@ namespace DMS.GLSL.Language
 		static readonly Parser<string> ParserPreprocessor = from first in Parse.Char('#') 
 															from rest in Parse.CharExcept('\n').Many().Text() 
 															select rest;
-		static readonly Parser<char> ParserUnderscore = Parse.Char('_');
-		static readonly Parser<string> ParserIdentifier = Parse.Identifier(Parse.Letter.Or(ParserUnderscore), Parse.LetterOrDigit.Or(ParserUnderscore));
-		static readonly Parser<string> ParserFunction = from i in ParserIdentifier
-														from w in Parse.WhiteSpace.Optional()
-														from op in Parse.Char('(')
-														select i;
+		static readonly Parser<string> ParserIdentifier = Parse.Identifier(Parse.Char(GlslSpecification.IsIdentifierStartChar, "Identifier start"), 
+																			Parse.Char(GlslSpecification.IsIdentifierChar, "Identifier character"));
+		//static readonly Parser<string> ParserFunction = from i in ParserIdentifier
+		//												from w in Parse.WhiteSpace.Optional()
+		//												from op in Parse.Char('(')
+		//												select i;
 		static readonly Parser<char> ParserOperator = Parse.Chars(".;,+-*/()[]{}<>=&$!\"%?:|^");
 		private readonly Parser<IEnumerable<PositionAware<TokenClassificationType>>> tokenParser;
 
-		public Lexer(ITokenTypes<TokenClassificationType> tokenTypes)
+		public GlslLexer(ITokenTypes<TokenClassificationType> tokenTypes)
 		{
 			var comment = ParserComment.Select(value => tokenTypes.Comment);
 			var preprocessor = ParserPreprocessor.Select(value => tokenTypes.PreprocessorKeyword);
-
+			
 			TokenClassificationType CheckGlslSpecifics(string word)
 			{
 				if (GlslSpecification.IsKeyword(word)) return tokenTypes.Keyword;

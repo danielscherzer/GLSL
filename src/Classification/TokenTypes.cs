@@ -9,12 +9,13 @@ namespace DMS.GLSL.Classification
 		public TokenTypes(IClassificationTypeRegistryService classificationTypeRegistry)
 		{
 			Comment = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Comment);
-			Function = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
 			Identifier = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Identifier);
-			Keyword = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
 			Number = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Number);
 			Operator = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Operator);
 			PreprocessorKeyword = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.PreprocessorKeyword);
+
+			Function = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
+			Keyword = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
 			UserKeyWord = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord);
 			Variable = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Variable);
 		}

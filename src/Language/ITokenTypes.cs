@@ -1,6 +1,6 @@
 ﻿namespace DMS.GLSL.Language
 {
-	interface ITokenTypes<TYPE>
+	public interface ITokenTypes<TYPE>
 	{
 		TYPE Comment { get; }
 		TYPE Function { get; }
