@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Language.Intellisense;
+﻿using DMS.GLSL.Language;
+using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -9,7 +10,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Media;
 
-namespace DMS.GLSL
+namespace DMS.GLSL.CodeCompletion
 {
 	[Export(typeof(ICompletionSourceProvider))]
 	[ContentType("glslShader")]

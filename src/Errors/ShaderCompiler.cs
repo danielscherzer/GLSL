@@ -1,5 +1,5 @@
-﻿using DMS.GLSL.Classification;
-using DMS.GLSL.Options;
+﻿using DMS.GLSL.Options;
+using DMS.GLSL.VSHelper;
 using GLSLhelper;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
@@ -48,14 +48,14 @@ namespace DMS.GLSL.Errors
 
 		private static string AutoDetectShaderContentType(string shaderCode)
 		{
-			if (shaderCode.Contains("EmitVertex")) return ShaderContentTypesGenerated.Geometry;
-			if (shaderCode.Contains("local_size_")) return ShaderContentTypesGenerated.Compute;
-			if (shaderCode.Contains(") out;")) return ShaderContentTypesGenerated.TessellationControl;
-			if (shaderCode.Contains("gl_TessLevel")) return ShaderContentTypesGenerated.TessellationControl;
-			if (shaderCode.Contains("gl_TessCoord")) return ShaderContentTypesGenerated.TessellationEvaluation;
-			if (shaderCode.Contains("gl_Position")) return ShaderContentTypesGenerated.Vertex;
-			if (shaderCode.Contains(") in;")) return ShaderContentTypesGenerated.TessellationEvaluation;
-			return ShaderContentTypesGenerated.Fragment;
+			if (shaderCode.Contains("EmitVertex")) return ShaderContentTypes.Geometry;
+			if (shaderCode.Contains("local_size_")) return ShaderContentTypes.Compute;
+			if (shaderCode.Contains(") out;")) return ShaderContentTypes.TessellationControl;
+			if (shaderCode.Contains("gl_TessLevel")) return ShaderContentTypes.TessellationControl;
+			if (shaderCode.Contains("gl_TessCoord")) return ShaderContentTypes.TessellationEvaluation;
+			if (shaderCode.Contains("gl_Position")) return ShaderContentTypes.Vertex;
+			if (shaderCode.Contains(") in;")) return ShaderContentTypes.TessellationEvaluation;
+			return ShaderContentTypes.Fragment;
 		}
 
 		private void StartGlThreadOnce()
@@ -133,7 +133,7 @@ namespace DMS.GLSL.Errors
 
 		private static string Compile(string shaderCode, string shaderContentType)
 		{
-			if(ShaderContentTypesGenerated.AutoDetect == shaderContentType)
+			if(ShaderContentTypes.AutoDetect == shaderContentType)
 			{
 				shaderContentType = AutoDetectShaderContentType(shaderCode);
 				OutMessage.PaneAndBar($"{DateTime.Now:HH.mm.ss.fff} Auto detecting shader type to '{shaderContentType}'");
@@ -158,7 +158,7 @@ namespace DMS.GLSL.Errors
 			var options = OptionsPagePackage.Options;
 			//create temp shader file for external compiler
 			var tempPath = Path.GetTempPath();
-			var shaderFileName = Path.Combine(tempPath, $"shader{ShaderContentTypesGenerated.DefaultFileExtension(shaderContentType)}");
+			var shaderFileName = Path.Combine(tempPath, $"shader{ShaderContentTypes.DefaultFileExtension(shaderContentType)}");
 			try
 			{
 				File.WriteAllText(shaderFileName, shaderCode);
@@ -222,12 +222,12 @@ namespace DMS.GLSL.Errors
 
 		private static readonly IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
 		{
-			[ShaderContentTypesGenerated.Fragment] = ShaderType.FragmentShader,
-			[ShaderContentTypesGenerated.Vertex] = ShaderType.VertexShader,
-			[ShaderContentTypesGenerated.Geometry] = ShaderType.GeometryShader,
-			[ShaderContentTypesGenerated.TessellationControl] = ShaderType.TessControlShader,
-			[ShaderContentTypesGenerated.TessellationEvaluation] = ShaderType.TessEvaluationShader,
-			[ShaderContentTypesGenerated.Compute] = ShaderType.ComputeShader,
+			[ShaderContentTypes.Fragment] = ShaderType.FragmentShader,
+			[ShaderContentTypes.Vertex] = ShaderType.VertexShader,
+			[ShaderContentTypes.Geometry] = ShaderType.GeometryShader,
+			[ShaderContentTypes.TessellationControl] = ShaderType.TessControlShader,
+			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
+			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
 		};
 	}
 }

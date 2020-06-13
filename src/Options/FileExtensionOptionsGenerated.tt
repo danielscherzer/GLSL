@@ -3,11 +3,11 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="..\Classification\ShaderTypesAndDefaultExtension.t4" #>
+<#@ include file="..\Errors\ShaderTypesAndDefaultExtension.t4" #>
 <#@ output extension=".cs" #>
 namespace DMS.GLSL.Options
 {
-	using DMS.GLSL.Classification;
+	using DMS.GLSL.Errors;
 	using Microsoft.VisualStudio.Utilities;
 	using System;
 	using System.ComponentModel.Composition;

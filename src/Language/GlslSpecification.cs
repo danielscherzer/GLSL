@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DMS.GLSL
+namespace DMS.GLSL.Language
 {
 	public static partial class GlslSpecification
 	{

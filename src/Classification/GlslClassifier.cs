@@ -1,5 +1,6 @@
 ﻿using DMS.GLSL.Errors;
 using DMS.GLSL.Language;
+using DMS.GLSL.VSHelper;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;

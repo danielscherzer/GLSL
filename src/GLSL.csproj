@@ -104,20 +104,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classification\TokenTypes.cs" />
-    <Compile Include="Classification\ShaderContentTypesGenerated.cs">
+    <Compile Include="Errors\ShaderContentTypesGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="Classification\GlslClassifier.cs" />
-    <None Include="Classification\ShaderTypesAndDefaultExtension.t4" />
-    <Content Include="Classification\ShaderContentTypesGenerated.tt">
+    <None Include="Errors\ShaderTypesAndDefaultExtension.t4" />
+    <Content Include="Errors\ShaderContentTypesGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShaderContentTypesGenerated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Errors\OutMessage.cs" />
+    <Compile Include="VSHelper\OutMessage.cs" />
     <Compile Include="Errors\ErrorList.cs" />
     <Compile Include="Errors\ShaderCompiler.cs" />
     <Compile Include="Errors\SquiggleTagger.cs" />
@@ -171,8 +171,8 @@
     <Resource Include="Resources\Add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Completion\GlslCompletionController.cs" />
-    <Compile Include="Completion\GlslCompletionSource.cs" />
+    <Compile Include="CodeCompletion\GlslCompletionController.cs" />
+    <Compile Include="CodeCompletion\GlslCompletionSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />

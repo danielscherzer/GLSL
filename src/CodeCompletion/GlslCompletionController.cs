@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio;
+﻿using DMS.GLSL.Language;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.OLE.Interop;
@@ -12,7 +13,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DMS.GLSL
+namespace DMS.GLSL.CodeCompletion
 {
 	[Export(typeof(IVsTextViewCreationListener))]
 	[ContentType("glslShader")]
@@ -20,10 +21,10 @@ namespace DMS.GLSL
 	internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
 	{
 		[Import]
-		IVsEditorAdaptersFactoryService AdaptersFactory = null;
+		readonly IVsEditorAdaptersFactoryService AdaptersFactory = null;
 
 		[Import]
-		ICompletionBroker CompletionBroker = null;
+		readonly ICompletionBroker CompletionBroker = null;
 
 		public void VsTextViewCreated(IVsTextView textViewAdapter)
 		{
@@ -124,7 +125,6 @@ namespace DMS.GLSL
 					{
 						case VSConstants.VSStd2KCmdID.TYPECHAR:
 							var c = GetTypeChar(pvaIn);
-							var un = '_' == c;
 							if (!GlslSpecification.IsIdentifierChar(c))
 								Cancel();
 							else if (_currentSession != null)

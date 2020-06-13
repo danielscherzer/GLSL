@@ -1,6 +1,7 @@
 ﻿namespace DMS.GLSL.Options
 {
 	using DMS.GLSL.Errors;
+	using DMS.GLSL.VSHelper;
 	using Microsoft.VisualStudio.Text.Editor;
 	using Microsoft.VisualStudio.Utilities;
 	using System;

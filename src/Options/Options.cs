@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using DMS.GLSL.Language;
+using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
 
 namespace DMS.GLSL.Options

@@ -39,7 +39,7 @@ namespace DMS.GLSL.Errors
 			provider.Tasks.Add(task);
 		}
 
-		private static ErrorList instance = new ErrorList();
-		private ErrorListProvider provider;
+		private static readonly ErrorList instance = new ErrorList();
+		private readonly ErrorListProvider provider;
 	}
 }

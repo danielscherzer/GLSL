@@ -3,8 +3,8 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-<#@ include file="..\Classification\ShaderTypesAndDefaultExtension.t4" #>
-namespace DMS.GLSL.Classification
+<#@ include file="ShaderTypesAndDefaultExtension.t4" #>
+namespace DMS.GLSL.Errors
 {
 	using Microsoft.VisualStudio.Utilities;
 	using System.ComponentModel.Composition;

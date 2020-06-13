@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 
-namespace DMS.GLSL.Errors
+namespace DMS.GLSL.VSHelper
 {
 	public static class OutMessage
 	{
