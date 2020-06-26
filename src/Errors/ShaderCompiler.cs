@@ -147,7 +147,7 @@ namespace DMS.GLSL.Errors
 			{
 				if (!string.IsNullOrWhiteSpace(externalCompiler))
 				{
-					OutMessage.PaneAndBar($"External compiler '{externalCompiler}' not found using GPU");
+					OutMessage.PaneAndBar($"External compiler '{externalCompiler}' not found. GPU is used for compilation.");
 				}
 				return CompileOnGPU(shaderCode, shaderContentType);
 			}
@@ -172,7 +172,7 @@ namespace DMS.GLSL.Errors
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 					process.StartInfo.CreateNoWindow = true; //do not display a windows
-					OutMessage.PaneAndBar($"Using external compiler '{Path.GetFileNameWithoutExtension(options.ExternalCompilerExeFilePath)}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'");
+					OutMessage.PaneAndBar($"Using external compiler '{options.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'");
 					process.Start();
 					process.WaitForExit(10000);
 					var output = process.StandardOutput.ReadToEnd(); //The output result
