@@ -139,17 +139,13 @@ namespace DMS.GLSL.Errors
 				OutMessage.PaneAndBar($"{DateTime.Now:HH.mm.ss.fff} Auto detecting shader type to '{shaderContentType}'");
 			}
 			var externalCompiler = OptionsPagePackage.Options.ExternalCompilerExeFilePath;
-			if (File.Exists(externalCompiler))
+			if (string.IsNullOrWhiteSpace(externalCompiler))
 			{
-				return CompileExternal(shaderCode, shaderContentType);
+				return CompileOnGPU(shaderCode, shaderContentType);
 			}
 			else
 			{
-				if (!string.IsNullOrWhiteSpace(externalCompiler))
-				{
-					OutMessage.PaneAndBar($"External compiler '{externalCompiler}' not found. GPU is used for compilation.");
-				}
-				return CompileOnGPU(shaderCode, shaderContentType);
+				return CompileExternal(shaderCode, shaderContentType);
 			}
 		}
 
