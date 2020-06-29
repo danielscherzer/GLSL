@@ -15,45 +15,45 @@ namespace DMS.GLSL.CodeCompletion
 	[Export(typeof(ICompletionSourceProvider))]
 	[ContentType("glslShader")]
 	[Name("glslCompletion")]
-	class GlslCompletionSourceProvider : ICompletionSourceProvider, IPartImportsSatisfiedNotification
+	class GlslCompletionSourceProvider : ICompletionSourceProvider
 	{
-		public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
+		[ImportingConstructor]
+		public GlslCompletionSourceProvider(IClassifierAggregatorService classifierAggregatorService, IGlyphService glyphService)
 		{
-			var classifier = classifierAggregatorService.GetClassifier(textBuffer);
-			return new GlslCompletionSource(textBuffer, staticCompletions, identifier, classifier);
-		}
-
-		public void OnImportsSatisfied()
-		{
+			this.classifierAggregatorService = classifierAggregatorService;
 			identifier = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemFriend);
 
 			var keyword = glyphService.GetGlyph(StandardGlyphGroup.GlyphKeyword, StandardGlyphItem.GlyphItemPublic);
 			var function = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupMethod, StandardGlyphItem.GlyphItemPublic);
 			var variable = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemPublic);
-			ImageSource Convert(GlslSpecification.DefinedWordType type)
+			ImageSource Convert(GlslSpecification.ReservedWordType type)
 			{
-				switch(type)
+				switch (type)
 				{
-					case GlslSpecification.DefinedWordType.UserKeyword1:
-					case GlslSpecification.DefinedWordType.UserKeyword2:
-					case GlslSpecification.DefinedWordType.Keyword: return keyword;
-					case GlslSpecification.DefinedWordType.Function: return function;
-					case GlslSpecification.DefinedWordType.Variable: return variable;
+					case GlslSpecification.ReservedWordType.UserKeyword1:
+					case GlslSpecification.ReservedWordType.UserKeyword2:
+					case GlslSpecification.ReservedWordType.Keyword: return keyword;
+					case GlslSpecification.ReservedWordType.Function: return function;
+					case GlslSpecification.ReservedWordType.Variable: return variable;
 					default: return identifier;
 				}
 			}
-			foreach (var var in GlslSpecification.DefinedWords)
+			foreach (var var in GlslSpecification.ReservedWords)
 			{
 				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, Convert(var.Value)));
 			}
 			staticCompletions.Sort((a, b) => a.DisplayText.CompareTo(b.DisplayText));
 		}
 
-		[Import] private readonly IClassifierAggregatorService classifierAggregatorService = null;
-		[Import] private readonly IGlyphService glyphService = null;
+		public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
+		{
+			var classifier = classifierAggregatorService.GetClassifier(textBuffer);
+			return new GlslCompletionSource(textBuffer, staticCompletions, identifier, classifier);
+		}
 
+		private readonly IClassifierAggregatorService classifierAggregatorService;
+		private readonly ImageSource identifier;
 		private readonly List<Completion> staticCompletions = new List<Completion>();
-		private ImageSource identifier;
 	}
 
 	class GlslCompletionSource : ICompletionSource

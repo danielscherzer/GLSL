@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Language.StandardClassification;
+﻿using DMS.GLSL.Contracts;
+using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -10,17 +11,17 @@ namespace DMS.GLSL.Outlining
 {
 	internal sealed class OutliningTagger : ITagger<IOutliningRegionTag>
 	{
-		public OutliningTagger(ITextBuffer textBuffer, IClassifier classifier)
+		public OutliningTagger(ITextBuffer textBuffer, IClassifier classifier, ILogger logger)
 		{
 			var observableSnapshot = Observable.Return(textBuffer.CurrentSnapshot).Concat(
-				Observable.FromEventPattern<TextContentChangedEventArgs>(h => textBuffer.Changed += h, h => textBuffer.Changed -= h)
-				.Select(e => e.EventArgs.After));
+				Observable.FromEventPattern<ClassificationChangedEventArgs>(h => classifier.ClassificationChanged += h, h => classifier.ClassificationChanged -= h)
+				.Select(e => e.EventArgs.ChangeSpan.Snapshot));
 
 			void UpdateRegionSpans()
 			{
 				var snapshot = textBuffer.CurrentSnapshot;
 				var snapshotSpan = new SnapshotSpan(snapshot, 0, snapshot.Length);
-				regionSpans = CalculateRegionSpans(classifier, snapshotSpan);
+				regionSpans = CalculateRegionSpans(classifier, snapshotSpan, logger);
 				TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(snapshotSpan));
 			}
 
@@ -52,9 +53,12 @@ namespace DMS.GLSL.Outlining
 		private const string ellipsis = "...";    //the characters that are displayed when the region is collapsed
 		private IList<SnapshotSpan> regionSpans = new List<SnapshotSpan>();
 
-		private static IList<SnapshotSpan> CalculateRegionSpans(IClassifier classifier, SnapshotSpan snapshotSpan)
+		private static IList<SnapshotSpan> CalculateRegionSpans(IClassifier classifier, SnapshotSpan snapshotSpan, ILogger logger)
 		{
 			var classificationSpans = classifier.GetClassificationSpans(snapshotSpan);
+#if DEBUG
+			logger.Log($"CalculateRegionSpans on {classificationSpans.Count} spans");
+#endif
 
 			var points = new Stack<SnapshotPoint>();
 			var output = new List<SnapshotSpan>();

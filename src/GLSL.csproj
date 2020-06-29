@@ -62,7 +62,14 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Language\IOnType.cs" />
+    <Compile Include="Classification\SyntaxColorParser.cs" />
+    <Compile Include="Contracts\ILogger.cs" />
+    <Compile Include="Language\GlslTokenizer.cs" />
+    <Compile Include="Language\IToken.cs" />
+    <Compile Include="Language\Token.cs" />
+    <Compile Include="Language\TokenTypes.cs" />
+    <Compile Include="Language\UserKeyWords.cs" />
+    <Compile Include="Contracts\IOptions.cs" />
     <Compile Include="Outlining\OutliningTagger.cs" />
     <Compile Include="Outlining\OutliningTaggerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -208,6 +215,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,21 +7,22 @@
 <#@ output extension=".cs" #>
 namespace DMS.GLSL.Options
 {
+	using DMS.GLSL.Contracts;
 	using DMS.GLSL.Errors;
 	using Microsoft.VisualStudio.Utilities;
-	using System;
 	using System.ComponentModel.Composition;
 
-	public sealed partial class FileExtensionsOption
+	internal sealed partial class FileExtensionsOption
 	{
 		[ImportingConstructor]
-		public FileExtensionsOption([Import] IContentTypeRegistryService contentTypeRegistry, [Import] IFileExtensionRegistryService fileExtensionRegistry)
+		public FileExtensionsOption([Import] IContentTypeRegistryService contentTypeRegistry, [Import] IFileExtensionRegistryService fileExtensionRegistry, [Import] ILogger logger)
 		{
 			var options = OptionsPagePackage.Options;
+			void Register(string sExtensions, string contentType) => RegisterFileExtensions(fileExtensionRegistry, sExtensions, contentTypeRegistry.GetContentType(contentType), logger);
 <#foreach(var shaderType in mappingShaderTypeToExtension)
 {
 	var name = ToCamelCase(shaderType.Key);#>
-			RegisterFileExtensions(fileExtensionRegistry, options.<#=name#>ShaderFileExtensions, contentTypeRegistry.GetContentType(ShaderContentTypes.<#=name#>));
+			Register(options.<#=name#>ShaderFileExtensions, ShaderContentTypes.<#=name#>);
 <#}#>
 		}
 	}

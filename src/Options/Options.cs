@@ -1,10 +1,14 @@
-﻿using DMS.GLSL.Language;
+﻿using DMS.GLSL.Contracts;
+using DMS.GLSL.Language;
 using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 
 namespace DMS.GLSL.Options
 {
-	public partial class Options : DialogPage
+	[Export(typeof(IOptions))]
+	[PartCreationPolicy(CreationPolicy.Shared)] //default singleton behavior
+	public partial class Options : DialogPage, IOptions
 	{
 		private string _userKeyWords1;
 		private string _userKeyWords2;
@@ -33,7 +37,7 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords1 = value;
-				GlslSpecification.ResetType(GlslSpecification.DefinedWordType.UserKeyword1, value);
+				GlslSpecification.ResetType(GlslSpecification.ReservedWordType.UserKeyword1, value);
 			}
 		}
 
@@ -46,7 +50,7 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords2 = value;
-				GlslSpecification.ResetType(GlslSpecification.DefinedWordType.UserKeyword2, value);
+				GlslSpecification.ResetType(GlslSpecification.ReservedWordType.UserKeyword2, value);
 			}
 		}
 

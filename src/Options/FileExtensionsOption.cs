@@ -1,18 +1,17 @@
-﻿namespace DMS.GLSL.Options
-{
-	using DMS.GLSL.Errors;
-	using DMS.GLSL.VSHelper;
-	using Microsoft.VisualStudio.Text.Editor;
-	using Microsoft.VisualStudio.Utilities;
-	using System;
-	using System.ComponentModel.Composition;
+﻿using DMS.GLSL.Contracts;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Utilities;
+using System;
+using System.ComponentModel.Composition;
 
+namespace DMS.GLSL.Options
+{
 	[Export(typeof(EditorOptionDefinition))]
-	public sealed partial class FileExtensionsOption : EditorOptionDefinition<string>
+	internal sealed partial class FileExtensionsOption : EditorOptionDefinition<string>
 	{
 		public readonly static EditorOptionKey<string> OptionKey = new EditorOptionKey<string>("GLSL highlighting file extensions");
 
-		private static void RegisterFileExtensions(IFileExtensionRegistryService fileExtensionRegistry, string sExtensions, IContentType contentType)
+		private static void RegisterFileExtensions(IFileExtensionRegistryService fileExtensionRegistry, string sExtensions, IContentType contentType, ILogger logger)
 		{
 			var extensions = sExtensions.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 			foreach (var ext in extensions)
@@ -27,7 +26,7 @@
 					var message = $"{titel}:Extension {ext} is ignored because it is already registered " +
 						$"with a different Visual Studio component. " +
 						$"Please remove it from the {titel} options page! Following is the detailed exception message {ioe}";
-					OutMessage.PaneAndBar(message);
+					logger.Log(message, true);
 				}
 			}
 		}

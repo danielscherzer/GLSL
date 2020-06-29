@@ -30,13 +30,13 @@ namespace DMS.GLSL.Language
 
 			TokenClassificationType Convert(string word)
 			{
-				switch(GlslSpecification.GetDefinedWordType(word))
+				switch(GlslSpecification.GetReservedWordType(word))
 				{
-					case GlslSpecification.DefinedWordType.Keyword: return tokenTypes.Keyword;
-					case GlslSpecification.DefinedWordType.Function: return tokenTypes.Function;
-					case GlslSpecification.DefinedWordType.Variable: return tokenTypes.Variable;
-					case GlslSpecification.DefinedWordType.UserKeyword1: return tokenTypes.UserKeyWord1;
-					case GlslSpecification.DefinedWordType.UserKeyword2: return tokenTypes.UserKeyWord2;
+					case GlslSpecification.ReservedWordType.Keyword: return tokenTypes.Keyword;
+					case GlslSpecification.ReservedWordType.Function: return tokenTypes.Function;
+					case GlslSpecification.ReservedWordType.Variable: return tokenTypes.Variable;
+					case GlslSpecification.ReservedWordType.UserKeyword1: return tokenTypes.UserKeyWord1;
+					case GlslSpecification.ReservedWordType.UserKeyword2: return tokenTypes.UserKeyWord2;
 					default: return tokenTypes.Identifier;
 				}
 			}

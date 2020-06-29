@@ -35,7 +35,7 @@ namespace GLSLTests.Language
 
 		private static GlslLexer<string> CreateLexer()
 		{
-			GlslSpecification.ResetType(GlslSpecification.DefinedWordType.UserKeyword1, "boss sepp heinz");
+			GlslSpecification.ResetType(GlslSpecification.ReservedWordType.UserKeyword1, "boss sepp heinz");
 			return new GlslLexer<string>(tokenTypes);
 		}
 

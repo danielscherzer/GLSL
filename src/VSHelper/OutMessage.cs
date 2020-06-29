@@ -1,18 +1,22 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using DMS.GLSL.Contracts;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.ComponentModel.Composition;
 
 namespace DMS.GLSL.VSHelper
 {
-	public static class OutMessage
+	[Export(typeof(ILogger))]
+	[PartCreationPolicy(CreationPolicy.Shared)]
+	public class OutMessage : ILogger
 	{
-		public static void PaneAndBar(string message)
+		private static void PaneAndBar(string message)
 		{
 			StatusBar(message);
 			OutputWindowPane(message);
 		}
 
-		public static void StatusBar(string message)
+		private static void StatusBar(string message)
 		{
 			ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
 			{
@@ -29,7 +33,7 @@ namespace DMS.GLSL.VSHelper
 			});
 		}
 
-		public static void OutputWindowPane(string message)
+		private static void OutputWindowPane(string message)
 		{
 			ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
 			{
@@ -41,6 +45,18 @@ namespace DMS.GLSL.VSHelper
 
 				outputWindowPane.OutputStringThreadSafe(message + Environment.NewLine);
 			});
+		}
+
+		public void Log(string message, bool highPriority = false)
+		{
+			if(highPriority)
+			{
+				PaneAndBar(message);
+			}
+			else
+			{
+				OutputWindowPane(message);
+			}
 		}
 	}
 }

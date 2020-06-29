@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Text;
+﻿using DMS.GLSL.Contracts;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
@@ -12,7 +13,12 @@ namespace DMS.GLSL.Outlining
 	[ContentType("glslShader")]
 	internal sealed class OutliningTaggerProvider : ITaggerProvider
 	{
-		[Import] private readonly IClassifierAggregatorService classifierAggregatorService = null;
+		[ImportingConstructor]
+		public OutliningTaggerProvider([Import] IClassifierAggregatorService classifierAggregatorService, [Import] ILogger logger)
+		{
+			this.classifierAggregatorService = classifierAggregatorService;
+			this.logger = logger;
+		}
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
 		{
@@ -21,8 +27,11 @@ namespace DMS.GLSL.Outlining
 				throw new ArgumentNullException(nameof(buffer));
 			}
 			//create a single tagger for each buffer.
-			ITagger<T> sc() { return new OutliningTagger(buffer, classifierAggregatorService.GetClassifier(buffer)) as ITagger<T>; }
+			ITagger<T> sc() { return new OutliningTagger(buffer, classifierAggregatorService.GetClassifier(buffer), logger) as ITagger<T>; }
 			return buffer.Properties.GetOrCreateSingletonProperty(sc);
 		}
+
+		private readonly IClassifierAggregatorService classifierAggregatorService;
+		private readonly ILogger logger;
 	}
 }
