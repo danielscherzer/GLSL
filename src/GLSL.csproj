@@ -48,6 +48,7 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="VSHelper\VsServiceHelper.cs" />
     <None Include="Classification\ClassificationTypes.t4" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -124,7 +125,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VSHelper\OutMessage.cs" />
+    <Compile Include="VSHelper\Logger.cs" />
     <Compile Include="Errors\ErrorList.cs" />
     <Compile Include="Errors\ShaderCompiler.cs" />
     <Compile Include="Errors\SquiggleTagger.cs" />
@@ -137,13 +138,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FileExtensionOptionsGenerated.tt</DependentUpon>
     </Compile>
-    <Compile Include="Options\OptionsGenerated.cs">
+    <Compile Include="Options\OptionPageGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OptionsGenerated.tt</DependentUpon>
+      <DependentUpon>OptionPageGenerated.tt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Options\Options.cs">
+    <Compile Include="Options\OptionPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Options\OptionsPagePackage.cs" />
@@ -155,9 +156,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FileExtensionOptionsGenerated.cs</LastGenOutput>
     </Content>
-    <Content Include="Options\OptionsGenerated.tt">
+    <Content Include="Options\OptionPageGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OptionsGenerated.cs</LastGenOutput>
+      <LastGenOutput>OptionPageGenerated.cs</LastGenOutput>
     </Content>
     <Content Include="Options\Resources\OptionsPagePackage.ico" />
     <Content Include="Resources\LICENSE.txt">

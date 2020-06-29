@@ -168,7 +168,7 @@ namespace DMS.GLSL.Errors
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
-					var arguments = OptionsPagePackage.ExpandEnvironmentVariables(options.ExternalCompilerArguments);
+					var arguments = VsServiceHelper.ExpandEnvironmentVariables(options.ExternalCompilerArguments);
 					process.StartInfo.Arguments = $"{arguments} {shaderFileName}"; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;

@@ -8,7 +8,7 @@ namespace DMS.GLSL.Options
 {
 	[Export(typeof(IOptions))]
 	[PartCreationPolicy(CreationPolicy.Shared)] //default singleton behavior
-	public partial class Options : DialogPage, IOptions
+	public partial class OptionPage : DialogPage, IOptions
 	{
 		private string _userKeyWords1;
 		private string _userKeyWords2;

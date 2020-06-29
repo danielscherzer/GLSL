@@ -4,7 +4,7 @@ namespace DMS.GLSL.Options
 	using Microsoft.VisualStudio.Shell;
 	using System.ComponentModel;
 
-	public partial class Options : DialogPage
+	public partial class OptionPage : DialogPage
 	{
 		[Category("File extensions")]
 		[DisplayName("Auto detect shader type file extensions")]
