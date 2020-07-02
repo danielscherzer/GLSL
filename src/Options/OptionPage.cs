@@ -2,13 +2,10 @@
 using DMS.GLSL.Language;
 using Microsoft.VisualStudio.Shell;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 
 namespace DMS.GLSL.Options
 {
-	[Export(typeof(IOptions))]
-	[PartCreationPolicy(CreationPolicy.Shared)] //default singleton behavior
-	public partial class OptionPage : DialogPage, IOptions
+	public partial class OptionPage : DialogPage, ICompilerSettings
 	{
 		private string _userKeyWords1;
 		private string _userKeyWords2;

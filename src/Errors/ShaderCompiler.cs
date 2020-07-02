@@ -21,8 +21,9 @@ namespace DMS.GLSL.Errors
 	internal class ShaderCompiler
 	{
 		[ImportingConstructor]
-		public ShaderCompiler(/*[Import] IOptions options,*/ [Import] ILogger logger)
+		public ShaderCompiler(ICompilerSettings settings, ILogger logger)
 		{
+			this.settings = settings;
 			this.logger = logger;
 		}
 
@@ -68,9 +69,9 @@ namespace DMS.GLSL.Errors
 			{
 				var compileData = compileRequests.Take(); //block until compile requested
 				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
-				var log = Compile(expandedCode, compileData.ShaderType, logger);
+				var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
 				var errorLog = new ShaderLogParser(log);
-				if (!string.IsNullOrWhiteSpace(log) && OptionsPagePackage.Options.PrintCompilationResult)
+				if (!string.IsNullOrWhiteSpace(log) && settings.PrintCompilationResult)
 				{
 					logger.Log(log, false);
 				}
@@ -138,27 +139,25 @@ namespace DMS.GLSL.Errors
 			return Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
-		private static string Compile(string shaderCode, string shaderContentType, ILogger logger)
+		private static string Compile(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)
 		{
 			if(ShaderContentTypes.AutoDetect == shaderContentType)
 			{
 				shaderContentType = AutoDetectShaderContentType(shaderCode);
 				logger.Log($"{DateTime.Now:HH.mm.ss.fff} Auto detecting shader type to '{shaderContentType}'", true);
 			}
-			var externalCompiler = OptionsPagePackage.Options.ExternalCompilerExeFilePath;
-			if (string.IsNullOrWhiteSpace(externalCompiler))
+			if (string.IsNullOrWhiteSpace(settings.ExternalCompilerExeFilePath))
 			{
 				return CompileOnGPU(shaderCode, shaderContentType, logger);
 			}
 			else
 			{
-				return CompileExternal(shaderCode, shaderContentType, logger);
+				return CompileExternal(shaderCode, shaderContentType, logger, settings);
 			}
 		}
 
-		private static string CompileExternal(string shaderCode, string shaderContentType, ILogger logger)
+		private static string CompileExternal(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)
 		{
-			var options = OptionsPagePackage.Options;
 			//create temp shader file for external compiler
 			var tempPath = Path.GetTempPath();
 			var shaderFileName = Path.Combine(tempPath, $"shader{ShaderContentTypes.DefaultFileExtension(shaderContentType)}");
@@ -167,15 +166,15 @@ namespace DMS.GLSL.Errors
 				File.WriteAllText(shaderFileName, shaderCode);
 				using (var process = new Process())
 				{
-					process.StartInfo.FileName = options.ExternalCompilerExeFilePath;
-					var arguments = VsServiceHelper.ExpandEnvironmentVariables(options.ExternalCompilerArguments);
+					process.StartInfo.FileName = settings.ExternalCompilerExeFilePath;
+					var arguments = VsServiceHelper.ExpandEnvironmentVariables(settings.ExternalCompilerArguments);
 					process.StartInfo.Arguments = $"{arguments} {shaderFileName}"; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 					process.StartInfo.CreateNoWindow = true; //do not display a windows
-					logger.Log($"Using external compiler '{options.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
+					logger.Log($"Using external compiler '{settings.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
 					process.Start();
 					process.WaitForExit(10000);
 					var output = process.StandardOutput.ReadToEnd(); //The output result
@@ -232,6 +231,8 @@ namespace DMS.GLSL.Errors
 			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
 			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
 		};
+
+		private readonly ICompilerSettings settings;
 		private readonly ILogger logger;
 	}
 }

@@ -3,13 +3,14 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
 <#@ output extension=".cs" #>
-<#@ include file="..\Errors\ShaderTypesAndDefaultExtension.t4" #>
+<#@ include file="..\Contracts\ShaderTypesAndDefaultExtension.t4" #>
 namespace DMS.GLSL.Options
 {
+	using DMS.GLSL.Contracts;
 	using Microsoft.VisualStudio.Shell;
 	using System.ComponentModel;
 
-	public partial class OptionPage : DialogPage
+	public partial class OptionPage : DialogPage, IShaderFileExtensions
 	{<#
 		foreach(var shaderType in mappingShaderTypeToExtension)
 		{

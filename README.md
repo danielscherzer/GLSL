@@ -21,6 +21,7 @@ See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELO
   - For the file extension `glsl` the extension tries to auto detect the type of shader you use based on reserved words used in the shader code.
   - Note that `GLSL_NV_ray_tracing` shader types support for error tagging is currently only proivded via an external compiler (like `glslangValidator`).
   - Note that support for **Vulkan** shader types is currently only provided via an external compiler (like `glslangValidator`).
+  - Auto-detection of shader stage: If you use the `glsl` file extension the source code is searched for keywords only used in certain shader stages.
 - Configurable (file extensions, code compilation, highlighting style, compiler)
 - Controlling the extension with comments (see below)
 

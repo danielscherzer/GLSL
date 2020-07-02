@@ -1,4 +1,5 @@
-﻿using DMS.GLSL.Options;
+﻿using DMS.GLSL.Contracts;
+using DMS.GLSL.Options;
 using GLSLhelper;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -35,7 +36,7 @@ namespace DMS.GLSL.Errors
 						Observable.FromEventPattern<TextContentChangedEventArgs>(h => buffer.Changed += h, h => buffer.Changed -= h)
 						.Select(e => e.EventArgs.After.GetText()));
 				observableSourceCode
-					.Throttle(TimeSpan.FromSeconds(OptionsPagePackage.Options.CompileDelay * 0.001f))
+					.Throttle(TimeSpan.FromSeconds(settings.CompileDelay * 0.001f))
 					.Subscribe(sourceCode => RequestCompileShader(tagger, sourceCode, typeName, GetDocumentDir(buffer)));
 
 				return tagger;
@@ -44,6 +45,7 @@ namespace DMS.GLSL.Errors
 		}
 
 		[Import] private readonly ShaderCompiler shaderCompiler = null;
+		[Import] private readonly ICompilerSettings settings = null;
 
 		private string GetDocumentDir(ITextBuffer textBuffer)
 		{
@@ -59,8 +61,7 @@ namespace DMS.GLSL.Errors
 		{
 			if (shaderCompiler is null) return;
 			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
-			var options = OptionsPagePackage.Options;
-			if (!options.LiveCompiling)
+			if (!settings.LiveCompiling)
 			{
 				tagger.UpdateErrors(new List<ShaderLogLine>());
 				return;

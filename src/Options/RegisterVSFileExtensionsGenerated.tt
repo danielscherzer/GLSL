@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ include file="..\Errors\ShaderTypesAndDefaultExtension.t4" #>
+<#@ include file="..\Contracts\ShaderTypesAndDefaultExtension.t4" #>
 <#@ output extension=".cs" #>
 namespace DMS.GLSL.Options
 {
@@ -12,17 +12,16 @@ namespace DMS.GLSL.Options
 	using Microsoft.VisualStudio.Utilities;
 	using System.ComponentModel.Composition;
 
-	internal sealed partial class FileExtensionsOption
+	internal sealed partial class RegisterVSFileExtensions
 	{
 		[ImportingConstructor]
-		public FileExtensionsOption([Import] IContentTypeRegistryService contentTypeRegistry, [Import] IFileExtensionRegistryService fileExtensionRegistry, [Import] ILogger logger)
+		public RegisterVSFileExtensions(IContentTypeRegistryService contentTypeRegistry, IFileExtensionRegistryService fileExtensionRegistry, ILogger logger, IShaderFileExtensions settings)
 		{
-			var options = OptionsPagePackage.Options;
 			void Register(string sExtensions, string contentType) => RegisterFileExtensions(fileExtensionRegistry, sExtensions, contentTypeRegistry.GetContentType(contentType), logger);
 <#foreach(var shaderType in mappingShaderTypeToExtension)
 {
 	var name = ToCamelCase(shaderType.Key);#>
-			Register(options.<#=name#>ShaderFileExtensions, ShaderContentTypes.<#=name#>);
+			Register(settings.<#=name#>ShaderFileExtensions, ShaderContentTypes.<#=name#>);
 <#}#>
 		}
 	}

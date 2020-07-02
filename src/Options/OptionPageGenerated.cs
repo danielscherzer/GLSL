@@ -1,10 +1,11 @@
 ﻿
 namespace DMS.GLSL.Options
 {
+	using DMS.GLSL.Contracts;
 	using Microsoft.VisualStudio.Shell;
 	using System.ComponentModel;
 
-	public partial class OptionPage : DialogPage
+	public partial class OptionPage : DialogPage, IShaderFileExtensions
 	{
 		[Category("File extensions")]
 		[DisplayName("Auto detect shader type file extensions")]

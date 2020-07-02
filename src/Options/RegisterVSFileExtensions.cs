@@ -1,16 +1,13 @@
 ﻿using DMS.GLSL.Contracts;
-using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
 using System;
 using System.ComponentModel.Composition;
 
 namespace DMS.GLSL.Options
 {
-	[Export(typeof(EditorOptionDefinition))]
-	internal sealed partial class FileExtensionsOption : EditorOptionDefinition<string>
+	[Export(typeof(RegisterVSFileExtensions))]
+	internal sealed partial class RegisterVSFileExtensions
 	{
-		public readonly static EditorOptionKey<string> OptionKey = new EditorOptionKey<string>("GLSL highlighting file extensions");
-
 		private static void RegisterFileExtensions(IFileExtensionRegistryService fileExtensionRegistry, string sExtensions, IContentType contentType, ILogger logger)
 		{
 			var extensions = sExtensions.Split(new char[] { ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -30,7 +27,5 @@ namespace DMS.GLSL.Options
 				}
 			}
 		}
-
-		public override EditorOptionKey<string> Key => OptionKey;
 	}
 }

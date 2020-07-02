@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
+using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using EnvDTE;
+using DMS.GLSL.Contracts;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Debugger.ComponentInterfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
@@ -32,42 +32,44 @@ namespace DMS.GLSL.Options
 	[ProvideOptionPage(typeof(OptionPage), "GLSL language integration", "Configuration", 0, 0, true)]
 	public sealed class OptionsPagePackage : AsyncPackage
 	{
-		public const string PackageGuidString = "fd8ee466-e18c-45fc-b1a1-ca0dc1ec67fb";
+		private const string PackageGuidString = "fd8ee466-e18c-45fc-b1a1-ca0dc1ec67fb";
 
-		public static OptionPage Options
+		[Export(typeof(ICompilerSettings))]
+		[Export(typeof(IShaderFileExtensions))]
+		public OptionPage Options
 		{
 			get
 			{
 				if (_options is null)
 				{
-					try { EnsurePackageLoaded(); } catch { }
-					if (_options is null) return new OptionPage();
+					_options = Load();
+					if (_options is null) _options = new OptionPage();
 				}
 				return _options;
 			}
 		}
 
-		private static OptionPage _options;
-		private static readonly object _syncRoot = new object();
-
-		private static void EnsurePackageLoaded()
+		private static OptionPage Load()
 		{
 			var joinableTaskFactory = ThreadHelper.JoinableTaskFactory;
-			joinableTaskFactory.Run(async delegate
+			return joinableTaskFactory.Run(async delegate
 			{
 				await joinableTaskFactory.SwitchToMainThreadAsync();
 				lock (_syncRoot)
 				{
 					var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
 					var guid = new Guid(PackageGuidString);
-					if (shell.IsPackageLoaded(ref guid, out IVsPackage package) != VSConstants.S_OK)
+					if (ErrorHandler.Failed(shell.IsPackageLoaded(ref guid, out IVsPackage package)))
 					{
-						ErrorHandler.Succeeded(shell.LoadPackage(ref guid, out package));
-						var myPack = package as OptionsPagePackage;
-						_options = (OptionPage)myPack.GetDialogPage(typeof(OptionPage));
+						if (ErrorHandler.Failed(shell.LoadPackage(ref guid, out package))) return null;
 					}
+					var myPack = package as OptionsPagePackage;
+					return (OptionPage)myPack.GetDialogPage(typeof(OptionPage));
 				}
 			});
 		}
+
+		private OptionPage _options;
+		private static readonly object _syncRoot = new object();
 	}
 }

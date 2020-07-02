@@ -48,6 +48,13 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Contracts\ICompilerSettings.cs" />
+    <Compile Include="Contracts\IShaderFileExtensionSettingsGenerated.cs">
+      <DependentUpon>IShaderFileExtensionSettingsGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Options\OnEditorFileLoading.cs" />
     <Compile Include="VSHelper\VsServiceHelper.cs" />
     <None Include="Classification\ClassificationTypes.t4" />
     <None Include="source.extension.vsixmanifest">
@@ -70,7 +77,6 @@
     <Compile Include="Language\Token.cs" />
     <Compile Include="Language\TokenTypes.cs" />
     <Compile Include="Language\UserKeyWords.cs" />
-    <Compile Include="Contracts\IOptions.cs" />
     <Compile Include="Outlining\OutliningTagger.cs" />
     <Compile Include="Outlining\OutliningTaggerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +87,10 @@
     <Content Include="Classification\GlslClassificationTypesGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GlslClassificationTypesGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Contracts\IShaderFileExtensionSettingsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IShaderFileExtensionSettingsGenerated.cs</LastGenOutput>
     </Content>
     <Content Include="Resources\ShaderPreview.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -118,7 +128,7 @@
       <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="Classification\GlslClassifier.cs" />
-    <None Include="Errors\ShaderTypesAndDefaultExtension.t4" />
+    <None Include="Contracts\ShaderTypesAndDefaultExtension.t4" />
     <Content Include="Errors\ShaderContentTypesGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ShaderContentTypesGenerated.cs</LastGenOutput>
@@ -132,11 +142,11 @@
     <Compile Include="Errors\SquiggleTaggerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Options\FileExtensionsOption.cs" />
-    <Compile Include="Options\FileExtensionOptionsGenerated.cs">
+    <Compile Include="Options\RegisterVSFileExtensions.cs" />
+    <Compile Include="Options\RegisterVSFileExtensionsGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>FileExtensionOptionsGenerated.tt</DependentUpon>
+      <DependentUpon>RegisterVSFileExtensionsGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="Options\OptionPageGenerated.cs">
       <AutoGen>True</AutoGen>
@@ -152,9 +162,9 @@
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
-    <Content Include="Options\FileExtensionOptionsGenerated.tt">
+    <Content Include="Options\RegisterVSFileExtensionsGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FileExtensionOptionsGenerated.cs</LastGenOutput>
+      <LastGenOutput>RegisterVSFileExtensionsGenerated.cs</LastGenOutput>
     </Content>
     <Content Include="Options\OptionPageGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -35,8 +35,12 @@ namespace DMS.GLSL.Errors
 				Document = filePath,
 				ErrorCategory = isWarning ? TaskErrorCategory.Warning : TaskErrorCategory.Error,
 			};
-			
-			provider.Tasks.Add(task);
+			try
+			{
+				provider.Tasks.Add(task);
+			}
+			catch (OperationCanceledException)
+			{ }
 		}
 
 		private static readonly ErrorList instance = new ErrorList();
