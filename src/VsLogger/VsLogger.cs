@@ -1,11 +1,11 @@
 ﻿using DMS.GLSL.Contracts;
 using System.ComponentModel.Composition;
 
-namespace DMS.GLSL.VSHelper
+namespace DMS.GLSL.VsLogger
 {
 	[Export(typeof(ILogger))]
 	[PartCreationPolicy(CreationPolicy.Shared)]
-	public class Logger : ILogger
+	public class VsLogger : ILogger
 	{
 		public void Log(string message, bool highPriority = false)
 		{

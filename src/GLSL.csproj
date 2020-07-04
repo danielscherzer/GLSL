@@ -57,7 +57,7 @@
     </Compile>
     <Compile Include="Errors\VsExpand.cs" />
     <Compile Include="Options\OnEditorFileLoading.cs" />
-    <Compile Include="VSHelper\VsOutput.cs" />
+    <Compile Include="VsLogger\VsOutput.cs" />
     <None Include="Classification\ClassificationTypes.t4" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -133,7 +133,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VSHelper\Logger.cs" />
+    <Compile Include="VsLogger\VsLogger.cs" />
     <Compile Include="Errors\ErrorList.cs" />
     <Compile Include="Errors\ShaderCompiler.cs" />
     <Compile Include="Errors\SquiggleTagger.cs" />

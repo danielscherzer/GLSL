@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 
-namespace DMS.GLSL.VSHelper
+namespace DMS.GLSL.VsLogger
 {
 	internal static class VsOutput
 	{
