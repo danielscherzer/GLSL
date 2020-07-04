@@ -34,7 +34,7 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords1 = value;
-				GlslSpecification.ResetType(GlslSpecification.ReservedWordType.UserKeyword1, value);
+				UserKeyWords.ResetType(UserKeyWords.DefinedWordType.UserKeyword1, value);
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords2 = value;
-				GlslSpecification.ResetType(GlslSpecification.ReservedWordType.UserKeyword2, value);
+				UserKeyWords.ResetType(UserKeyWords.DefinedWordType.UserKeyword2, value);
 			}
 		}
 

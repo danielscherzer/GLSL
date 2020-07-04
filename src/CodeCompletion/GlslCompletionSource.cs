@@ -26,12 +26,10 @@ namespace DMS.GLSL.CodeCompletion
 			var keyword = glyphService.GetGlyph(StandardGlyphGroup.GlyphKeyword, StandardGlyphItem.GlyphItemPublic);
 			var function = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupMethod, StandardGlyphItem.GlyphItemPublic);
 			var variable = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemPublic);
-			ImageSource Convert(GlslSpecification.ReservedWordType type)
+			ImageSource ConvertReserved(GlslSpecification.ReservedWordType type)
 			{
 				switch (type)
 				{
-					case GlslSpecification.ReservedWordType.UserKeyword1:
-					case GlslSpecification.ReservedWordType.UserKeyword2:
 					case GlslSpecification.ReservedWordType.Keyword: return keyword;
 					case GlslSpecification.ReservedWordType.Function: return function;
 					case GlslSpecification.ReservedWordType.Variable: return variable;
@@ -40,7 +38,20 @@ namespace DMS.GLSL.CodeCompletion
 			}
 			foreach (var var in GlslSpecification.ReservedWords)
 			{
-				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, Convert(var.Value)));
+				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, ConvertReserved(var.Value)));
+			}
+			ImageSource ConvertUser(UserKeyWords.DefinedWordType type)
+			{
+				switch (type)
+				{
+					case UserKeyWords.DefinedWordType.UserKeyword1:
+					case UserKeyWords.DefinedWordType.UserKeyword2:
+					default: return identifier;
+				}
+			}
+			foreach (var var in UserKeyWords.DefinedWords)
+			{
+				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, ConvertUser(var.Value)));
 			}
 			staticCompletions.Sort((a, b) => a.DisplayText.CompareTo(b.DisplayText));
 		}

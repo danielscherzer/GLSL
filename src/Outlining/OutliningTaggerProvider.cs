@@ -14,7 +14,7 @@ namespace DMS.GLSL.Outlining
 	internal sealed class OutliningTaggerProvider : ITaggerProvider
 	{
 		[ImportingConstructor]
-		public OutliningTaggerProvider([Import] IClassifierAggregatorService classifierAggregatorService, [Import] ILogger logger)
+		public OutliningTaggerProvider(IClassifierAggregatorService classifierAggregatorService, ILogger logger)
 		{
 			this.classifierAggregatorService = classifierAggregatorService;
 			this.logger = logger;

@@ -47,8 +47,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Language\LexerTests.cs" />
-    <Compile Include="Language\TestTokenTypes.cs" />
+    <Compile Include="Language\GlslTokenizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

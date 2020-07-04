@@ -1,46 +1,17 @@
 ﻿using DMS.GLSL.Contracts;
-using DMS.GLSL.Language;
-using DMS.GLSL.VSHelper;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 
 namespace DMS.GLSL.Classification
 {
-	[Export(typeof(IClassifierProvider))]
-	[ContentType("glslShader")]
-	[TagType(typeof(ClassificationTag))]
-	internal class GlslClassifierProvider : IClassifierProvider
-	{
-		[ImportingConstructor]
-		public GlslClassifierProvider([Import] IClassificationTypeRegistryService classificationTypeRegistry, [Import] ILogger logger)
-		{
-			this.logger = logger;
-			var tokenTypes = new TokenTypes(classificationTypeRegistry);
-			parser = new SyntaxColorParser(classificationTypeRegistry);
-			lexer = new GlslLexer<IClassificationType>(tokenTypes);
-		}
-
-		public IClassifier GetClassifier(ITextBuffer textBuffer)
-		{
-			return textBuffer.Properties.GetOrCreateSingletonProperty(() => new GlslClassifier(textBuffer, lexer, logger)); //per buffer classifier
-		}
-
-		private readonly ILogger logger;
-		private readonly SyntaxColorParser parser;
-		private readonly GlslLexer<IClassificationType> lexer;
-	}
-
 	internal sealed class GlslClassifier : IClassifier
 	{
-		internal GlslClassifier(ITextBuffer textBuffer, GlslLexer<IClassificationType> lexer, ILogger logger)
+		internal GlslClassifier(ITextBuffer textBuffer, SyntaxColorParser parser, ILogger logger)
 		{
 			var observableSnapshot = Observable.Return(textBuffer.CurrentSnapshot).Concat(
 				Observable.FromEventPattern<TextContentChangedEventArgs>(h => textBuffer.Changed += h, h => textBuffer.Changed -= h)
@@ -52,7 +23,7 @@ namespace DMS.GLSL.Classification
 				var time = Stopwatch.StartNew();
 #endif
 				var snapshotSpan = new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length);
-				var spans = CalculateSpans(lexer, snapshotSpan);
+				var spans = parser.CalculateSpans(snapshotSpan);
 #if DEBUG
 				logger.Log($"[{DateTime.Now:hh:mm:ss:mmm}] {time.ElapsedTicks * 1e3f / Stopwatch.Frequency}ms : tokens={spans.Count}");
 #endif
@@ -63,7 +34,6 @@ namespace DMS.GLSL.Classification
 			observableSnapshot
 				.Throttle(TimeSpan.FromSeconds(0.3f))
 				.Subscribe(snapshot => UpdateSpans());
-			Lexer = lexer;
 
 			//UpdateSpans(new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length));
 			//textBuffer.Changed += (s, a) =>
@@ -103,25 +73,5 @@ namespace DMS.GLSL.Classification
 		}
 
 		private IList<ClassificationSpan> spans = new List<ClassificationSpan>();
-
-		public GlslLexer<IClassificationType> Lexer { get; }
-
-		private static IList<ClassificationSpan> CalculateSpans(GlslLexer<IClassificationType> lexer, SnapshotSpan snapshotSpan)
-		{
-			var output = new List<ClassificationSpan>();
-			var text = snapshotSpan.GetText();
-			foreach (var (start, length, type) in lexer.Tokenize(text))
-			{
-				var lineSpan = new SnapshotSpan(snapshotSpan.Snapshot, start, length);
-				output.Add(new ClassificationSpan(lineSpan, type));
-//				if (type == lexer.TokenTypes.Identifier)
-//				{
-//#if DEBUG
-//					OutMessage.OutputWindowPane(text.Substring(start, length));
-//#endif
-//				}
-			}
-			return output;
-		}
 	}
 }

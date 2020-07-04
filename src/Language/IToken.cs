@@ -1,6 +1,4 @@
-﻿using Sprache;
-
-namespace DMS.GLSL.Language
+﻿namespace DMS.GLSL.Language
 {
 	public interface IToken
 	{

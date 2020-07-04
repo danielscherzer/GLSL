@@ -44,22 +44,29 @@ namespace DMS.GLSL.Classification
 			foreach (var token in tokenizer.Tokenize(text))
 			{
 				var lineSpan = new SnapshotSpan(snapshotSpan.Snapshot, token.Start, token.Length);
-				output.Add(new ClassificationSpan(lineSpan, Convert(token.Type)));
+				output.Add(new ClassificationSpan(lineSpan, Convert(token)));
 			}
 			return output;
 		}
 
-		private IClassificationType Convert(Language.TokenTypes type)
+		private IClassificationType Convert(IToken token)
 		{
-			switch(type)
+			switch(token.Type)
 			{
-				case Language.TokenTypes.Comment: return Comment;
-				case Language.TokenTypes.Function: return Function;
-				case Language.TokenTypes.Keyword: return Keyword;
-				case Language.TokenTypes.Number: return Number;
-				case Language.TokenTypes.Operator: return Operator;
-				case Language.TokenTypes.Preprocessor: return PreprocessorKeyword;
-				case Language.TokenTypes.Variable: return Variable;
+				case TokenTypes.Comment: return Comment;
+				case TokenTypes.Function: return Function;
+				case TokenTypes.Keyword: return Keyword;
+				case TokenTypes.Number: return Number;
+				case TokenTypes.Operator: return Operator;
+				case TokenTypes.Preprocessor: return PreprocessorKeyword;
+				case TokenTypes.Variable: return Variable;
+				case TokenTypes.Identifier:
+					switch (UserKeyWords.GetDefinedWordType(token.Value))
+					{
+						case UserKeyWords.DefinedWordType.UserKeyword1: return UserKeyWord1;
+						case UserKeyWords.DefinedWordType.UserKeyword2: return UserKeyWord2;
+						default: return Identifier;
+					}
 				default:
 					return Identifier;
 			}

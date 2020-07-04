@@ -48,6 +48,7 @@
     <CreateVsixContainer>True</CreateVsixContainer>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classification\GlslClassifierProvider.cs" />
     <Compile Include="Contracts\ICompilerSettings.cs" />
     <Compile Include="Contracts\IShaderFileExtensionSettingsGenerated.cs">
       <DependentUpon>IShaderFileExtensionSettingsGenerated.tt</DependentUpon>
@@ -105,9 +106,6 @@
     <None Include="Language\glslKeywords.txt" />
     <None Include="Language\glslFunctions.txt" />
     <None Include="Language\glslVariables.txt" />
-    <Compile Include="Language\ITokenTypes.cs" />
-    <Compile Include="Language\GlslLexer.cs" />
-    <Compile Include="Language\PositionAware.cs" />
     <Compile Include="Language\GlslSpecification.cs" />
     <Compile Include="Language\GlslSpecificationGenerated.cs">
       <AutoGen>True</AutoGen>
@@ -121,7 +119,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classification\TokenTypes.cs" />
     <Compile Include="Errors\ShaderContentTypesGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
