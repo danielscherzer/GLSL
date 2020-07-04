@@ -24,7 +24,7 @@ namespace DMS.GLSL.Classification
 		{
 			this.logger = logger;
 			var tokenTypes = new TokenTypes(classificationTypeRegistry);
-			//parser = new SyntaxColorParser(classificationTypeRegistry);
+			parser = new SyntaxColorParser(classificationTypeRegistry);
 			lexer = new GlslLexer<IClassificationType>(tokenTypes);
 		}
 
@@ -34,7 +34,7 @@ namespace DMS.GLSL.Classification
 		}
 
 		private readonly ILogger logger;
-		//private readonly SyntaxColorParser parser;
+		private readonly SyntaxColorParser parser;
 		private readonly GlslLexer<IClassificationType> lexer;
 	}
 

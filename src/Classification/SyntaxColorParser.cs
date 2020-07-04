@@ -26,16 +26,16 @@ namespace DMS.GLSL.Classification
 			tokenizer = new GlslTokenizer();
 		}
 
-		public IClassificationType Comment { get; }
-		public IClassificationType Identifier { get; }
-		public IClassificationType Number { get; }
-		public IClassificationType Operator { get; }
-		public IClassificationType PreprocessorKeyword { get; }
-		public IClassificationType Function { get; }
-		public IClassificationType Keyword { get; }
-		public IClassificationType UserKeyWord1 { get; }
-		public IClassificationType UserKeyWord2 { get; }
-		public IClassificationType Variable { get; }
+		private IClassificationType Comment { get; }
+		private IClassificationType Identifier { get; }
+		private IClassificationType Number { get; }
+		private IClassificationType Operator { get; }
+		private IClassificationType PreprocessorKeyword { get; }
+		private IClassificationType Function { get; }
+		private IClassificationType Keyword { get; }
+		private IClassificationType UserKeyWord1 { get; }
+		private IClassificationType UserKeyWord2 { get; }
+		private IClassificationType Variable { get; }
 
 		public IList<ClassificationSpan> CalculateSpans(SnapshotSpan snapshotSpan)
 		{

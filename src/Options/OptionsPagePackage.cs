@@ -1,11 +1,10 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.Runtime.InteropServices;
-using DMS.GLSL.Contracts;
+﻿using DMS.GLSL.Contracts;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Debugger.ComponentInterfaces;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.ComponentModel.Composition;
+using System.Runtime.InteropServices;
 
 namespace DMS.GLSL.Options
 {
@@ -49,24 +48,26 @@ namespace DMS.GLSL.Options
 			}
 		}
 
-		private static OptionPage Load()
+		public static OptionPage Load()
 		{
 			var joinableTaskFactory = ThreadHelper.JoinableTaskFactory;
-			return joinableTaskFactory.Run(async delegate
+			return joinableTaskFactory.Run(LoadAsync);
+		}
+
+		public async static System.Threading.Tasks.Task<OptionPage> LoadAsync()
+		{
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+			lock (_syncRoot)
 			{
-				await joinableTaskFactory.SwitchToMainThreadAsync();
-				lock (_syncRoot)
+				var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
+				var guid = new Guid(PackageGuidString);
+				if (ErrorHandler.Failed(shell.IsPackageLoaded(ref guid, out IVsPackage package)))
 				{
-					var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
-					var guid = new Guid(PackageGuidString);
-					if (ErrorHandler.Failed(shell.IsPackageLoaded(ref guid, out IVsPackage package)))
-					{
-						if (ErrorHandler.Failed(shell.LoadPackage(ref guid, out package))) return null;
-					}
-					var myPack = package as OptionsPagePackage;
-					return (OptionPage)myPack.GetDialogPage(typeof(OptionPage));
+					if (ErrorHandler.Failed(shell.LoadPackage(ref guid, out package))) return null;
 				}
-			});
+				var myPack = package as OptionsPagePackage;
+				return (OptionPage)myPack.GetDialogPage(typeof(OptionPage));
+			}
 		}
 
 		private OptionPage _options;
