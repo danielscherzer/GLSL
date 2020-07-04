@@ -53,14 +53,14 @@ namespace DMS.GLSL.Classification
 		{
 			switch(token.Type)
 			{
-				case TokenTypes.Comment: return Comment;
-				case TokenTypes.Function: return Function;
-				case TokenTypes.Keyword: return Keyword;
-				case TokenTypes.Number: return Number;
-				case TokenTypes.Operator: return Operator;
-				case TokenTypes.Preprocessor: return PreprocessorKeyword;
-				case TokenTypes.Variable: return Variable;
-				case TokenTypes.Identifier:
+				case TokenType.Comment: return Comment;
+				case TokenType.Function: return Function;
+				case TokenType.Keyword: return Keyword;
+				case TokenType.Number: return Number;
+				case TokenType.Operator: return Operator;
+				case TokenType.Preprocessor: return PreprocessorKeyword;
+				case TokenType.Variable: return Variable;
+				case TokenType.Identifier:
 					switch (UserKeyWords.GetDefinedWordType(token.Value))
 					{
 						case UserKeyWords.DefinedWordType.UserKeyword1: return UserKeyWord1;

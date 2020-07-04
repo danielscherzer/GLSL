@@ -26,13 +26,13 @@ namespace DMS.GLSL.CodeCompletion
 			var keyword = glyphService.GetGlyph(StandardGlyphGroup.GlyphKeyword, StandardGlyphItem.GlyphItemPublic);
 			var function = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupMethod, StandardGlyphItem.GlyphItemPublic);
 			var variable = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemPublic);
-			ImageSource ConvertReserved(GlslSpecification.ReservedWordType type)
+			ImageSource ConvertReserved(TokenType type)
 			{
 				switch (type)
 				{
-					case GlslSpecification.ReservedWordType.Keyword: return keyword;
-					case GlslSpecification.ReservedWordType.Function: return function;
-					case GlslSpecification.ReservedWordType.Variable: return variable;
+					case TokenType.Keyword: return keyword;
+					case TokenType.Function: return function;
+					case TokenType.Variable: return variable;
 					default: return identifier;
 				}
 			}

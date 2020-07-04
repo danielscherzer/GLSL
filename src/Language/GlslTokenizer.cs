@@ -25,23 +25,11 @@ namespace DMS.GLSL.Language
 
 		public GlslTokenizer()
 		{
-			var comment = ParserComment.Select(value => new Token(TokenTypes.Comment, value));
-			var preprocessor = ParserPreprocessor.Select(value => new Token(TokenTypes.Preprocessor, value));
-
-			TokenTypes Convert(string word)
-			{
-				switch (GlslSpecification.GetReservedWordType(word))
-				{
-					case GlslSpecification.ReservedWordType.Keyword: return TokenTypes.Keyword;
-					case GlslSpecification.ReservedWordType.Function: return TokenTypes.Function;
-					case GlslSpecification.ReservedWordType.Variable: return TokenTypes.Variable;
-					default: return TokenTypes.Identifier;
-				}
-			}
-
-			var number = ParserNumber.Select(value => new Token(TokenTypes.Number, value));
-			var identifier = ParserIdentifier.Select(value => new Token(Convert(value), value));
-			var op = ParserOperator.Select(value => new Token(TokenTypes.Operator, value.ToString()));
+			var comment = ParserComment.Select(value => new Token(TokenType.Comment, value));
+			var preprocessor = ParserPreprocessor.Select(value => new Token(TokenType.Preprocessor, value));
+			var number = ParserNumber.Select(value => new Token(TokenType.Number, value));
+			var identifier = ParserIdentifier.Select(value => new Token(GlslSpecification.GetReservedWordType(value), value));
+			var op = ParserOperator.Select(value => new Token(TokenType.Operator, value.ToString()));
 			var token = comment.Or(preprocessor).Or(number).Or(identifier).Or(op);
 			tokenParser = token.Positioned().Token().XMany();
 		}

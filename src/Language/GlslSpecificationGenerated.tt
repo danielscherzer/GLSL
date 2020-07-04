@@ -13,15 +13,15 @@ namespace DMS.GLSL.Language
 
 	public static partial class GlslSpecification
 	{
-		private static Dictionary<string, DefinedWordType> Initialize()
+		private static Dictionary<string, TokenType> Initialize()
 		{
 			var keywords = "<#=read("glslKeywords.txt")#>".Split();
 			var functions = "<#=read("glslFunctions.txt")#>".Split();
 			var variables = "<#=read("glslVariables.txt")#>".Split();
-			var result = new Dictionary<string, DefinedWordType>();
-			result.AddRange(keywords, DefinedWordType.Keyword);
-			result.AddRange(functions, DefinedWordType.Function);
-			result.AddRange(variables, DefinedWordType.Variable);
+			var result = new Dictionary<string, TokenType>();
+			result.AddRange(keywords, TokenType.Keyword);
+			result.AddRange(functions, TokenType.Function);
+			result.AddRange(variables, TokenType.Variable);
 			return result;
 		}
 	}

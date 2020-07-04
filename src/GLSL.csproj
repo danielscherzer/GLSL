@@ -55,8 +55,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Errors\VsExpand.cs" />
     <Compile Include="Options\OnEditorFileLoading.cs" />
-    <Compile Include="VSHelper\VsServiceHelper.cs" />
+    <Compile Include="VSHelper\VsOutput.cs" />
     <None Include="Classification\ClassificationTypes.t4" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
@@ -76,7 +77,7 @@
     <Compile Include="Language\GlslTokenizer.cs" />
     <Compile Include="Language\IToken.cs" />
     <Compile Include="Language\Token.cs" />
-    <Compile Include="Language\TokenTypes.cs" />
+    <Compile Include="Language\TokenType.cs" />
     <Compile Include="Language\UserKeyWords.cs" />
     <Compile Include="Outlining\OutliningTagger.cs" />
     <Compile Include="Outlining\OutliningTaggerProvider.cs" />

@@ -9,10 +9,10 @@ namespace DMS.GLSL.VSHelper
 	{
 		public void Log(string message, bool highPriority = false)
 		{
-			VsServiceHelper.OutputWindowPane(message);
+			VsOutput.WindowPane(message);
 			if (highPriority)
 			{
-				VsServiceHelper.StatusBar(message);
+				VsOutput.StatusBar(message);
 			}
 		}
 	}

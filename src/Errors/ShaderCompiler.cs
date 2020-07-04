@@ -1,6 +1,4 @@
 ﻿using DMS.GLSL.Contracts;
-using DMS.GLSL.Options;
-using DMS.GLSL.VSHelper;
 using GLSLhelper;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
@@ -167,7 +165,7 @@ namespace DMS.GLSL.Errors
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = settings.ExternalCompilerExeFilePath;
-					var arguments = VsServiceHelper.ExpandEnvironmentVariables(settings.ExternalCompilerArguments);
+					var arguments = VsExpand.EnvironmentVariables(settings.ExternalCompilerArguments);
 					process.StartInfo.Arguments = $"{arguments} {shaderFileName}"; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;

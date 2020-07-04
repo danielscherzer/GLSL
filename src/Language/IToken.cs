@@ -4,7 +4,7 @@
 	{
 		int Length { get; }
 		int Start { get; }
-		TokenTypes Type { get; }
+		TokenType Type { get; }
 		string Value { get; }
 	}
 }

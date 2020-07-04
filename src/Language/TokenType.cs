@@ -1,6 +1,6 @@
 ﻿namespace DMS.GLSL.Language
 {
-	public enum TokenTypes 
+	public enum TokenType 
 	{ 
 		Comment, 
 		Function, 

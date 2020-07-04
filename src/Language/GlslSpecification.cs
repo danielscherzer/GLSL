@@ -4,13 +4,11 @@ namespace DMS.GLSL.Language
 {
 	public static partial class GlslSpecification
 	{
-		public enum ReservedWordType { None, Keyword, Function, Variable };
+		private static readonly Dictionary<string, TokenType> s_reservedWords = Initialize();
+
+		public static IEnumerable<KeyValuePair<string, TokenType>> ReservedWords => s_reservedWords;
+
 		//public interface ITypeBuilder { void OnKeyword(string word); }
-
-		private static readonly Dictionary<string, ReservedWordType> s_reservedWords = Initialize();
-
-		public static IEnumerable<KeyValuePair<string, ReservedWordType>> ReservedWords => s_reservedWords;
-		
 		//public static void ForEachReservedWord(ITypeBuilder builder)
 		//{
 		//	foreach(var pair in s_reservedWords)
@@ -19,17 +17,17 @@ namespace DMS.GLSL.Language
 		//	}
 		//}
 
-		public static ReservedWordType GetReservedWordType(string word)
+		public static TokenType GetReservedWordType(string word)
 		{
 			if (s_reservedWords.TryGetValue(word, out var type)) return type;
-			return ReservedWordType.None;
+			return TokenType.Identifier;
 		}
 
 		public static bool IsIdentifierChar(char c) => char.IsLetterOrDigit(c) || '_' == c;
 
 		public static bool IsIdentifierStartChar(char c) => char.IsLetter(c) || '_' == c;
 
-		private static void AddRange(this Dictionary<string, ReservedWordType> result, IEnumerable<string> words, ReservedWordType type)
+		private static void AddRange(this Dictionary<string, TokenType> result, IEnumerable<string> words, TokenType type)
 		{
 			foreach (var word in words)
 			{
