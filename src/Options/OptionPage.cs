@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace DMS.GLSL.Options
 {
@@ -40,7 +41,7 @@ namespace DMS.GLSL.Options
 			}
 		}
 
-		public IEnumerable<string> UserKeywordArray1 { get; private set; }
+		public IEnumerable<string> UserKeywordArray1 { get; private set; } = Enumerable.Empty<string>();
 
 		[Category("General")]
 		[DisplayName("User key words 2")]
@@ -56,7 +57,7 @@ namespace DMS.GLSL.Options
 			}
 		}
 
-		public IEnumerable<string> UserKeywordArray2 { get; private set; }
+		public IEnumerable<string> UserKeywordArray2 { get; private set; } = Enumerable.Empty<string>();
 
 		[Category("General")]
 		[DisplayName("Compile delay(ms)")]
