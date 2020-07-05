@@ -1,5 +1,4 @@
 ﻿using DMS.GLSL.Contracts;
-using DMS.GLSL.Options;
 using GLSLhelper;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -18,6 +17,13 @@ namespace DMS.GLSL.Errors
 	[TagType(typeof(ErrorTag))]
 	internal class SquiggleTaggerProvider : IViewTaggerProvider
 	{
+		[ImportingConstructor]
+		public SquiggleTaggerProvider(ShaderCompiler shaderCompiler, ICompilerSettings settings)
+		{
+			this.shaderCompiler = shaderCompiler;
+			this.settings = settings;
+		}
+
 		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
 		{
 			//Debug.WriteLine($"CreateTagger: textView={textView}, buffer={buffer}");
@@ -30,24 +36,38 @@ namespace DMS.GLSL.Errors
 			{
 				var tagger = new SquiggleTagger(buffer);
 
-				var typeName = buffer.ContentType.TypeName;
+				var shaderType = buffer.ContentType.TypeName;
 
 				var observableSourceCode = Observable.Return(buffer.CurrentSnapshot.GetText()).Concat(
 						Observable.FromEventPattern<TextContentChangedEventArgs>(h => buffer.Changed += h, h => buffer.Changed -= h)
 						.Select(e => e.EventArgs.After.GetText()));
+
+				void RequestCompileShader(string shaderCode)
+				{
+					//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
+					if (settings.LiveCompiling)
+					{
+						shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors, GetDocumentDir(buffer));
+					}
+					else
+					{
+						tagger.UpdateErrors(new List<ShaderLogLine>());
+					}
+				}
+
 				observableSourceCode
 					.Throttle(TimeSpan.FromSeconds(settings.CompileDelay * 0.001f))
-					.Subscribe(sourceCode => RequestCompileShader(tagger, sourceCode, typeName, GetDocumentDir(buffer)));
+					.Subscribe(sourceCode => RequestCompileShader(sourceCode));
 
 				return tagger;
 
 			}) as ITagger<T>;
 		}
 
-		[Import] private readonly ShaderCompiler shaderCompiler = null;
-		[Import] private readonly ICompilerSettings settings = null;
+		private readonly ShaderCompiler shaderCompiler;
+		private readonly ICompilerSettings settings;
 
-		private string GetDocumentDir(ITextBuffer textBuffer)
+		private static string GetDocumentDir(ITextBuffer textBuffer)
 		{
 			foreach (var prop in textBuffer.Properties.PropertyList)
 			{
@@ -55,18 +75,6 @@ namespace DMS.GLSL.Errors
 				return Path.GetDirectoryName(doc.FilePath);
 			}
 			return string.Empty;
-		}
-
-		private void RequestCompileShader(SquiggleTagger tagger, string shaderCode, string shaderType, string documentDir)
-		{
-			if (shaderCompiler is null) return;
-			//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
-			if (!settings.LiveCompiling)
-			{
-				tagger.UpdateErrors(new List<ShaderLogLine>());
-				return;
-			}
-			shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors, documentDir);
 		}
 	}
 }

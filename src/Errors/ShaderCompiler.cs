@@ -31,26 +31,30 @@ namespace DMS.GLSL.Errors
 		{
 			StartGlThreadOnce();
 			while (compileRequests.TryTake(out _)) ; //remove pending compiles
-			var data = new CompileData
-			{
-				ShaderCode = shaderCode,
-				ShaderType = sShaderType,
-				DocumentDir = documentDir,
-				CompilationFinished = compilationFinishedHandler
-			};
+			var data = new CompileData(shaderCode, sShaderType, compilationFinishedHandler, documentDir);
 			compileRequests.TryAdd(data); //put compile on request list
 		}
 
 		private struct CompileData
 		{
-			public string ShaderCode { get; set; }
-			public string ShaderType { get; set; }
-			public OnCompilationFinished CompilationFinished { get; set; }
-			public string DocumentDir { get; set; }
+			public CompileData(string shaderCode, string shaderType, OnCompilationFinished compilationFinished, string documentDir)
+			{
+				ShaderCode = shaderCode;
+				ShaderType = shaderType;
+				CompilationFinished = compilationFinished;
+				DocumentDir = documentDir;
+			}
+
+			public string ShaderCode { get; }
+			public string ShaderType { get; }
+			public OnCompilationFinished CompilationFinished { get; }
+			public string DocumentDir { get; }
 		}
 
 		private Task taskGL;
 		private readonly BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
+		private readonly ICompilerSettings settings;
+		private readonly ILogger logger;
 
 		private void StartGlThreadOnce()
 		{
@@ -229,8 +233,5 @@ namespace DMS.GLSL.Errors
 			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
 			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
 		};
-
-		private readonly ICompilerSettings settings;
-		private readonly ILogger logger;
 	}
 }
