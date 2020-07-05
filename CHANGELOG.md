@@ -9,6 +9,9 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 0.10
+- [x] major restructuring of the project
+
 ## 0.8
 - [x] Outlining
 
