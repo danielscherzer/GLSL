@@ -1,4 +1,4 @@
-﻿using DMS.GLSL.Language;
+﻿using GLSLhelper;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
@@ -20,13 +20,18 @@ namespace DMS.GLSL.CodeCompletion
 		[ImportingConstructor]
 		public GlslCompletionSourceProvider(IClassifierAggregatorService classifierAggregatorService, IGlyphService glyphService)
 		{
-			this.classifierAggregatorService = classifierAggregatorService;
+			if (glyphService is null)
+			{
+				throw new ArgumentNullException(nameof(glyphService));
+			}
+
+			this.classifierAggregatorService = classifierAggregatorService ?? throw new ArgumentNullException(nameof(classifierAggregatorService));
 			identifier = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemFriend);
 
 			var keyword = glyphService.GetGlyph(StandardGlyphGroup.GlyphKeyword, StandardGlyphItem.GlyphItemPublic);
 			var function = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupMethod, StandardGlyphItem.GlyphItemPublic);
 			var variable = glyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemPublic);
-			ImageSource ConvertReserved(TokenType type)
+			ImageSource ConvertReservedType(TokenType type)
 			{
 				switch (type)
 				{
@@ -38,21 +43,21 @@ namespace DMS.GLSL.CodeCompletion
 			}
 			foreach (var var in GlslSpecification.ReservedWords)
 			{
-				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, ConvertReserved(var.Value)));
+				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, ConvertReservedType(var.Value)));
 			}
-			ImageSource ConvertUser(UserKeyWords.DefinedWordType type)
-			{
-				switch (type)
-				{
-					case UserKeyWords.DefinedWordType.UserKeyword1:
-					case UserKeyWords.DefinedWordType.UserKeyword2:
-					default: return identifier;
-				}
-			}
-			foreach (var var in UserKeyWords.DefinedWords)
-			{
-				staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, ConvertUser(var.Value)));
-			}
+			//ImageSource ConvertUser(UserKeyWords.DefinedWordType type)
+			//{
+			//	switch (type)
+			//	{
+			//		case UserKeyWords.DefinedWordType.UserKeyword1:
+			//		case UserKeyWords.DefinedWordType.UserKeyword2:
+			//		default: return identifier;
+			//	}
+			//}
+			//foreach (var var in UserKeyWords.DefinedWords)
+			//{
+			//	staticCompletions.Add(GlslCompletionSource.NewCompletion(var.Key, ConvertUser(var.Value)));
+			//}
 			staticCompletions.Sort((a, b) => a.DisplayText.CompareTo(b.DisplayText));
 		}
 
@@ -71,12 +76,11 @@ namespace DMS.GLSL.CodeCompletion
 	{
 		private readonly ITextBuffer currentBuffer;
 		private bool _disposed = false;
-		private readonly IEnumerable<Completion> staticCompletions = new List<Completion>();
+		private readonly IEnumerable<Completion> staticCompletions;
 		private readonly Func<SnapshotSpan, IEnumerable<string>> queryIdentifiers;
 		private readonly ImageSource imgIdentifier;
 
-		public GlslCompletionSource(ITextBuffer buffer, IEnumerable<Completion> staticCompletions, 
-			ImageSource identifier, IClassifier classifier)
+		public GlslCompletionSource(ITextBuffer buffer, IEnumerable<Completion> staticCompletions, ImageSource identifier, IClassifier classifier)
 		{
 			currentBuffer = buffer;
 			this.staticCompletions = staticCompletions;
@@ -87,7 +91,7 @@ namespace DMS.GLSL.CodeCompletion
 				var tokens = classifier.GetClassificationSpans(snapshotSpan);
 				//only those tokens that are identifiers and do not overlap the input position because we do not want to add char that started session to completions
 				var filtered = from token in tokens
-							   where PredefinedClassificationTypeNames.Identifier == token.ClassificationType.Classification
+							   where token.ClassificationType.IsOfType(PredefinedClassificationTypeNames.Identifier)
 								&& !token.Span.Contains(snapshotSpan.End - 1)
 							   let text = token.Span.GetText()
 							   orderby text

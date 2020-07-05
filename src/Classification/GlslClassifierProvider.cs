@@ -13,10 +13,20 @@ namespace DMS.GLSL.Classification
 	internal class GlslClassifierProvider : IClassifierProvider
 	{
 		[ImportingConstructor]
-		public GlslClassifierProvider(IClassificationTypeRegistryService classificationTypeRegistry, ILogger logger)
+		public GlslClassifierProvider(IClassificationTypeRegistryService classificationTypeRegistry, ILogger logger, IUserKeywords userKeywords)
 		{
-			this.logger = logger;
-			parser = new SyntaxColorParser(classificationTypeRegistry);
+			if (classificationTypeRegistry is null)
+			{
+				throw new System.ArgumentNullException(nameof(classificationTypeRegistry));
+			}
+
+			if (userKeywords is null)
+			{
+				throw new System.ArgumentNullException(nameof(userKeywords));
+			}
+
+			this.logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
+			parser = new SyntaxColorParser(classificationTypeRegistry, userKeywords);
 		}
 
 		public IClassifier GetClassifier(ITextBuffer textBuffer)

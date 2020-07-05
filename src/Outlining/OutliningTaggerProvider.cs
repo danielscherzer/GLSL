@@ -16,8 +16,8 @@ namespace DMS.GLSL.Outlining
 		[ImportingConstructor]
 		public OutliningTaggerProvider(IClassifierAggregatorService classifierAggregatorService, ILogger logger)
 		{
-			this.classifierAggregatorService = classifierAggregatorService;
-			this.logger = logger;
+			this.classifierAggregatorService = classifierAggregatorService ?? throw new ArgumentNullException(nameof(classifierAggregatorService));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag

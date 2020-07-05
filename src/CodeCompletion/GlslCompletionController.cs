@@ -1,4 +1,4 @@
-﻿using DMS.GLSL.Language;
+﻿using GLSLhelper;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Language.Intellisense;

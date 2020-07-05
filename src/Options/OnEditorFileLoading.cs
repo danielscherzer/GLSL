@@ -13,6 +13,10 @@ namespace DMS.GLSL.Options
 		[ImportingConstructor]
 		public OnEditorFileLoading(RegisterVSFileExtensions fileExtensions)
 		{
+			if (fileExtensions is null)
+			{
+				throw new System.ArgumentNullException(nameof(fileExtensions));
+			}
 			// registers file extensions
 		}
 

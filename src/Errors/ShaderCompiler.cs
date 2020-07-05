@@ -21,8 +21,8 @@ namespace DMS.GLSL.Errors
 		[ImportingConstructor]
 		public ShaderCompiler(ICompilerSettings settings, ILogger logger)
 		{
-			this.settings = settings;
-			this.logger = logger;
+			this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		internal delegate void OnCompilationFinished(IEnumerable<ShaderLogLine> errorLog);

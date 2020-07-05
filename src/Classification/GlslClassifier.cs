@@ -13,9 +13,26 @@ namespace DMS.GLSL.Classification
 	{
 		internal GlslClassifier(ITextBuffer textBuffer, SyntaxColorParser parser, ILogger logger)
 		{
+			if (textBuffer is null)
+			{
+				throw new ArgumentNullException(nameof(textBuffer));
+			}
+
+			if (parser is null)
+			{
+				throw new ArgumentNullException(nameof(parser));
+			}
+
+			if (logger is null)
+			{
+				throw new ArgumentNullException(nameof(logger));
+			}
+
 			var observableSnapshot = Observable.Return(textBuffer.CurrentSnapshot).Concat(
 				Observable.FromEventPattern<TextContentChangedEventArgs>(h => textBuffer.Changed += h, h => textBuffer.Changed -= h)
 				.Select(e => e.EventArgs.After));
+
+			parser.Changed += _ => UpdateSpans();
 
 			void UpdateSpans()
 			{

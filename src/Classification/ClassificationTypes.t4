@@ -3,7 +3,7 @@
 			["Function"] = "Orange",
 			["Keyword"] = "CornflowerBlue",
 			["Variable"] = "LawnGreen",
-			["UserKeyWord1"] = "DarkOrange",
-			["UserKeyWord2"] = "DarkSalmon",
+			["UserKeyword1"] = "DarkOrange",
+			["UserKeyword2"] = "DarkSalmon",
 		};
 #>

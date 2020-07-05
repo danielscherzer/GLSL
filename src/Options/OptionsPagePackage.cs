@@ -35,6 +35,7 @@ namespace DMS.GLSL.Options
 
 		[Export(typeof(ICompilerSettings))]
 		[Export(typeof(IShaderFileExtensions))]
+		[Export(typeof(IUserKeywords))]
 		public OptionPage Options
 		{
 			get

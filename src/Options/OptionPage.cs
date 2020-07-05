@@ -1,11 +1,12 @@
 ﻿using DMS.GLSL.Contracts;
-using DMS.GLSL.Language;
 using Microsoft.VisualStudio.Shell;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace DMS.GLSL.Options
 {
-	public partial class OptionPage : DialogPage, ICompilerSettings
+	public partial class OptionPage : DialogPage, ICompilerSettings, IUserKeywords
 	{
 		private string _userKeyWords1;
 		private string _userKeyWords2;
@@ -34,9 +35,12 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords1 = value;
-				UserKeyWords.ResetType(UserKeyWords.DefinedWordType.UserKeyword1, value);
+				UserKeywordArray1 = ParseWords(value);
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserKeywordArray1)));
 			}
 		}
+
+		public IEnumerable<string> UserKeywordArray1 { get; private set; }
 
 		[Category("General")]
 		[DisplayName("User key words 2")]
@@ -47,9 +51,12 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords2 = value;
-				UserKeyWords.ResetType(UserKeyWords.DefinedWordType.UserKeyword2, value);
+				UserKeywordArray2 = ParseWords(value);
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserKeywordArray2)));
 			}
 		}
+
+		public IEnumerable<string> UserKeywordArray2 { get; private set; }
 
 		[Category("General")]
 		[DisplayName("Compile delay(ms)")]
@@ -60,5 +67,13 @@ namespace DMS.GLSL.Options
 		[DisplayName("Print compilation result")]
 		[Description("Print shader code compilation result to output window pane")]
 		public bool PrintCompilationResult { get; set; } = true;
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private static string[] ParseWords(string words)
+		{
+			char[] blanks = { ' ' };
+			return words.Split(blanks, StringSplitOptions.RemoveEmptyEntries);
+		}
 	}
 }

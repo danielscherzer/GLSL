@@ -55,33 +55,33 @@ namespace DMS.GLSL.Classification
 	}
 
 	[Export(typeof(EditorFormatDefinition))]
-	[ClassificationType(ClassificationTypeNames = GlslClassificationTypes.UserKeyWord1)]
-	[Name(nameof(GlslUserKeyWord1ClassificationFormatDefinition))]
+	[ClassificationType(ClassificationTypeNames = GlslClassificationTypes.UserKeyword1)]
+	[Name(nameof(GlslUserKeyword1ClassificationFormatDefinition))]
 	//this should be visible to the end user
 	[UserVisible(true)]
 	//set the priority to be after the default classifiers
 	[Order(Before = Priority.Default)]
-	internal sealed class GlslUserKeyWord1ClassificationFormatDefinition : ClassificationFormatDefinition
+	internal sealed class GlslUserKeyword1ClassificationFormatDefinition : ClassificationFormatDefinition
 	{
-		public GlslUserKeyWord1ClassificationFormatDefinition()
+		public GlslUserKeyword1ClassificationFormatDefinition()
 		{
-			DisplayName = "GLSL UserKeyWord1"; //human readable version of the name
+			DisplayName = "GLSL UserKeyword1"; //human readable version of the name
 			ForegroundColor = Colors.DarkOrange;
 		}
 	}
 
 	[Export(typeof(EditorFormatDefinition))]
-	[ClassificationType(ClassificationTypeNames = GlslClassificationTypes.UserKeyWord2)]
-	[Name(nameof(GlslUserKeyWord2ClassificationFormatDefinition))]
+	[ClassificationType(ClassificationTypeNames = GlslClassificationTypes.UserKeyword2)]
+	[Name(nameof(GlslUserKeyword2ClassificationFormatDefinition))]
 	//this should be visible to the end user
 	[UserVisible(true)]
 	//set the priority to be after the default classifiers
 	[Order(Before = Priority.Default)]
-	internal sealed class GlslUserKeyWord2ClassificationFormatDefinition : ClassificationFormatDefinition
+	internal sealed class GlslUserKeyword2ClassificationFormatDefinition : ClassificationFormatDefinition
 	{
-		public GlslUserKeyWord2ClassificationFormatDefinition()
+		public GlslUserKeyword2ClassificationFormatDefinition()
 		{
-			DisplayName = "GLSL UserKeyWord2"; //human readable version of the name
+			DisplayName = "GLSL UserKeyword2"; //human readable version of the name
 			ForegroundColor = Colors.DarkSalmon;
 		}
 	}

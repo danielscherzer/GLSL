@@ -6,11 +6,12 @@
 <#@ include file="ClassificationTypes.t4" #>
 namespace DMS.GLSL.Classification
 {
+	using Microsoft.VisualStudio.Language.StandardClassification;
 	using Microsoft.VisualStudio.Text.Classification;
 	using Microsoft.VisualStudio.Utilities;
 	using System.ComponentModel.Composition;
 
-	internal class GlslClassificationTypes
+	internal static class GlslClassificationTypes
 	{<#foreach(var classificationType in classificationTypes.Keys)
 		{
 			var name = classificationType;
@@ -27,7 +28,7 @@ namespace DMS.GLSL.Classification
 
 		[Export]
 		[Name(<#=name#>)]
-		[BaseDefinition("code")]
+		[BaseDefinition(<#=!classificationType.Contains("User") ? "PredefinedClassificationTypeNames.Keyword" : "PredefinedClassificationTypeNames.Identifier"#>)]
 		private static readonly ClassificationTypeDefinition <#=glslName#>;
 <#}#>
 

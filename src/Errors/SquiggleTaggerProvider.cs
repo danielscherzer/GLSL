@@ -20,8 +20,8 @@ namespace DMS.GLSL.Errors
 		[ImportingConstructor]
 		public SquiggleTaggerProvider(ShaderCompiler shaderCompiler, ICompilerSettings settings)
 		{
-			this.shaderCompiler = shaderCompiler;
-			this.settings = settings;
+			this.shaderCompiler = shaderCompiler ?? throw new ArgumentNullException(nameof(shaderCompiler));
+			this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
 		}
 
 		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag

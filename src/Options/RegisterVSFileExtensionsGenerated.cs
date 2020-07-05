@@ -11,6 +11,26 @@ namespace DMS.GLSL.Options
 		[ImportingConstructor]
 		public RegisterVSFileExtensions(IContentTypeRegistryService contentTypeRegistry, IFileExtensionRegistryService fileExtensionRegistry, ILogger logger, IShaderFileExtensions settings)
 		{
+			if (contentTypeRegistry is null)
+			{
+				throw new System.ArgumentNullException(nameof(contentTypeRegistry));
+			}
+
+			if (fileExtensionRegistry is null)
+			{
+				throw new System.ArgumentNullException(nameof(fileExtensionRegistry));
+			}
+
+			if (logger is null)
+			{
+				throw new System.ArgumentNullException(nameof(logger));
+			}
+
+			if (settings is null)
+			{
+				throw new System.ArgumentNullException(nameof(settings));
+			}
+
 			void Register(string sExtensions, string contentType) => RegisterFileExtensions(fileExtensionRegistry, sExtensions, contentTypeRegistry.GetContentType(contentType), logger);
 			Register(settings.AutoDetectShaderFileExtensions, ShaderContentTypes.AutoDetect);
 			Register(settings.FragmentShaderFileExtensions, ShaderContentTypes.Fragment);

@@ -1,4 +1,5 @@
-﻿using DMS.GLSL.Language;
+﻿using DMS.GLSL.Contracts;
+using GLSLhelper;
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -6,12 +7,20 @@ using System.Collections.Generic;
 
 namespace DMS.GLSL.Classification
 {
-	class SyntaxColorParser
+	class SyntaxColorParser : ISyntaxColorParser
 	{
-		private readonly GlslTokenizer tokenizer;
-
-		public SyntaxColorParser(IClassificationTypeRegistryService classificationTypeRegistry)
+		public SyntaxColorParser(IClassificationTypeRegistryService classificationTypeRegistry, IUserKeywords userKeywords)
 		{
+			if (classificationTypeRegistry is null)
+			{
+				throw new System.ArgumentNullException(nameof(classificationTypeRegistry));
+			}
+
+			if (userKeywords is null)
+			{
+				throw new System.ArgumentNullException(nameof(userKeywords));
+			}
+
 			Comment = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Comment);
 			Identifier = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Identifier);
 			Number = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Number);
@@ -20,22 +29,20 @@ namespace DMS.GLSL.Classification
 
 			Function = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
 			Keyword = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Keyword);
-			UserKeyWord1 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord1);
-			UserKeyWord2 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyWord2);
+			UserKeyword1 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyword1);
+			UserKeyword2 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyword2);
 			Variable = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Variable);
 			tokenizer = new GlslTokenizer();
+			userKeywords.PropertyChanged += (s, a) =>
+			{
+				ResetUserKeywords(userKeywords);
+				Changed?.Invoke(this);
+			};
+			ResetUserKeywords(userKeywords);
 		}
 
-		private IClassificationType Comment { get; }
-		private IClassificationType Identifier { get; }
-		private IClassificationType Number { get; }
-		private IClassificationType Operator { get; }
-		private IClassificationType PreprocessorKeyword { get; }
-		private IClassificationType Function { get; }
-		private IClassificationType Keyword { get; }
-		private IClassificationType UserKeyWord1 { get; }
-		private IClassificationType UserKeyWord2 { get; }
-		private IClassificationType Variable { get; }
+		public delegate void ChangedEventHandler(object sender);
+		public event ChangedEventHandler Changed;
 
 		public IList<ClassificationSpan> CalculateSpans(SnapshotSpan snapshotSpan)
 		{
@@ -49,9 +56,30 @@ namespace DMS.GLSL.Classification
 			return output;
 		}
 
+		private readonly GlslTokenizer tokenizer;
+		private readonly Dictionary<string, IClassificationType> userKeywords = new Dictionary<string, IClassificationType>();
+
+		private IClassificationType Comment { get; }
+		private IClassificationType Identifier { get; }
+		private IClassificationType Number { get; }
+		private IClassificationType Operator { get; }
+		private IClassificationType PreprocessorKeyword { get; }
+		private IClassificationType Function { get; }
+		private IClassificationType Keyword { get; }
+		private IClassificationType UserKeyword1 { get; }
+		private IClassificationType UserKeyword2 { get; }
+		private IClassificationType Variable { get; }
+
+		private void ResetUserKeywords(IUserKeywords userKeywords)
+		{
+			this.userKeywords.Clear();
+			foreach (var word in userKeywords.UserKeywordArray1) this.userKeywords[word] = UserKeyword1;
+			foreach (var word in userKeywords.UserKeywordArray2) this.userKeywords[word] = UserKeyword2;
+		}
+
 		private IClassificationType Convert(IToken token)
 		{
-			switch(token.Type)
+			switch (token.Type)
 			{
 				case TokenType.Comment: return Comment;
 				case TokenType.Function: return Function;
@@ -61,12 +89,8 @@ namespace DMS.GLSL.Classification
 				case TokenType.Preprocessor: return PreprocessorKeyword;
 				case TokenType.Variable: return Variable;
 				case TokenType.Identifier:
-					switch (UserKeyWords.GetDefinedWordType(token.Value))
-					{
-						case UserKeyWords.DefinedWordType.UserKeyword1: return UserKeyWord1;
-						case UserKeyWords.DefinedWordType.UserKeyword2: return UserKeyWord2;
-						default: return Identifier;
-					}
+					if (userKeywords.TryGetValue(token.Value, out var type)) return type;
+					return Identifier;
 				default:
 					return Identifier;
 			}
