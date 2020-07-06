@@ -42,7 +42,7 @@ namespace DMS.GLSL.Classification
 				var snapshotSpan = new SnapshotSpan(textBuffer.CurrentSnapshot, 0, textBuffer.CurrentSnapshot.Length);
 				var spans = parser.CalculateSpans(snapshotSpan);
 #if DEBUG
-				logger.Log($"[{DateTime.Now:hh:mm:ss:mmm}] {time.ElapsedTicks * 1e3f / Stopwatch.Frequency}ms : tokens={spans.Count}");
+				logger.Log($"{time.ElapsedTicks * 1e3f / Stopwatch.Frequency}ms : tokens={spans.Count}");
 #endif
 				this.spans = spans;
 				ClassificationChanged?.Invoke(this, new ClassificationChangedEventArgs(snapshotSpan));

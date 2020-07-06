@@ -62,7 +62,7 @@ namespace DMS.GLSL.Errors
 			foreach (var error in errors)
 			{
 				var lineNumber = error.LineNumber.HasValue ? error.LineNumber.Value - 1 : 0;
-				ErrorList.GetInstance().Write(error.Message, lineNumber, filePath, ShaderLogLine.WellKnownTypeWarning == error.Type); //TODO: warning is not properly handled by vs
+				ErrorList.GetInstance().Write(error.Message, lineNumber, filePath, ShaderLogLine.WellKnownTypeWarning == error.Type);
 			}
 			var span = new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length);
 			TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));

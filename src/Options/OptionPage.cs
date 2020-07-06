@@ -36,12 +36,10 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords1 = value;
-				UserKeywordArray1 = ParseWords(value);
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserKeywordArray1)));
+				userKeywordArray1 = ParseWords(value);
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(userKeywordArray1)));
 			}
 		}
-
-		public IEnumerable<string> UserKeywordArray1 { get; private set; } = Enumerable.Empty<string>();
 
 		[Category("General")]
 		[DisplayName("User key words 2")]
@@ -52,12 +50,10 @@ namespace DMS.GLSL.Options
 			set
 			{
 				_userKeyWords2 = value;
-				UserKeywordArray2 = ParseWords(value);
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserKeywordArray2)));
+				userKeywordArray2 = ParseWords(value);
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(userKeywordArray2)));
 			}
 		}
-
-		public IEnumerable<string> UserKeywordArray2 { get; private set; } = Enumerable.Empty<string>();
 
 		[Category("General")]
 		[DisplayName("Compile delay(ms)")]
@@ -65,11 +61,17 @@ namespace DMS.GLSL.Options
 		public int CompileDelay { get; set; } = 200;
 
 		[Category("General")]
-		[DisplayName("Print compilation result")]
-		[Description("Print shader code compilation result to output window pane")]
-		public bool PrintCompilationResult { get; set; } = true;
+		[DisplayName("Print shader log")]
+		[Description("Print the log of the shader compiler into the output pane and the log file")]
+		public bool PrintShaderCompilerLog { get; set; } = true;
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		IEnumerable<string> IUserKeywords.UserKeywordArray1 => userKeywordArray1;
+		IEnumerable<string> IUserKeywords.UserKeywordArray2 => userKeywordArray2;
+
+		private IEnumerable<string> userKeywordArray2 = Enumerable.Empty<string>();
+		private IEnumerable<string> userKeywordArray1 = Enumerable.Empty<string>();
 
 		private static string[] ParseWords(string words)
 		{

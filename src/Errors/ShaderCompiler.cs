@@ -73,9 +73,9 @@ namespace DMS.GLSL.Errors
 				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
 				var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
 				var errorLog = new ShaderLogParser(log);
-				if (!string.IsNullOrWhiteSpace(log) && settings.PrintCompilationResult)
+				if (!string.IsNullOrWhiteSpace(log) && settings.PrintShaderCompilerLog)
 				{
-					logger.Log(log, false);
+					logger.Log($"Dumping shader log:\n{log}\n", false);
 				}
 				compileData.CompilationFinished?.Invoke(errorLog.Lines);
 			}
@@ -146,7 +146,7 @@ namespace DMS.GLSL.Errors
 			if(ShaderContentTypes.AutoDetect == shaderContentType)
 			{
 				shaderContentType = AutoDetectShaderContentType(shaderCode);
-				logger.Log($"{DateTime.Now:HH.mm.ss.fff} Auto detecting shader type to '{shaderContentType}'", true);
+				logger.Log($"Auto detecting shader type to '{shaderContentType}'", true);
 			}
 			if (string.IsNullOrWhiteSpace(settings.ExternalCompilerExeFilePath))
 			{
@@ -174,13 +174,16 @@ namespace DMS.GLSL.Errors
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;
+					process.StartInfo.RedirectStandardError = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 					process.StartInfo.CreateNoWindow = true; //do not display a windows
 					logger.Log($"Using external compiler '{settings.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
 					process.Start();
-					process.WaitForExit(10000);
-					var output = process.StandardOutput.ReadToEnd(); //The output result
-					return output.Replace(shaderFileName, string.Empty); //HACK: glslLangValidator produces inconsistent error message format when using Vulkan vs GLSL compilation
+					if(!process.WaitForExit(10000))
+					{
+						logger.Log($"External compiler did take more than 10 seconds to finish. Aborting!", true);
+					}
+					return process.StandardOutput.ReadToEnd() + process.StandardError.ReadToEnd(); //The output result
 				}
 			}
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -204,17 +207,25 @@ namespace DMS.GLSL.Errors
 			try
 			{
 				var id = GL.CreateShader(glShaderType);
-				if (0 == id) throw new Exception($"Could not create {shaderType} instance.");
-				GL.ShaderSource(id, shaderCode);
-				GL.CompileShader(id);
-				GL.GetShader(id, ShaderParameter.CompileStatus, out int status_code);
-				string log = string.Empty;
-				if (1 != status_code)
+				if (0 == id)
 				{
-					log = GL.GetShaderInfoLog(id);
+					var message = $"Could not create {shaderType} instance. Are your drivers up-to-date?";
+					logger.Log(message, true);
+					return message;
 				}
-				GL.DeleteShader(id);
-				return log;
+				else
+				{
+					GL.ShaderSource(id, shaderCode);
+					GL.CompileShader(id);
+					GL.GetShader(id, ShaderParameter.CompileStatus, out int status_code);
+					string log = string.Empty;
+					if (1 != status_code)
+					{
+						log = GL.GetShaderInfoLog(id);
+					}
+					GL.DeleteShader(id);
+					return log;
+				}
 			}
 #pragma warning disable CA1031 // Do not catch general exception types
 			catch (AccessViolationException)

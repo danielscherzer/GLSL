@@ -6,6 +6,6 @@
 		string ExternalCompilerArguments { get; }
 		string ExternalCompilerExeFilePath { get; }
 		bool LiveCompiling { get; }
-		bool PrintCompilationResult { get; }
+		bool PrintShaderCompilerLog { get; }
 	}
 }
