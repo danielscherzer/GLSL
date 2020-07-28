@@ -1,10 +1,12 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using GLSLhelper;
+using Microsoft.VisualStudio.Shell;
 using System;
 
 namespace DMS.GLSL.Errors
 {
 	public class ErrorList : IServiceProvider
 	{
+		//public enum Type { Warning, Error}
 		private ErrorList()
 		{
 			provider = new ErrorListProvider(this);
@@ -25,15 +27,15 @@ namespace DMS.GLSL.Errors
 			provider.Tasks.Clear();
 		}
 
-		public void Write(string message, int line, string filePath, bool isWarning = false)
+		internal void Write(string message, int lineNumber, string filePath, MessageType type)
 		{
 			var task = new ErrorTask
 			{
 				Category = TaskCategory.BuildCompile,
 				Text = message,
-				Line = line,
+				Line = lineNumber,
 				Document = filePath,
-				ErrorCategory = isWarning ? TaskErrorCategory.Warning : TaskErrorCategory.Error,
+				ErrorCategory = Convert(type)
 			};
 			try
 			{
@@ -45,5 +47,15 @@ namespace DMS.GLSL.Errors
 
 		private static readonly ErrorList instance = new ErrorList();
 		private readonly ErrorListProvider provider;
+
+		private TaskErrorCategory Convert(MessageType type)
+		{
+			switch(type)
+			{
+				case MessageType.Error: return TaskErrorCategory.Error;
+				case MessageType.Warning: return TaskErrorCategory.Warning;
+				default: return TaskErrorCategory.Message;
+			}
+		}
 	}
 }

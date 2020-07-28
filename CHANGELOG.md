@@ -11,6 +11,7 @@ These are the changes to each version that has been released on the official Vis
 
 ## 0.10
 - [x] major restructuring of the project
+- [x] added support for parsing of VulkanSDK glslc.exe shader compiler
 
 ## 0.8
 - [x] Outlining

@@ -41,18 +41,14 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		private static string ConvertErrorType(string type)
+		private string ConvertErrorType(MessageType type)
 		{
-			//Debug.WriteLine(type);
-			if (type.Contains(ShaderLogLine.WellKnownTypeError))
+			switch(type)
 			{
-				return PredefinedErrorTypeNames.SyntaxError;
+				case MessageType.Error: return PredefinedErrorTypeNames.SyntaxError;
+				case MessageType.Warning: return PredefinedErrorTypeNames.Warning;
+				default: return PredefinedErrorTypeNames.Suggestion;
 			}
-			else if (type.Contains(ShaderLogLine.WellKnownTypeWarning))
-			{
-				return PredefinedErrorTypeNames.Warning;
-			}
-			return PredefinedErrorTypeNames.OtherError;
 		}
 
 		public void UpdateErrors(IEnumerable<ShaderLogLine> errorLog)
@@ -62,7 +58,7 @@ namespace DMS.GLSL.Errors
 			foreach (var error in errors)
 			{
 				var lineNumber = error.LineNumber.HasValue ? error.LineNumber.Value - 1 : 0;
-				ErrorList.GetInstance().Write(error.Message, lineNumber, filePath, ShaderLogLine.WellKnownTypeWarning == error.Type);
+				ErrorList.GetInstance().Write(error.Message, lineNumber, filePath, error.Type);
 			}
 			var span = new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length);
 			TagsChanged?.Invoke(this, new SnapshotSpanEventArgs(span));
