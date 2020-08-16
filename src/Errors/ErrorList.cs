@@ -1,12 +1,12 @@
 ﻿using GLSLhelper;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 
 namespace DMS.GLSL.Errors
 {
 	public class ErrorList : IServiceProvider
 	{
-		//public enum Type { Warning, Error}
 		private ErrorList()
 		{
 			provider = new ErrorListProvider(this);
@@ -29,26 +29,43 @@ namespace DMS.GLSL.Errors
 
 		internal void Write(string message, int lineNumber, string filePath, MessageType type)
 		{
-			var task = new ErrorTask
-			{
-				Category = TaskCategory.BuildCompile,
-				Text = message,
-				Line = lineNumber,
-				Document = filePath,
-				ErrorCategory = Convert(type)
-			};
+			ErrorTask task = CreateTask(message, lineNumber, filePath, Convert(type));
+			task.Navigate += Task_Navigate;
 			try
 			{
 				provider.Tasks.Add(task);
+				//provider.BringToFront();
 			}
 			catch (OperationCanceledException)
 			{ }
 		}
 
+		private static ErrorTask CreateTask(string text, int line, string document, TaskErrorCategory errorCategory)
+		{
+			return new ErrorTask
+			{
+				Category = TaskCategory.BuildCompile,
+				Text = text,
+				Line = line,
+				Column = 1,
+				Document = document,
+				ErrorCategory = errorCategory,
+			};
+		}
+
+		private void Task_Navigate(object sender, EventArgs e)
+		{
+			if (sender is ErrorTask task)
+			{
+				var temp = CreateTask(task.Text, task.Line + 1, task.Document, task.ErrorCategory);
+				provider.Navigate(temp, new Guid(LogicalViewID.Code));
+			}
+		}
+
 		private static readonly ErrorList instance = new ErrorList();
 		private readonly ErrorListProvider provider;
 
-		private TaskErrorCategory Convert(MessageType type)
+		private static TaskErrorCategory Convert(MessageType type)
 		{
 			switch(type)
 			{

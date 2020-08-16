@@ -22,9 +22,9 @@ namespace DMS.GLSL.VsLogger
 		{
 			lock (_lock)
 			{
-				File.AppendAllText(logFileName, $"[{DateTime.Now:HH:mm:ss.fff}] {message} \n");
+				File.AppendAllText(logFileName, $"[{DateTime.Now:MM.d HH:mm:ss.fff}] {message} \n");
 			}
-			VsOutput.WindowPane(message);
+			VsOutput.WindowPane(message + '\n');
 			if (highPriority)
 			{
 				VsOutput.StatusBar($"{DateTime.Now:HH:mm:ss.fff} {message}");

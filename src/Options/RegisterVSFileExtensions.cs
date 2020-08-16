@@ -15,14 +15,17 @@ namespace DMS.GLSL.Options
 			{
 				try
 				{
+					//fileExtensionRegistry.RemoveFileExtension(ext);
 					fileExtensionRegistry.AddFileExtension(ext, contentType);
 				}
 				catch(InvalidOperationException ioe)
 				{
+					var otherContentType = fileExtensionRegistry.GetContentTypeForExtension(ext);
 					var titel = "GLSL language integration";
-					var message = $"{titel}:Extension {ext} is ignored because it is already registered " +
-						$"with a different Visual Studio component. " +
-						$"Please remove it from the {titel} options page! Following is the detailed exception message {ioe}";
+					var message = $"{titel}:Extension '{ext}' is ignored because it is already registered " +
+						$"with the content type '{otherContentType.TypeName}'. " +
+						$"Please use a different extension on the {titel} options page!" +
+						$"Following is the detailed exception message {ioe}";
 					logger.Log(message, true);
 				}
 			}

@@ -1,5 +1,4 @@
 ﻿using DMS.GLSL.Contracts;
-using GLSLhelper;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
 using System;
@@ -25,7 +24,7 @@ namespace DMS.GLSL.Errors
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
-		internal delegate void OnCompilationFinished(IEnumerable<ShaderLogLine> errorLog);
+		internal delegate void OnCompilationFinished(IEnumerable<GLSLhelper.ShaderLogLine> errorLog);
 
 		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler, string documentDir)
 		{
@@ -51,6 +50,16 @@ namespace DMS.GLSL.Errors
 			public string DocumentDir { get; }
 		}
 
+		private static readonly IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
+		{
+			[ShaderContentTypes.Fragment] = ShaderType.FragmentShader,
+			[ShaderContentTypes.Vertex] = ShaderType.VertexShader,
+			[ShaderContentTypes.Geometry] = ShaderType.GeometryShader,
+			[ShaderContentTypes.TessellationControl] = ShaderType.TessControlShader,
+			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
+			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
+		};
+
 		private Task taskGL;
 		private readonly BlockingCollection<CompileData> compileRequests = new BlockingCollection<CompileData>();
 		private readonly ICompilerSettings settings;
@@ -72,7 +81,7 @@ namespace DMS.GLSL.Errors
 				var compileData = compileRequests.Take(); //block until compile requested
 				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
 				var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
-				var errorLog = new ShaderLogParser(log);
+				var errorLog = new GLSLhelper.ShaderLogParser(log);
 				if (!string.IsNullOrWhiteSpace(log) && settings.PrintShaderCompilerLog)
 				{
 					logger.Log($"Dumping shader log:\n{log}\n", false);
@@ -83,14 +92,16 @@ namespace DMS.GLSL.Errors
 
 		private static string AutoDetectShaderContentType(string shaderCode)
 		{
-			if (shaderCode.Contains("EmitVertex")) return ShaderContentTypes.Geometry;
-			if (shaderCode.Contains("local_size_")) return ShaderContentTypes.Compute;
-			if (shaderCode.Contains(") out;")) return ShaderContentTypes.TessellationControl;
-			if (shaderCode.Contains("gl_TessLevel")) return ShaderContentTypes.TessellationControl;
-			if (shaderCode.Contains("gl_TessCoord")) return ShaderContentTypes.TessellationEvaluation;
-			if (shaderCode.Contains("gl_Position")) return ShaderContentTypes.Vertex;
-			if (shaderCode.Contains(") in;")) return ShaderContentTypes.TessellationEvaluation;
-			return ShaderContentTypes.Fragment;
+			var type = GLSLhelper.ShaderTypeDetector.AutoDetectFromCode(shaderCode);
+			switch (type)
+			{
+				case GLSLhelper.ShaderType.Geometry: return ShaderContentTypes.Geometry;
+				case GLSLhelper.ShaderType.Compute: return ShaderContentTypes.Compute;
+				case GLSLhelper.ShaderType.TessellationControl: return ShaderContentTypes.TessellationControl;
+				case GLSLhelper.ShaderType.TessellationEvaluation: return ShaderContentTypes.TessellationEvaluation;
+				case GLSLhelper.ShaderType.Vertex: return ShaderContentTypes.Vertex;
+				default: return ShaderContentTypes.Fragment;
+			}
 		}
 
 		private static string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles = null)
@@ -138,12 +149,12 @@ namespace DMS.GLSL.Errors
 			{
 				shaderCode = SpecialCommentReplacement(shaderCode, "//?");
 			}
-			return Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
+			return GLSLhelper.Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
 		private static string Compile(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)
 		{
-			if(ShaderContentTypes.AutoDetect == shaderContentType)
+			if (ShaderContentTypes.AutoDetect == shaderContentType)
 			{
 				shaderContentType = AutoDetectShaderContentType(shaderCode);
 				logger.Log($"Auto detecting shader type to '{shaderContentType}'", true);
@@ -234,15 +245,5 @@ namespace DMS.GLSL.Errors
 			}
 #pragma warning restore CA1031 // Do not catch general exception types
 		}
-
-		private static readonly IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
-		{
-			[ShaderContentTypes.Fragment] = ShaderType.FragmentShader,
-			[ShaderContentTypes.Vertex] = ShaderType.VertexShader,
-			[ShaderContentTypes.Geometry] = ShaderType.GeometryShader,
-			[ShaderContentTypes.TessellationControl] = ShaderType.TessControlShader,
-			[ShaderContentTypes.TessellationEvaluation] = ShaderType.TessEvaluationShader,
-			[ShaderContentTypes.Compute] = ShaderType.ComputeShader,
-		};
 	}
 }

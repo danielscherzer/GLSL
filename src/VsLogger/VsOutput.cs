@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 
@@ -19,7 +20,7 @@ namespace DMS.GLSL.VsLogger
 				statusBar.IsFrozen(out var frozen);
 				if (0 != frozen) statusBar.FreezeOutput(0);
 
-				statusBar.SetText(message);
+				var success = ErrorHandler.Succeeded(statusBar.SetText(message));
 			});
 		}
 
@@ -32,8 +33,7 @@ namespace DMS.GLSL.VsLogger
 				var outputWindowPane = (IVsOutputWindowPane)Package.GetGlobalService(typeof(SVsGeneralOutputWindowPane));
 
 				if (outputWindowPane is null) return;
-
-				outputWindowPane.OutputStringThreadSafe(message + Environment.NewLine);
+				var success = ErrorHandler.Succeeded(outputWindowPane.OutputStringThreadSafe(message + Environment.NewLine));
 			});
 		}
 	}

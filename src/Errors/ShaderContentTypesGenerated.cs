@@ -1,5 +1,4 @@
-﻿
-namespace DMS.GLSL.Errors
+﻿namespace DMS.GLSL.Errors
 {
 	using Microsoft.VisualStudio.Utilities;
 	using System.ComponentModel.Composition;
