@@ -11,15 +11,15 @@ namespace DMS.GLSL.Options
 	{
 		private string _userKeyWords1;
 		private string _userKeyWords2;
-
+		
 		[Category("General")]
 		[DisplayName("Arguments for the external compiler executable")]
-		[Description("Command line arguments for the external compiler executable. Can contain environment variables, like %USERPROFILE% and also the Visual Studio variable $(SolutionDir).")]
+		[Description("Command line arguments for the external compiler executable. Can contain environment variables, like %USERPROFILE% and also the Visual Studio variable $(SolutionDir). A single argument that includes spaces must be surrounded by quotation marks, but those quotation marks are not carried through to the target application. In include quotation marks in the final parsed argument, triple-escape each mark.")]
 		public string ExternalCompilerArguments { get; set; } = string.Empty;
 
 		[Category("General")]
 		[DisplayName("External compiler executable file path (without quotes)")]
-		[Description("If non empty this file will be executed for each shader and the output parsed for error squiggles")]
+		[Description("If non empty this file will be executed for each shader and the output parsed for error squiggles. Can contain environment variables, like % USERPROFILE % and also the Visual Studio variable $(SolutionDir).")]
 		public string ExternalCompilerExeFilePath { get; set; } = string.Empty;
 
 		[Category("General")]

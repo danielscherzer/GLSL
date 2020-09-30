@@ -12,6 +12,8 @@ namespace DMS.GLSL.VsLogger
 		private readonly string logFileName;
 		private static readonly object _lock = new object();
 
+		public string LoggerInfo => $"Writing logger output to {logFileName}.";
+
 		public VsLogger()
 		{
 			logFileName = Path.Combine(Path.GetTempPath(), "GLSL VSX language extension.log");

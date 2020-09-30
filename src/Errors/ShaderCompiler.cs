@@ -179,9 +179,9 @@ namespace DMS.GLSL.Errors
 				File.WriteAllText(shaderFileName, shaderCode);
 				using (var process = new Process())
 				{
-					process.StartInfo.FileName = settings.ExternalCompilerExeFilePath;
+					process.StartInfo.FileName = VsExpand.EnvironmentVariables(settings.ExternalCompilerExeFilePath);
 					var arguments = VsExpand.EnvironmentVariables(settings.ExternalCompilerArguments);
-					process.StartInfo.Arguments = $"{arguments} {shaderFileName}"; //arguments
+					process.StartInfo.Arguments = $"{arguments} '{shaderFileName}'"; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;
 					process.StartInfo.RedirectStandardOutput = true;

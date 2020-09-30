@@ -63,7 +63,7 @@ File B.glsl
 ```
 
 ## External compiler
-In the option menu you can set a file path to an external compiler. If an existing path is given compilations will be executed by starting the given executable. The shader code (including include code and all substitutions) will be written into a temporary file named "shader.vert|frag|comp|..." (extensions follow glslangValidator standard) in the current users temp path. This temporary shader file is then used as the first argument to the external compiler executable.
+In the option menu you can set a file path and arguments to an external compiler. If an existing path is given compilations will be executed by starting the given executable. You can use environment variables, like `%SystemDrive%` in your arguments and path. The shader code (including include code and all substitutions) will be written into a temporary file named "shader.vert|frag|comp|..." (extensions follow glslangValidator standard) in the current users temp path. This temporary shader file is then used as the first argument to the external compiler executable. 
 
 ## Errors and questions
 Please us the GitHub [Issue function](https://github.com/danielscherzer/GLSL/issues/new) to report errors or ask questions.
