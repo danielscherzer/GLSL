@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
-using System.Windows.Media;
 
 namespace DMS.GLSL.Classification
 {
@@ -18,7 +17,7 @@ namespace DMS.GLSL.Classification
 		public GlslFunctionClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL Function"; //human readable version of the name
-			ForegroundColor = Colors.Orange;
+			ForegroundColor = ColorTools.FromHexCode("#ffaf5f");
 		}
 	}
 
@@ -34,7 +33,7 @@ namespace DMS.GLSL.Classification
 		public GlslKeywordClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL Keyword"; //human readable version of the name
-			ForegroundColor = Colors.CornflowerBlue;
+			ForegroundColor = ColorTools.FromHexCode("#5fafff");
 		}
 	}
 
@@ -50,7 +49,7 @@ namespace DMS.GLSL.Classification
 		public GlslVariableClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL Variable"; //human readable version of the name
-			ForegroundColor = Colors.LawnGreen;
+			ForegroundColor = ColorTools.FromHexCode("#5fffff");
 		}
 	}
 
@@ -66,7 +65,7 @@ namespace DMS.GLSL.Classification
 		public GlslUserKeyword1ClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL UserKeyword1"; //human readable version of the name
-			ForegroundColor = Colors.DarkOrange;
+			ForegroundColor = ColorTools.FromHexCode("#af5fff");
 		}
 	}
 
@@ -82,7 +81,7 @@ namespace DMS.GLSL.Classification
 		public GlslUserKeyword2ClassificationFormatDefinition()
 		{
 			DisplayName = "GLSL UserKeyword2"; //human readable version of the name
-			ForegroundColor = Colors.DarkSalmon;
+			ForegroundColor = ColorTools.FromHexCode("#ff5faf");
 		}
 	}
 

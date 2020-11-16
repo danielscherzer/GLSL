@@ -7,7 +7,6 @@
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
-using System.Windows.Media;
 
 namespace DMS.GLSL.Classification
 {
@@ -28,7 +27,7 @@ namespace DMS.GLSL.Classification
 		public <#=className#>()
 		{
 			DisplayName = "GLSL <#=name#>"; //human readable version of the name
-			ForegroundColor = Colors.<#=classificationType.Value#>;
+			ForegroundColor = ColorTools.FromHexCode("<#=classificationType.Value#>");
 		}
 	}
 

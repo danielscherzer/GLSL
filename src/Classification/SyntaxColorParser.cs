@@ -79,18 +79,21 @@ namespace DMS.GLSL.Classification
 
 		private IClassificationType Convert(IToken token)
 		{
+			IClassificationType CheckUserDefined(IToken currentToken, IClassificationType defaultType)
+			{
+				return userKeywords.TryGetValue(currentToken.Value, out var type) ? type : defaultType;
+			}
+
 			switch (token.Type)
 			{
 				case TokenType.Comment: return Comment;
-				case TokenType.Function: return Function;
-				case TokenType.Keyword: return Keyword;
+				case TokenType.Function: return CheckUserDefined(token, Function);
+				case TokenType.Keyword: return CheckUserDefined(token, Keyword);
 				case TokenType.Number: return Number;
 				case TokenType.Operator: return Operator;
 				case TokenType.Preprocessor: return PreprocessorKeyword;
-				case TokenType.Variable: return Variable;
-				case TokenType.Identifier:
-					if (userKeywords.TryGetValue(token.Value, out var type)) return type;
-					return Identifier;
+				case TokenType.Variable: return CheckUserDefined(token, Variable);
+				case TokenType.Identifier: return CheckUserDefined(token, Identifier);
 				default:
 					return Identifier;
 			}
