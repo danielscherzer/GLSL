@@ -149,7 +149,7 @@ namespace DMS.GLSL.Errors
 			{
 				shaderCode = SpecialCommentReplacement(shaderCode, "//?");
 			}
-			return GLSLhelper.Transformations.ExpandIncludes(shaderCode, GetIncludeCode);
+			return GLSLhelper.Transformation.ExpandIncludes(shaderCode, GetIncludeCode);
 		}
 
 		private static string Compile(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)

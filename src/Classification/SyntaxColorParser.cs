@@ -25,6 +25,7 @@ namespace DMS.GLSL.Classification
 			Identifier = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Identifier);
 			Number = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Number);
 			Operator = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.Operator);
+			QuotedString = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.String);
 			PreprocessorKeyword = classificationTypeRegistry.GetClassificationType(PredefinedClassificationTypeNames.PreprocessorKeyword);
 
 			Function = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Function);
@@ -32,7 +33,7 @@ namespace DMS.GLSL.Classification
 			UserKeyword1 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyword1);
 			UserKeyword2 = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.UserKeyword2);
 			Variable = classificationTypeRegistry.GetClassificationType(GlslClassificationTypes.Variable);
-			tokenizer = new GlslTokenizer();
+			parser = new GlslParser();
 			userKeywords.PropertyChanged += (s, a) =>
 			{
 				ResetUserKeywords(userKeywords);
@@ -48,7 +49,7 @@ namespace DMS.GLSL.Classification
 		{
 			var output = new List<ClassificationSpan>();
 			var text = snapshotSpan.GetText();
-			foreach (var token in tokenizer.Tokenize(text))
+			foreach (var token in parser.Tokenize(text))
 			{
 				var lineSpan = new SnapshotSpan(snapshotSpan.Snapshot, token.Start, token.Length);
 				output.Add(new ClassificationSpan(lineSpan, Convert(token)));
@@ -56,13 +57,14 @@ namespace DMS.GLSL.Classification
 			return output;
 		}
 
-		private readonly GlslTokenizer tokenizer;
+		private readonly GlslParser parser;
 		private readonly Dictionary<string, IClassificationType> userKeywords = new Dictionary<string, IClassificationType>();
 
 		private IClassificationType Comment { get; }
 		private IClassificationType Identifier { get; }
 		private IClassificationType Number { get; }
 		private IClassificationType Operator { get; }
+		private IClassificationType QuotedString { get; }
 		private IClassificationType PreprocessorKeyword { get; }
 		private IClassificationType Function { get; }
 		private IClassificationType Keyword { get; }
@@ -94,6 +96,7 @@ namespace DMS.GLSL.Classification
 				case TokenType.Preprocessor: return PreprocessorKeyword;
 				case TokenType.Variable: return CheckUserDefined(token, Variable);
 				case TokenType.Identifier: return CheckUserDefined(token, Identifier);
+				case TokenType.QuotedString: return QuotedString;
 				default:
 					return Identifier;
 			}
