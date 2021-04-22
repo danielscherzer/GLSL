@@ -181,7 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GLSLhelper">
-      <Version>0.3.51</Version>
+      <Version>0.3.52</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Composition">
       <Version>16.4.11</Version>

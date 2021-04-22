@@ -237,10 +237,10 @@ namespace DMS.GLSL.CodeCompletion
 			{
 				_currentSession = Broker.GetSessions(TextView)[0];
 			}
+			if (_currentSession is null) return false;
+
 			_currentSession.Dismissed += (sender, args) => _currentSession = null;
-
 			_currentSession.Start();
-
 			return true;
 		}
 	}
