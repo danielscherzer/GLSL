@@ -10,7 +10,7 @@ or get the [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6
 VSIX Project that provides GLSL language integration.
 Includes syntax highlighting, code completion (OpenGL 4.6 + identifiers in shader file), error tagging with squiggles and in error list (error list support is very alpha). Error tagging uses a separate OpenGL thread that compiles the shader on the primary graphics card. You can also select an external compiler executable to use for this purpose in the options menu. Please see section "External comiler" for details.
 
-See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELOG.md) for changes and road map.
+See the [change log](CHANGELOG.md) for changes and road map.
 
 ## Features
 
@@ -28,7 +28,7 @@ See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELO
 ## Previews
   Preview of Features Being worked on or builds that are built on preview nuget packages,
   all WIP features are listed below.
-  - [VS2022 Support](https://github.com/TheEndHunter/GLSL/blob/Feature/VS2022_Preview) [Builds and Installs!]
+  - [VS2022 Support](TheEndHunter/GLSL/tree/Feature/VS2022_Preview) [Builds and Installs!]
 
 ## Configuration (extension options)
 + Options of the extension can be found via the Visual Studio options dialog (`Tools` -> `Options` -> `glsl language integration`).
@@ -74,7 +74,7 @@ In the option menu you can set a file path and arguments to an external compiler
 Please us the GitHub [Issue function](https://github.com/danielscherzer/GLSL/issues/new) to report errors or ask questions.
 
 ## Contribute
-Check out the [contribution guidelines](https://github.com/danielscherzer/GLSL/blob/master/CONTRIBUTING.md)
+Check out the [contribution guidelines](CONTRIBUTING.md)
 if you want to contribute to this project.
 
 For cloning and building this project yourself, make sure to install the
