@@ -8,7 +8,7 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
-## 0.10.6(In Preview)
+## In [Feature/Vs2022_Preview](https://github.com/TheEndHunter/GLSL/tree/Feature/VS2022_Preview)
 - [x] Switched over from OpenTK to Silk.Net for OpenGl Contexts use for compiling Shaders
 - [x] Updated to .net Framework v4.8
 - [X] Support for VS2022
