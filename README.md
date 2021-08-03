@@ -25,6 +25,11 @@ See the [change log](https://github.com/danielscherzer/GLSL/blob/master/CHANGELO
 - Configurable (file extensions, code compilation, highlighting style, compiler)
 - Controlling the extension with comments (see below)
 
+## Previews
+  Preview of Features Being worked on or builds that are built on preview nuget packages,
+  all WIP features are listed below.
+  - [VS2022 Support](https://github.com/TheEndHunter/GLSL/blob/Feature/VS2022_Preview) [Builds and Installs!]
+
 ## Configuration (extension options)
 + Options of the extension can be found via the Visual Studio options dialog (`Tools` -> `Options` -> `glsl language integration`).
 + Configure Fonts and Colors via "Environment" -> "Fonts and Colors"). All "Display Items" of the extension start with GLSL.
