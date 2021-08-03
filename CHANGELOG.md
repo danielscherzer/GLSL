@@ -8,6 +8,11 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 0.10.6(In Preview)
+- [x] Switched over from OpenTK to Silk.Net for OpenGl Contexts use for compiling Shaders
+- [x] Updated to .net Framework v4.8
+- [X] Support for VS2022
+
 ## 0.10
 - [x] Error list jump to line
 - [x] major restructuring of the project

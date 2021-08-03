@@ -1,4 +1,5 @@
 ﻿
+
 namespace DMS.GLSL.Options
 {
 	using DMS.GLSL.Contracts;

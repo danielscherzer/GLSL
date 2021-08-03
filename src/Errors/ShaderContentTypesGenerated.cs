@@ -1,8 +1,10 @@
-﻿namespace DMS.GLSL.Errors
+﻿
+
+namespace DMS.GLSL.Errors
 {
 	using Microsoft.VisualStudio.Utilities;
 	using System.ComponentModel.Composition;
-	internal class ShaderContentTypes
+	internal static class ShaderContentTypes
 	{
 		public const string GlslShader = "glslShader";
 
