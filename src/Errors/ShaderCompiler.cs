@@ -1,8 +1,7 @@
 ﻿using DMS.GLSL.Contracts;
 
-using Silk.NET.Maths;
-using Silk.NET.OpenGL;
-using Silk.NET.Windowing;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 using System;
 using System.Collections.Concurrent;
@@ -77,7 +76,7 @@ namespace DMS.GLSL.Errors
 
         private void TaskGlAction()
         {
-            //Moved Window Context Create inside of the CompileOnGPU function
+            var context = new GameWindow(1, 1);
 
             while (!compileRequests.IsAddingCompleted)
             {
@@ -211,47 +210,37 @@ namespace DMS.GLSL.Errors
         [HandleProcessCorruptedStateExceptions]
         private static string CompileOnGPU(string shaderCode, string shaderType, ILogger logger)
         {
-            //Setup a default window context inside of Silk.Net and Create a OpenGLContext to run the code on,
-            // using statements are used to ensure that the window and gl context are destroyed after the task is complete.
-            var _opts = WindowOptions.Default;
-            _opts.Size = new Vector2D<int>(1, 1);
-            using (var _window = Window.Create(_opts))
+            // detect shader type
+            if (!mappingContentTypeToShaderType.TryGetValue(shaderType, out ShaderType glShaderType))
             {
-                using (var _GL = _window.CreateOpenGL())
+                logger.Log($"Unsupported shader type '{shaderType}' by OpenTK shader compiler. Use an external compiler", true);
+            }
+            try
+            {
+                var id = GL.CreateShader(glShaderType);
+                if (id == 0)
                 {
-                    // detect shader type
-                    if (!mappingContentTypeToShaderType.TryGetValue(shaderType, out ShaderType glShaderType))
-                    {
-                        logger.Log($"Unsupported shader type '{shaderType}' by OpenTK shader compiler. Use an external compiler", true);
-                    }
-                    try
-                    {
-                        var id = _GL.CreateShader(glShaderType);
-                        if (id == 0)
-                        {
-                            var message = $"Could not create {shaderType} instance. Are your drivers up-to-date?";
-                            logger.Log(message, true);
-                            return message;
-                        }
-                        else
-                        {
-                            _GL.ShaderSource(id, shaderCode);
-                            _GL.CompileShader(id);
-                            _GL.GetShader(id, ShaderParameterName.CompileStatus, out int status_code);
-                            string log = string.Empty;
-                            if (status_code != 1)
-                            {
-                                log = _GL.GetShaderInfoLog(id);
-                            }
-                            _GL.DeleteShader(id);
-                            return log;
-                        }
-                    }
-                    catch (AccessViolationException)
-                    {
-                        return "(1 1):ERROR: OpenGL shader compiler has crashed";
-                    }
+                    var message = $"Could not create {shaderType} instance. Are your drivers up-to-date?";
+                    logger.Log(message, true);
+                    return message;
                 }
+                else
+                {
+                    GL.ShaderSource(id, shaderCode);
+                    GL.CompileShader(id);
+                    GL.GetShader(id, ShaderParameter.CompileStatus, out int status_code);
+                    string log = string.Empty;
+                    if (status_code != 1)
+                    {
+                        log = GL.GetShaderInfoLog(id);
+                    }
+                    GL.DeleteShader(id);
+                    return log;
+                }
+            }
+            catch (AccessViolationException)
+            {
+                return "(1 1):ERROR: OpenGL shader compiler has crashed";
             }
         }
     }
