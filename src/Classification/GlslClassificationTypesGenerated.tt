@@ -16,11 +16,8 @@ namespace DMS.GLSL.Classification
 		{
 			var name = classificationType;
 			var glslName = $"glsl{name}";#>
-
 		public const string <#=name#> = nameof(<#=glslName#>);<#}#>
-
-
-#pragma warning disable 169 //never used warning
+		#pragma warning disable 169 //never used warning
 		<#foreach(var classificationType in classificationTypes.Keys)
 		{
 			var name = classificationType;
@@ -31,7 +28,6 @@ namespace DMS.GLSL.Classification
 		[BaseDefinition(<#=!classificationType.Contains("User") ? "PredefinedClassificationTypeNames.Keyword" : "PredefinedClassificationTypeNames.Identifier"#>)]
 		private static readonly ClassificationTypeDefinition <#=glslName#>;
 <#}#>
-
 #pragma warning restore 169 //never used warning
 	}
 }
