@@ -8,9 +8,9 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
-## In [Feature/Vs2022_Preview](https://github.com/TheEndHunter/GLSL/tree/Feature/VS2022_Preview)
-- [x] Updated to .net Framework v4.8
-- [X] Support for VS2022
+## 0.10.1
+- [x] Visual Studio 2022 Support!
+- [x] Updated to .net framework v4.8
 
 ## 0.10
 - [x] Error list jump to line
