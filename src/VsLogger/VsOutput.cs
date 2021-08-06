@@ -1,40 +1,53 @@
 ﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+
 using System;
 
 namespace DMS.GLSL.VsLogger
 {
-	internal static class VsOutput
-	{
-		internal static void StatusBar(string message)
-		{
-			ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
-			{
-				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+    internal static class VsOutput
+    {
+        internal static void StatusBar(string message)
+        {
+            _ = ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
+            {
+                await StatusBarAsync(message).ConfigureAwait(true);
+            });
+        }
 
-				var statusBar = (IVsStatusbar)Package.GetGlobalService(typeof(SVsStatusbar));
+        internal static async System.Threading.Tasks.Task StatusBarAsync(string message)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				if (statusBar is null) return;
+            var statusBar = (IVsStatusbar)Package.GetGlobalService(typeof(SVsStatusbar));
 
-				statusBar.IsFrozen(out var frozen);
-				if (0 != frozen) statusBar.FreezeOutput(0);
+            if (statusBar is null) return;
 
-				var success = ErrorHandler.Succeeded(statusBar.SetText(message));
-			});
-		}
+            statusBar.IsFrozen(out var frozen);
+            if (frozen != 0) statusBar.FreezeOutput(0);
 
-		internal static void WindowPane(string message)
-		{
-			ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
-			{
-				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            ErrorHandler.Succeeded(statusBar.SetText(message));
+        }
 
-				var outputWindowPane = (IVsOutputWindowPane)Package.GetGlobalService(typeof(SVsGeneralOutputWindowPane));
+        internal static async System.Threading.Tasks.Task WindowPaneAsync(string message)
+        {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				if (outputWindowPane is null) return;
-				var success = ErrorHandler.Succeeded(outputWindowPane.OutputStringThreadSafe(message + Environment.NewLine));
-			});
-		}
-	}
+            var outputWindowPane = (IVsOutputWindowPane)Package.GetGlobalService(typeof(SVsGeneralOutputWindowPane));
+
+            if (outputWindowPane != null)
+            {
+                ErrorHandler.Succeeded(outputWindowPane.OutputStringThreadSafe(message + Environment.NewLine));
+            }
+        }
+
+        internal static void WindowPane(string message)
+        {
+            _ = ThreadHelper.JoinableTaskFactory.RunAsync(async delegate
+              {
+                  await WindowPaneAsync(message).ConfigureAwait(true);
+              });
+        }
+    }
 }

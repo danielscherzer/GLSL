@@ -1,4 +1,5 @@
 ﻿
+
 namespace DMS.GLSL.Contracts
 {
 	public interface IShaderFileExtensions

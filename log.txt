@@ -1,0 +1,9 @@
+2021-08-03 11:33:56.677 +01:00 [INF] Loaded 3 extensions
+2021-08-03 11:33:59.254 +01:00 [ERR] No supported MSBuild found. Ensure `dotnet --list-sdks` show an install that is 64-bit
+2021-08-03 11:33:59.259 +01:00 [ERR] MSBuild not found
+2021-08-03 11:35:40.286 +01:00 [INF] Loaded 5 extensions
+2021-08-03 11:35:42.559 +01:00 [ERR] No supported MSBuild found. Ensure `dotnet --list-sdks` show an install that is 64-bit
+2021-08-03 11:35:42.564 +01:00 [ERR] MSBuild not found
+2021-08-03 11:38:22.592 +01:00 [INF] Loaded 5 extensions
+2021-08-03 11:38:24.864 +01:00 [ERR] No supported MSBuild found. Ensure `dotnet --list-sdks` show an install that is 64-bit
+2021-08-03 11:38:24.870 +01:00 [ERR] MSBuild not found
