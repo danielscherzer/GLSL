@@ -28,10 +28,10 @@ namespace DMS.GLSL.VsLogger
             {
                 File.AppendAllText(logFileName, $"[{DateTime.Now:MM.d HH:mm:ss.fff}] {message} \n");
             }
-            await VsOutput.WindowPaneAsync(message + '\n');
+            await VsOutput.WindowPaneAsync(message + '\n').ConfigureAwait(false);
             if (highPriority)
             {
-                await VsOutput.StatusBarAsync($"{DateTime.Now:HH:mm:ss.fff} {message}");
+                await VsOutput.StatusBarAsync($"{DateTime.Now:HH:mm:ss.fff} {message}").ConfigureAwait(false);
             }
         }
 
