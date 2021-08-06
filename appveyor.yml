@@ -37,4 +37,4 @@ deploy:
   - secure: IGRhoLQi/yyC2ej7s79ZRU3PL3NScj4Kxh1Lyydg/CEvD/PbRwIilxmBziEHfwjJ
   - artifact: Latest build
   - draft: false
-  - prerelease: true
+  - prerelease: false
