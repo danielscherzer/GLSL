@@ -8,7 +8,7 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
-## 0.10.1
+## 0.10.126
 - [x] Visual Studio 2022 Support!
 - [x] Updated to .net framework v4.8
 
