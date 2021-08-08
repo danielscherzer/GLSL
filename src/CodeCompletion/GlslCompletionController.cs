@@ -100,7 +100,7 @@ namespace DMS.GLSL.CodeCompletion
 						handled = Complete(true);
 						break;
 					case VSConstants.VSStd2KCmdID.CANCEL:
-						handled = Cancel();
+						Cancel();
 						break;
 					case VSConstants.VSStd2KCmdID.COMMENTBLOCK:
 					case VSConstants.VSStd2KCmdID.COMMENT_BLOCK:
@@ -189,14 +189,13 @@ namespace DMS.GLSL.CodeCompletion
 		/// <summary>
 		/// Cancel the auto-complete session, and leave the text unmodified
 		/// </summary>
-		private bool Cancel()
+		private void Cancel()
 		{
-			if (_currentSession == null)
-				return false;
+			if (null != _currentSession)
+			{
+				_currentSession.Dismiss();
+			}
 
-			_currentSession.Dismiss();
-
-			return true;
 		}
 
 		/// <summary>

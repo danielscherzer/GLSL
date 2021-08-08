@@ -15,7 +15,7 @@ namespace DMS.GLSL.Classification
 		public const string UserKeyword2 = nameof(glslUserKeyword2);
 
 #pragma warning disable 169 //never used warning
-
+		
 		[Export]
 		[Name(Function)]
 		[BaseDefinition(PredefinedClassificationTypeNames.Keyword)]

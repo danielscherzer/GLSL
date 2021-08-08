@@ -1,14 +1,16 @@
-﻿namespace DMS.GLSL.Errors
+﻿
+using Microsoft.VisualStudio.Utilities;
+using System.ComponentModel.Composition;
+
+namespace DMS.GLSL.Errors
 {
-	using Microsoft.VisualStudio.Utilities;
-	using System.ComponentModel.Composition;
-	internal class ShaderContentTypes
+	internal static class ShaderContentTypes
 	{
 		public const string GlslShader = "glslShader";
 
 		public static string DefaultFileExtension(string shaderType)
 		{
-			switch (shaderType)
+			switch(shaderType)
 			{
 				case AutoDetect: return ".glsl";
 				case Fragment: return ".frag";
@@ -35,7 +37,7 @@
 		[BaseDefinition("code")]
 		internal static readonly ContentTypeDefinition glslContentType;
 
-
+		
 		public const string AutoDetect = "glslAutoDetect";
 		[Export]
 		[Name(AutoDetect)]
