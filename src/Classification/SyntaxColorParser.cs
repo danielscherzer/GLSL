@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace DMS.GLSL.Classification
 {
-	class SyntaxColorParser : ISyntaxColorParser
+	internal class SyntaxColorParser : ISyntaxColorParser
 	{
 		public SyntaxColorParser(IClassificationTypeRegistryService classificationTypeRegistry, IUserKeywords userKeywords)
 		{

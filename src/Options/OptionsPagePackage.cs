@@ -55,7 +55,7 @@ namespace DMS.GLSL.Options
 			return joinableTaskFactory.Run(LoadAsync);
 		}
 
-		public async static System.Threading.Tasks.Task<OptionPage> LoadAsync()
+		public static async System.Threading.Tasks.Task<OptionPage> LoadAsync()
 		{
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 			lock (_syncRoot)

@@ -9,8 +9,6 @@ namespace DMS.GLSL.TodoClassification
 {
 	internal class TodoGlyphFactory : IGlyphFactory
 	{
-		const double m_glyphSize = 14.0;
-
 		public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
 		{
 			// Ensure we can draw a glyph for this marker.

@@ -8,7 +8,7 @@ namespace DMS.GLSL.Options
 	internal sealed partial class OnEditorFileLoading : EditorOptionDefinition<string>
 	{
 
-		public readonly static EditorOptionKey<string> OptionKey = new EditorOptionKey<string>("GLSL highlighting file extensions");
+		public static readonly EditorOptionKey<string> OptionKey = new EditorOptionKey<string>("GLSL highlighting file extensions");
 
 		[ImportingConstructor]
 		public OnEditorFileLoading(RegisterVSFileExtensions fileExtensions)

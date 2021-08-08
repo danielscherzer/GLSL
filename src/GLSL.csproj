@@ -184,12 +184,12 @@
       <Version>0.3.52</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Composition">
-      <Version>16.4.11</Version>
+      <Version>16.9.20</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="15.0.1" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.9.1050">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.10.1055">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

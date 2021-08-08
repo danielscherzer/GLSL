@@ -41,7 +41,7 @@ namespace DMS.GLSL.Outlining
 
 			foreach (var region in currentRegionSpans)
 			{
-				if(entire.OverlapsWith(region))
+				if (entire.OverlapsWith(region))
 				{
 					yield return new TagSpan<IOutliningRegionTag>(region, new OutliningRegionTag(false, false, ellipsis, region.GetText()));
 				}
@@ -65,10 +65,10 @@ namespace DMS.GLSL.Outlining
 
 			foreach (var classificationSpan in classificationSpans)
 			{
-				if(classificationSpan.ClassificationType.IsOfType(PredefinedClassificationTypeNames.Operator))
+				if (classificationSpan.ClassificationType.IsOfType(PredefinedClassificationTypeNames.Operator))
 				{
 					var text = classificationSpan.Span.GetText();
-					for(int i = 0; i < text.Length; ++i)
+					for (int i = 0; i < text.Length; ++i)
 					{
 						if (startHide == text[i])
 						{

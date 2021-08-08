@@ -21,10 +21,10 @@ namespace DMS.GLSL.CodeCompletion
 	internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
 	{
 		[Import]
-		readonly IVsEditorAdaptersFactoryService AdaptersFactory = null;
+		private readonly IVsEditorAdaptersFactoryService AdaptersFactory = null;
 
 		[Import]
-		readonly ICompletionBroker CompletionBroker = null;
+		private readonly ICompletionBroker CompletionBroker = null;
 
 		public void VsTextViewCreated(IVsTextView textViewAdapter)
 		{
@@ -40,7 +40,7 @@ namespace DMS.GLSL.CodeCompletion
 
 	internal sealed class CommandFilter : IOleCommandTarget
 	{
-		ICompletionSession _currentSession;
+		private ICompletionSession _currentSession;
 
 		public CommandFilter(IWpfTextView textView, ICompletionBroker broker)
 		{

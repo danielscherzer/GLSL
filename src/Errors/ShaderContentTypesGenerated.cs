@@ -8,7 +8,7 @@
 
 		public static string DefaultFileExtension(string shaderType)
 		{
-			switch(shaderType)
+			switch (shaderType)
 			{
 				case AutoDetect: return ".glsl";
 				case Fragment: return ".frag";
@@ -35,7 +35,7 @@
 		[BaseDefinition("code")]
 		internal static readonly ContentTypeDefinition glslContentType;
 
-		
+
 		public const string AutoDetect = "glslAutoDetect";
 		[Export]
 		[Name(AutoDetect)]

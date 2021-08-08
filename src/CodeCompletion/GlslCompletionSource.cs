@@ -15,7 +15,7 @@ namespace DMS.GLSL.CodeCompletion
 	[Export(typeof(ICompletionSourceProvider))]
 	[ContentType("glslShader")]
 	[Name("glslCompletion")]
-	class GlslCompletionSourceProvider : ICompletionSourceProvider
+	internal class GlslCompletionSourceProvider : ICompletionSourceProvider
 	{
 		[ImportingConstructor]
 		public GlslCompletionSourceProvider(IClassifierAggregatorService classifierAggregatorService, IGlyphService glyphService)
@@ -72,7 +72,7 @@ namespace DMS.GLSL.CodeCompletion
 		private readonly List<Completion> staticCompletions = new List<Completion>();
 	}
 
-	class GlslCompletionSource : ICompletionSource
+	internal class GlslCompletionSource : ICompletionSource
 	{
 		private readonly ITextBuffer currentBuffer;
 		private bool _disposed = false;

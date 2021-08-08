@@ -18,7 +18,7 @@ namespace DMS.GLSL.Options
 					//fileExtensionRegistry.RemoveFileExtension(ext);
 					fileExtensionRegistry.AddFileExtension(ext, contentType);
 				}
-				catch(InvalidOperationException ioe)
+				catch (InvalidOperationException ioe)
 				{
 					var otherContentType = fileExtensionRegistry.GetContentTypeForExtension(ext);
 					var titel = "GLSL language integration";

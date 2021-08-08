@@ -11,7 +11,7 @@ namespace DMS.GLSL.Options
 	{
 		private string _userKeyWords1;
 		private string _userKeyWords2;
-		
+
 		[Category("General")]
 		[DisplayName("Arguments for the external compiler executable")]
 		[Description("Command line arguments for the external compiler executable. Can contain environment variables, like %USERPROFILE% and also the Visual Studio variable $(SolutionDir). A single argument that includes spaces must be surrounded by quotation marks, but those quotation marks are not carried through to the target application. In include quotation marks in the final parsed argument, triple-escape each mark.")]

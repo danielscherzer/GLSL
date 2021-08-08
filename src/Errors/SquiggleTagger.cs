@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DMS.GLSL.Errors
 {
-	class SquiggleTagger : ITagger<IErrorTag>
+	internal class SquiggleTagger : ITagger<IErrorTag>
 	{
 		public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
@@ -43,7 +43,7 @@ namespace DMS.GLSL.Errors
 
 		private string ConvertErrorType(MessageType type)
 		{
-			switch(type)
+			switch (type)
 			{
 				case MessageType.Error: return PredefinedErrorTypeNames.SyntaxError;
 				case MessageType.Warning: return PredefinedErrorTypeNames.Warning;

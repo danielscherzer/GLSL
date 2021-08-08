@@ -1,6 +1,6 @@
 ﻿namespace DMS.GLSL.Contracts
 {
-	interface ILogger
+	internal interface ILogger
 	{
 		void Log(string message, bool highPriority = false);
 	}

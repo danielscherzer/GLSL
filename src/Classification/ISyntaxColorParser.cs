@@ -1,6 +1,6 @@
 ﻿namespace DMS.GLSL.Classification
 {
-	interface ISyntaxColorParser
+	internal interface ISyntaxColorParser
 	{
 		event SyntaxColorParser.ChangedEventHandler Changed;
 	}

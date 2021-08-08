@@ -5,7 +5,7 @@ using System;
 
 namespace DMS.GLSL.Errors
 {
-	public class ErrorList : IServiceProvider
+	public sealed class ErrorList : IServiceProvider
 	{
 		private ErrorList()
 		{
@@ -67,7 +67,7 @@ namespace DMS.GLSL.Errors
 
 		private static TaskErrorCategory Convert(MessageType type)
 		{
-			switch(type)
+			switch (type)
 			{
 				case MessageType.Error: return TaskErrorCategory.Error;
 				case MessageType.Warning: return TaskErrorCategory.Warning;

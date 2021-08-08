@@ -190,7 +190,7 @@ namespace DMS.GLSL.Errors
 					process.StartInfo.CreateNoWindow = true; //do not display a windows
 					logger.Log($"Using external compiler '{settings.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
 					process.Start();
-					if(!process.WaitForExit(10000))
+					if (!process.WaitForExit(10000))
 					{
 						logger.Log($"External compiler did take more than 10 seconds to finish. Aborting!", true);
 					}
