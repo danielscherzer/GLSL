@@ -1,9 +1,9 @@
-﻿using GLSLhelper;
+﻿using System;
+
+using GLSLhelper;
 
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-
-using System;
 
 namespace DMS.GLSL.Errors
 {

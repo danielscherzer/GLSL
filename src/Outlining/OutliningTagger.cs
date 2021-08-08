@@ -1,13 +1,13 @@
-﻿using DMS.GLSL.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using System.Reactive.Linq;
+
+using DMS.GLSL.Contracts;
 
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
-
-using System;
-using System.Collections.Generic;
-using System.Reactive.Linq;
 
 namespace DMS.GLSL.Outlining
 {

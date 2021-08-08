@@ -1,9 +1,9 @@
-﻿using DMS.GLSL.Contracts;
+﻿using System;
+using System.ComponentModel.Composition;
+
+using DMS.GLSL.Contracts;
 
 using Microsoft.VisualStudio.Utilities;
-
-using System;
-using System.ComponentModel.Composition;
 
 namespace DMS.GLSL.Options
 {

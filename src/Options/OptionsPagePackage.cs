@@ -1,12 +1,12 @@
-﻿using DMS.GLSL.Contracts;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Runtime.InteropServices;
+
+using DMS.GLSL.Contracts;
 
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-
-using System;
-using System.ComponentModel.Composition;
-using System.Runtime.InteropServices;
 
 namespace DMS.GLSL.Options
 {
@@ -52,7 +52,7 @@ namespace DMS.GLSL.Options
             return joinableTaskFactory.Run(LoadAsync);
         }
 
-        public async static System.Threading.Tasks.Task<OptionPage> LoadAsync()
+        public static async System.Threading.Tasks.Task<OptionPage> LoadAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             lock (_syncRoot)

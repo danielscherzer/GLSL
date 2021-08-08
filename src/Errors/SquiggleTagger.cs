@@ -1,12 +1,12 @@
-﻿using GLSLhelper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using GLSLhelper;
 
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Tagging;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DMS.GLSL.Errors
 {

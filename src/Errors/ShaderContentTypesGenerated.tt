@@ -3,10 +3,11 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="$(ProjectDir)Contracts\\ShaderTypesAndDefaultExtension.t4" #>
+using Microsoft.VisualStudio.Utilities;
+using System.ComponentModel.Composition;
+
 namespace DMS.GLSL.Errors
 {
-	using Microsoft.VisualStudio.Utilities;
-	using System.ComponentModel.Composition;
 	internal static class ShaderContentTypes
 	{
 		public const string GlslShader = "glslShader";

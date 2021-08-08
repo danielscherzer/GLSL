@@ -1,12 +1,12 @@
-﻿using DMS.GLSL.Contracts;
+﻿using System.Collections.Generic;
+
+using DMS.GLSL.Contracts;
 
 using GLSLhelper;
 
 using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
-
-using System.Collections.Generic;
 
 namespace DMS.GLSL.Classification
 {

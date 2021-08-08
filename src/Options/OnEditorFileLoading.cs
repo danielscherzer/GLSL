@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.Composition;
-using Microsoft.VisualStudio.Text.Editor;
+﻿using System.ComponentModel.Composition;
 
-using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Composition;
+using Microsoft.VisualStudio.Text.Editor;
 
 namespace DMS.GLSL.Options
 {

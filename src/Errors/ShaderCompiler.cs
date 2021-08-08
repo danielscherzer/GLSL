@@ -1,9 +1,4 @@
-﻿using DMS.GLSL.Contracts;
-
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -12,6 +7,11 @@ using System.IO;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
+
+using DMS.GLSL.Contracts;
+
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
 
 namespace DMS.GLSL.Errors
 {
@@ -76,8 +76,8 @@ namespace DMS.GLSL.Errors
 
         private void TaskGlAction()
         {
+            //create a game window for rendering context, until run is called it is invisible so no problem
             var context = new GameWindow(1, 1);
-
             while (!compileRequests.IsAddingCompleted)
             {
                 var compileData = compileRequests.Take(); //block until compile requested

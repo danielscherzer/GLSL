@@ -1,11 +1,11 @@
-﻿using DMS.GLSL.Contracts;
-
-using Microsoft.VisualStudio.Shell;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+
+using DMS.GLSL.Contracts;
+
+using Microsoft.VisualStudio.Shell;
 
 namespace DMS.GLSL.Options
 {
