@@ -3,6 +3,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ include file="$(ProjectDir)Contracts\\ShaderTypesAndDefaultExtension.t4" #>
+
 using Microsoft.VisualStudio.Utilities;
 using System.ComponentModel.Composition;
 

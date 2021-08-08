@@ -41,14 +41,14 @@ namespace DMS.GLSL.Outlining
             if (currentRegionSpans.Count == 0) yield break;
             SnapshotSpan entire = new SnapshotSpan(spans[0].Start, spans[spans.Count - 1].End).TranslateTo(currentRegionSpans[0].Snapshot, SpanTrackingMode.EdgeInclusive);
 
-            foreach (var region in currentRegionSpans)
-            {
-                if (entire.OverlapsWith(region))
-                {
-                    yield return new TagSpan<IOutliningRegionTag>(region, new OutliningRegionTag(false, false, ellipsis, region.GetText()));
-                }
-            }
-        }
+			foreach (var region in currentRegionSpans)
+			{
+				if (entire.OverlapsWith(region))
+				{
+					yield return new TagSpan<IOutliningRegionTag>(region, new OutliningRegionTag(false, false, ellipsis, region.GetText()));
+				}
+			}
+		}
 
         private const char startHide = '{';     //the characters that start the outlining region
         private const char endHide = '}';       //the characters that end the outlining region
@@ -65,32 +65,32 @@ namespace DMS.GLSL.Outlining
             var points = new Stack<SnapshotPoint>();
             var output = new List<SnapshotSpan>();
 
-            foreach (var classificationSpan in classificationSpans)
-            {
-                if (classificationSpan.ClassificationType.IsOfType(PredefinedClassificationTypeNames.Operator))
-                {
-                    var text = classificationSpan.Span.GetText();
-                    for (int i = 0; i < text.Length; ++i)
-                    {
-                        if (startHide == text[i])
-                        {
-                            points.Push(classificationSpan.Span.Start);
-                        }
-                        else if (endHide == text[i])
-                        {
-                            if (points.Count == 0) continue;
-                            var start = points.Pop();
-                            var end = classificationSpan.Span.Start + i;
-                            if (start.GetContainingLine().LineNumber != end.GetContainingLine().LineNumber)
-                            {
-                                var span = new SnapshotSpan(start, end + 1);
-                                output.Add(span);
-                            }
-                        }
-                    }
-                }
-            }
-            return output;
-        }
-    }
+			foreach (var classificationSpan in classificationSpans)
+			{
+				if (classificationSpan.ClassificationType.IsOfType(PredefinedClassificationTypeNames.Operator))
+				{
+					var text = classificationSpan.Span.GetText();
+					for (int i = 0; i < text.Length; ++i)
+					{
+						if (startHide == text[i])
+						{
+							points.Push(classificationSpan.Span.Start);
+						}
+						else if (endHide == text[i])
+						{
+							if (0 == points.Count) continue;
+							var start = points.Pop();
+							var end = classificationSpan.Span.Start + i;
+							if (start.GetContainingLine().LineNumber != end.GetContainingLine().LineNumber)
+							{
+								var span = new SnapshotSpan(start, end + 1);
+								output.Add(span);
+							}
+						}
+					}
+				}
+			}
+			return output;
+		}
+	}
 }

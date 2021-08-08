@@ -43,16 +43,15 @@ namespace DMS.GLSL.Errors
             }
         }
 
-        private string ConvertErrorType(MessageType type)
-        {
-            switch (type)
-            {
-                case MessageType.Error: return PredefinedErrorTypeNames.SyntaxError;
-                case MessageType.Warning: return PredefinedErrorTypeNames.Warning;
-                default: return PredefinedErrorTypeNames.Suggestion;
-            }
-        }
-
+		private string ConvertErrorType(MessageType type)
+		{
+			switch (type)
+			{
+				case MessageType.Error: return PredefinedErrorTypeNames.SyntaxError;
+				case MessageType.Warning: return PredefinedErrorTypeNames.Warning;
+				default: return PredefinedErrorTypeNames.Suggestion;
+			}
+		}
         public void UpdateErrors(IEnumerable<ShaderLogLine> errorLog)
         {
             errors = errorLog;

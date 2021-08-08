@@ -31,7 +31,6 @@ namespace DMS.GLSL.Errors
             }
             return ".frag";
         }
-
 #pragma warning disable 649 //never used warning
         [Export]
         [Name(GlslShader)]

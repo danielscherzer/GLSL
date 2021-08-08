@@ -52,21 +52,21 @@ namespace DMS.GLSL.Options
             return joinableTaskFactory.Run(LoadAsync);
         }
 
-        public static async System.Threading.Tasks.Task<OptionPage> LoadAsync()
-        {
-            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            lock (_syncRoot)
-            {
-                var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
-                var guid = new Guid(PackageGuidString);
-                if (ErrorHandler.Failed(shell.IsPackageLoaded(ref guid, out IVsPackage package)))
-                {
-                    if (ErrorHandler.Failed(shell.LoadPackage(ref guid, out package))) return null;
-                }
-                var myPack = package as OptionsPagePackage;
-                return (OptionPage)myPack.GetDialogPage(typeof(OptionPage));
-            }
-        }
+		public static async System.Threading.Tasks.Task<OptionPage> LoadAsync()
+		{
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+			lock (_syncRoot)
+			{
+				var shell = (IVsShell)GetGlobalService(typeof(SVsShell));
+				var guid = new Guid(PackageGuidString);
+				if (ErrorHandler.Failed(shell.IsPackageLoaded(ref guid, out IVsPackage package)))
+				{
+					if (ErrorHandler.Failed(shell.LoadPackage(ref guid, out package))) return null;
+				}
+				var myPack = package as OptionsPagePackage;
+				return (OptionPage)myPack.GetDialogPage(typeof(OptionPage));
+			}
+		}
 
         private OptionPage _options;
         private static readonly object _syncRoot = new object();
