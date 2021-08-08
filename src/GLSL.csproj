@@ -189,67 +189,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Composition">
       <Version>16.9.20</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Imaging">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.0-previews-2-31512-422" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.15.0">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Framework">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.10.0">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.11.0">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.12.0">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime">
-      <Version>16.10.31320.204</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.8.0">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Text.Data">
-      <Version>17.0.191-preview-gdb4a0010f6</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Text.Logic">
-      <Version>17.0.191-preview-gdb4a0010f6</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Text.UI">
-      <Version>17.0.191-preview-gdb4a0010f6</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Text.UI.Wpf">
-      <Version>17.0.191-preview-gdb4a0010f6</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.TextManager.Interop">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.TextManager.Interop.8.0">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Threading">
-      <Version>17.0.26-alpha</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Utilities">
-      <Version>17.0.0-previews-2-31512-422</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.2155-preview2">
-      <IncludeAssets>all</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.2155-preview2" />
     <PackageReference Include="OpenTK">
       <Version>3.3.2</Version>
     </PackageReference>
@@ -260,7 +203,7 @@
       <Version>5.0.0</Version>
     </PackageReference>
     <PackageReference Include="System.Resources.Extensions">
-      <Version>5.0.0</Version>
+      <Version>6.0.0-preview.6.21352.12</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
