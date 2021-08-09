@@ -1,0 +1,26 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ output extension=".cs" #>
+<#@ include file="..\Contracts\ShaderTypesAndDefaultExtension.t4" #>
+namespace DMS.GLSL.Options
+{
+	using DMS.GLSL.Contracts;
+	using Microsoft.VisualStudio.Shell;
+	using System.ComponentModel;
+
+	public partial class OptionPage : DialogPage, IShaderFileExtensions
+	{<#
+		foreach(var shaderType in mappingShaderTypeToExtension)
+		{
+		#>
+
+		[Category("File extensions")]
+		[DisplayName("<#=shaderType.Key#> shader type file extensions")]
+		[Description("Space or semicolon separated list of extensions that will receive syntax coloring")]
+		public string <#=ToCamelCase(shaderType.Key)#>ShaderFileExtensions { get; set; } = "<#=shaderType.Value#>";
+		<#}#>
+
+	}
+}
