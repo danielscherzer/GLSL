@@ -88,6 +88,13 @@
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
+	<ItemGroup>
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="System" />
+		<Reference Include="System.Xaml" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Add.png" />
     <Content Include="Resources\LICENSE.txt">
