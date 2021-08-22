@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ad626879-876f-4811-b58b-270cbcaadb75</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>GLSL_Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\ColorTools.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\GlslClassificationFormatDefinitionsGenerated.cs">
+      <DependentUpon>GlslClassificationFormatDefinitionsGenerated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\GlslClassificationTypesGenerated.cs">
+      <DependentUpon>GlslClassificationTypesGenerated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\GlslClassifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\GlslClassifierProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\ISyntaxColorParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classification\SyntaxColorParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeCompletion\GlslCompletionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CodeCompletion\GlslCompletionSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\ICompilerSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\ILogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IShaderFileExtensionSettingsGenerated.cs">
+      <DependentUpon>IShaderFileExtensionSettingsGenerated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Contracts\IUserKeywords.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Errors\ErrorList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Errors\ShaderCompiler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Errors\ShaderContentTypesGenerated.cs">
+      <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Errors\SquiggleTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Errors\SquiggleTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Errors\VsExpand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OnEditorFileLoading.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionPageGenerated.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>OptionPageGenerated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Options\OptionsPagePackage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\RegisterVSFileExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Options\RegisterVSFileExtensionsGenerated.cs">
+      <DependentUpon>RegisterVSFileExtensionsGenerated.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Outlining\OutliningTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Outlining\OutliningTaggerProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TodoClassification\TodoGlyph.xaml.cs">
+      <DependentUpon>TodoGlyph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)TodoClassification\TodoGlyphFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TodoClassification\TodoTagger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VsLogger\VsLogger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VsLogger\VsOutput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Classification\ClassificationTypes.t4" />
+    <None Include="$(MSBuildThisFileDirectory)Contracts\ShaderTypesAndDefaultExtension.t4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Classification\GlslClassificationFormatDefinitionsGenerated.tt">
+      <LastGenOutput>GlslClassificationFormatDefinitionsGenerated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Classification\GlslClassificationTypesGenerated.tt">
+      <LastGenOutput>GlslClassificationTypesGenerated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Contracts\IShaderFileExtensionSettingsGenerated.tt">
+      <LastGenOutput>IShaderFileExtensionSettingsGenerated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Errors\ShaderContentTypesGenerated.tt">
+      <LastGenOutput>ShaderContentTypesGenerated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Options\OptionPageGenerated.tt">
+      <LastGenOutput>OptionPageGenerated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Options\RegisterVSFileExtensionsGenerated.tt">
+      <LastGenOutput>RegisterVSFileExtensionsGenerated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Options\Resources\OptionsPagePackage.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Options\VSPackage.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)TodoClassification\TodoGlyph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

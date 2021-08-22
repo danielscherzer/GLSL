@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30204.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSL", "src\GLSL.csproj", "{1263F508-47FF-4AE9-9783-2685E3984FCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSL_Old", "GLSL_Old\GLSL_Old.csproj", "{1263F508-47FF-4AE9-9783-2685E3984FCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB3F8079-DA22-47E0-A5D2-11483F73FEBD}"
 	ProjectSection(SolutionItems) = preProject
@@ -14,16 +14,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSLx86", "GLSLx86\GLSLx86.csproj", "{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSLx64", "GLSLx64\GLSLx64.csproj", "{77A49588-564D-45AF-919A-7B556D8739E1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GLSL_Shared", "GLSL_Shared\GLSL_Shared.shproj", "{AD626879-876F-4811-B58B-270CBCAADB75}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		GLSL_Shared\GLSL_Shared.projitems*{1bd53375-07cc-4521-a39e-a0c8f4e30fe6}*SharedItemsImports = 4
+		GLSL_Shared\GLSL_Shared.projitems*{77a49588-564d-45af-919a-7b556d8739e1}*SharedItemsImports = 4
+		GLSL_Shared\GLSL_Shared.projitems*{ad626879-876f-4811-b58b-270cbcaadb75}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x86.ActiveCfg = Debug|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|x86.Build.0 = Debug|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Release|x86.ActiveCfg = Release|Any CPU
+		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Release|x86.Build.0 = Release|Any CPU
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|x86.ActiveCfg = Debug|x86
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|x86.Build.0 = Debug|x86
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x86.ActiveCfg = Release|x86
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
