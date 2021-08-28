@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31521.260
+# Visual Studio Version 16
+VisualStudioVersion = 16.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSL_Old", "GLSL_Old\GLSL_Old.csproj", "{1263F508-47FF-4AE9-9783-2685E3984FCF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB3F8079-DA22-47E0-A5D2-11483F73FEBD}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
@@ -18,7 +16,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSLx86", "GLSLx86\GLSLx86.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSLx64", "GLSLx64\GLSLx64.csproj", "{77A49588-564D-45AF-919A-7B556D8739E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GLSL_Old", "GLSL_Old\GLSL_Old.csproj", "{1263F508-47FF-4AE9-9783-2685E3984FCF}"
+EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "GLSL_Shared", "GLSL_Shared\GLSL_Shared.shproj", "{AD626879-876F-4811-B58B-270CBCAADB75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{1AD3E5E5-264A-4C49-AB97-A5F823820D0A}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\Add.png = Resources\Add.png
+		Resources\LICENSE.txt = Resources\LICENSE.txt
+		Resources\ShaderIcon.png = Resources\ShaderIcon.png
+		Resources\ShaderPreview.png = Resources\ShaderPreview.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -33,10 +41,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x86.ActiveCfg = Debug|Any CPU
 		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD53375-07CC-4521-A39E-A0C8F4E30FE6}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -53,9 +57,16 @@ Global
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x86.ActiveCfg = Release|x86
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x86.Build.0 = Release|x86
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AD3E5E5-264A-4C49-AB97-A5F823820D0A} = {DB3F8079-DA22-47E0-A5D2-11483F73FEBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D87299C6-9928-4877-8271-684E940A5265}
