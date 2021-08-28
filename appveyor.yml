@@ -1,4 +1,4 @@
-version: 0.10.{build}
+version: 0.11.{build}
 
 skip_tags: true # avoid deploy to GitHub loop 
 
@@ -10,7 +10,7 @@ assembly_info:
   assembly_file_version: "{version}"
   assembly_informational_version: "{version}"
 
-image: Visual Studio 2017 # with 2019 maybe problems with the extension
+image: Visual Studio 2019
 
 configuration:
 - Release
