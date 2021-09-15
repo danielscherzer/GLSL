@@ -1,5 +1,5 @@
 ### Installed product versions
-- Visual Studio: [example 2017 Professional]
+- Visual Studio: [example 2019 Community]
 - This extension: [example 1.1.21]
 
 ### Description
