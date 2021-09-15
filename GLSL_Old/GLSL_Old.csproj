@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <LangVersion>7.1</LangVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{1263F508-47FF-4AE9-9783-2685E3984FCF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DMS.GLSL</RootNamespace>
+    <AssemblyName>GLSL</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>true</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>false</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Classification\ColorTools.cs" />
+    <Compile Include="Classification\GlslClassifierProvider.cs" />
+    <Compile Include="Classification\ISyntaxColorParser.cs" />
+    <Compile Include="Contracts\ICompilerSettings.cs" />
+    <Compile Include="Contracts\IShaderFileExtensionSettingsGenerated.cs">
+      <DependentUpon>IShaderFileExtensionSettingsGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Errors\VsExpand.cs" />
+    <Compile Include="Contracts\IUserKeywords.cs" />
+    <Compile Include="Options\OnEditorFileLoading.cs" />
+    <Compile Include="VsLogger\VsOutput.cs" />
+    <None Include="Classification\ClassificationTypes.t4" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Classification\GlslClassificationFormatDefinitionsGenerated.cs">
+      <DependentUpon>GlslClassificationFormatDefinitionsGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Classification\GlslClassificationTypesGenerated.cs">
+      <DependentUpon>GlslClassificationTypesGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Classification\SyntaxColorParser.cs" />
+    <Compile Include="Contracts\ILogger.cs" />
+    <Compile Include="Outlining\OutliningTagger.cs" />
+    <Compile Include="Outlining\OutliningTaggerProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Classification\GlslClassificationFormatDefinitionsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslClassificationFormatDefinitionsGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Classification\GlslClassificationTypesGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslClassificationTypesGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Contracts\IShaderFileExtensionSettingsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IShaderFileExtensionSettingsGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Resources\ShaderPreview.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="Resources\ShaderIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Errors\ShaderContentTypesGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classification\GlslClassifier.cs" />
+    <None Include="Contracts\ShaderTypesAndDefaultExtension.t4" />
+    <Content Include="Errors\ShaderContentTypesGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShaderContentTypesGenerated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="VsLogger\VsLogger.cs" />
+    <Compile Include="Errors\ErrorList.cs" />
+    <Compile Include="Errors\ShaderCompiler.cs" />
+    <Compile Include="Errors\SquiggleTagger.cs" />
+    <Compile Include="Errors\SquiggleTaggerProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Options\RegisterVSFileExtensions.cs" />
+    <Compile Include="Options\RegisterVSFileExtensionsGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegisterVSFileExtensionsGenerated.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Options\OptionPageGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OptionPageGenerated.tt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Options\OptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Options\OptionsPagePackage.cs" />
+    <EmbeddedResource Include="Options\VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+    </EmbeddedResource>
+    <Content Include="Options\RegisterVSFileExtensionsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RegisterVSFileExtensionsGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Options\OptionPageGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OptionPageGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Options\Resources\OptionsPagePackage.ico" />
+    <Content Include="Resources\LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TodoClassification\TodoGlyph.xaml.cs">
+      <DependentUpon>TodoGlyph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TodoClassification\TodoGlyphFactory.cs" />
+    <Compile Include="TodoClassification\TodoTagger.cs" />
+    <Page Include="TodoClassification\TodoGlyph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Resource Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeCompletion\GlslCompletionController.cs" />
+    <Compile Include="CodeCompletion\GlslCompletionSource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="GLSLhelper">
+      <Version>0.3.52</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Composition">
+      <Version>16.9.20</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="15.0.1" ExcludeAssets="runtime">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.2155-preview2" />
+    <PackageReference Include="OpenTK">
+      <Version>3.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Drawing.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reactive">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Resources.Extensions">
+      <Version>6.0.0-preview.6.21352.12</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

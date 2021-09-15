@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>ad626879-876f-4811-b58b-270cbcaadb75</ProjectGuid>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
+  <PropertyGroup />
+  <Import Project="GLSL_Shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Classification\ColorTools.cs" />
+    <Compile Include="Classification\GlslClassifierProvider.cs" />
+    <Compile Include="Classification\ISyntaxColorParser.cs" />
+    <Compile Include="Contracts\ICompilerSettings.cs" />
+    <Compile Include="Contracts\IShaderFileExtensionSettingsGenerated.cs">
+      <DependentUpon>IShaderFileExtensionSettingsGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Errors\VsExpand.cs" />
+    <Compile Include="Contracts\IUserKeywords.cs" />
+    <Compile Include="Options\OnEditorFileLoading.cs" />
+    <Compile Include="VsLogger\VsOutput.cs" />
+    <None Include="Classification\ClassificationTypes.t4" />
+    <Compile Include="Classification\GlslClassificationFormatDefinitionsGenerated.cs">
+      <DependentUpon>GlslClassificationFormatDefinitionsGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Classification\GlslClassificationTypesGenerated.cs">
+      <DependentUpon>GlslClassificationTypesGenerated.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Classification\SyntaxColorParser.cs" />
+    <Compile Include="Contracts\ILogger.cs" />
+    <Compile Include="Outlining\OutliningTagger.cs" />
+    <Compile Include="Outlining\OutliningTaggerProvider.cs" />
+    <Content Include="Classification\GlslClassificationFormatDefinitionsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslClassificationFormatDefinitionsGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Classification\GlslClassificationTypesGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GlslClassificationTypesGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Contracts\IShaderFileExtensionSettingsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IShaderFileExtensionSettingsGenerated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Errors\ShaderContentTypesGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ShaderContentTypesGenerated.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Classification\GlslClassifier.cs" />
+    <None Include="Contracts\ShaderTypesAndDefaultExtension.t4" />
+    <Content Include="Errors\ShaderContentTypesGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ShaderContentTypesGenerated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="VsLogger\VsLogger.cs" />
+    <Compile Include="Errors\ErrorList.cs" />
+    <Compile Include="Errors\ShaderCompiler.cs" />
+    <Compile Include="Errors\SquiggleTagger.cs" />
+    <Compile Include="Errors\SquiggleTaggerProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Options\RegisterVSFileExtensions.cs" />
+    <Compile Include="Options\RegisterVSFileExtensionsGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RegisterVSFileExtensionsGenerated.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Options\OptionPageGenerated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OptionPageGenerated.tt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Options\OptionPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Options\OptionsPagePackage.cs" />
+    <EmbeddedResource Include="Options\VSPackage.resx">
+      <MergeWithCTO>true</MergeWithCTO>
+      <ManifestResourceName>VSPackage</ManifestResourceName>
+    </EmbeddedResource>
+    <Content Include="Options\RegisterVSFileExtensionsGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RegisterVSFileExtensionsGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Options\OptionPageGenerated.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OptionPageGenerated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Options\Resources\OptionsPagePackage.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TodoClassification\TodoGlyph.xaml.cs">
+      <DependentUpon>TodoGlyph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TodoClassification\TodoGlyphFactory.cs" />
+    <Compile Include="TodoClassification\TodoTagger.cs" />
+    <Page Include="TodoClassification\TodoGlyph.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeCompletion\GlslCompletionController.cs" />
+    <Compile Include="CodeCompletion\GlslCompletionSource.cs" />
+  </ItemGroup>
+</Project>
