@@ -1,10 +1,4 @@
-﻿<#@ assembly name="System.Core" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
-
-<#
-		var mappingShaderTypeToExtension = new Dictionary<string, string>()
+﻿<#var mappingShaderTypeToExtension = new Dictionary<string, string>()
 		{
 			["Auto detect"] = ".glsl",
 			["Fragment"] = ".frag",
@@ -20,11 +14,10 @@
 			["Ray miss"] = ".rmiss",
 			["Ray any hit"] = ".rahit",
 			["Ray closest hit"] = ".rchit",
-			["Ray callable"] = ".rcall"
+			["Ray callable"] = ".rcall",
 		};
 #>
-<#+
-	string ToCamelCase(string text)
+<#+string ToCamelCase(string text)
 	{
 		var words = text.Split();
 		var firstUpperCase = words.Select(i => char.ToUpper(i[0]) + i.Substring(1));
