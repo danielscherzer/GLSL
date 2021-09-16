@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="999396e8-1400-4b23-ae9e-17e823006a12" Version="0.11.5000" Language="en-US" Publisher="Daniel Scherzer" />
-        <DisplayName>GLSL language integration (2022)</DisplayName>
+        <DisplayName>GLSL language integration (for VS2022)</DisplayName>
         <Description xml:space="preserve">VSIX Project that provides GLSL language integration.
 Includes syntax highlighting (file extensions: glsl, frag, vert, geom, comp, tesse, tessc), code completion (OpenGL 4.5 + identifiers in shader file), error tagging with squiggles and in error list (error list support is very alpha). For error tagging a separate OpenGL thread is used for shader compiling.</Description>
         <MoreInfo>https://github.com/danielscherzer/GLSL</MoreInfo>
