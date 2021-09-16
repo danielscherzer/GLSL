@@ -8,10 +8,14 @@ Features that have a check mark are complete and available for download in the
 # Change log
 These are the changes to each version that has been released on the official Visual Studio extension gallery.
 
+## 0.11 (contribution by [TheEndHunter](https://github.com/TheEndHunter))
+- [x] Support for Visual Studio 2022
+- [x] Splitting the project into shared code base and two projects: one for Vs2017 and VS2019 and the other for VS2022
+
 ## 0.10
 - [x] Error list jump to line
-- [x] major restructuring of the project
-- [x] added support for parsing of VulkanSDK glslc.exe shader compiler errors
+- [x] Major restructuring of the project
+- [x] Added support for parsing of VulkanSDK glslc.exe shader compiler errors
 
 ## 0.8
 - [x] Outlining

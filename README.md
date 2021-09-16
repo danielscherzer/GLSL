@@ -1,9 +1,12 @@
-# GLSL language integration
+# GLSL language integration (for VS2017, 2019 and 2022)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/dgkpbnfgna2gakrd?svg=true)](https://ci.appveyor.com/project/danielscherzer/glsl)
 
-Download this extension from the [VS Gallery](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL)
-or get the [CI build](http://vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6158ade63816/).
+Download this extension from
+- Visual Studio Marketplace version [VS2017 & 2019](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL) or [VS 2022 preview](https://marketplace.visualstudio.com/items?itemName=DanielScherzer.GLSL2022)
+- Open VSIX Gallery version [VS2017 & 2019](https://www.vsixgallery.com/extension/b62242eb-0ae5-4494-b013-6158ade63816) or
+[VS 2022 preview](https://www.vsixgallery.com/extension/999396e8-1400-4b23-ae9e-17e823006a12)
+- [Github releases](https://github.com/danielscherzer/GLSL/releases/latest)
 
 ---------------------------------------
 
