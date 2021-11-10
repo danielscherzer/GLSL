@@ -104,7 +104,7 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		private static string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles = null)
+		private string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles = null)
 		{
 			if (includedFiles is null)
 			{
@@ -149,7 +149,14 @@ namespace DMS.GLSL.Errors
 			{
 				shaderCode = SpecialCommentReplacement(shaderCode, "//?");
 			}
-			return GLSLhelper.Transformation.ExpandIncludes(shaderCode, GetIncludeCode);
+			if (settings.ExpandIncludes)
+			{
+				return GLSLhelper.Transformation.ExpandIncludes(shaderCode, GetIncludeCode);
+			}
+			else
+			{
+				return shaderCode;
+			}
 		}
 
 		private static string Compile(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)

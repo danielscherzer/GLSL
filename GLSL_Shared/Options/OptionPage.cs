@@ -28,6 +28,11 @@ namespace DMS.GLSL.Options
 		public bool LiveCompiling { get; set; } = true;
 
 		[Category("General")]
+		[DisplayName("Expand includes")]
+		[Description("Expand includes to support shader compilers which do not support the #include pragma. This option only works if include paths are absolute or relative to the current file")]
+		public bool ExpandIncludes { get; set; } = true;
+
+		[Category("General")]
 		[DisplayName("User key words 1")]
 		[Description("Space separated list of user key words (used for coloring)")]
 		public string UserKeyWords1
