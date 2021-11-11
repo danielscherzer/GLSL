@@ -79,7 +79,7 @@ namespace DMS.GLSL.Errors
 			while (!compileRequests.IsAddingCompleted)
 			{
 				var compileData = compileRequests.Take(); //block until compile requested
-				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir);
+				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir, settings);
 				var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
 				var errorLog = new GLSLhelper.ShaderLogParser(log);
 				if (!string.IsNullOrWhiteSpace(log) && settings.PrintShaderCompilerLog)
@@ -104,7 +104,7 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		private string ExpandedCode(string shaderCode, string shaderFileDir, HashSet<string> includedFiles = null)
+		private static string ExpandedCode(string shaderCode, string shaderFileDir, ICompilerSettings settings, HashSet<string> includedFiles = null)
 		{
 			if (includedFiles is null)
 			{
@@ -139,7 +139,7 @@ namespace DMS.GLSL.Errors
 					}
 					includedFiles.Add(includeFileName);
 
-					return ExpandedCode(includeCode, Path.GetDirectoryName(includeFileName), includedFiles: includedFiles);
+					return ExpandedCode(includeCode, Path.GetDirectoryName(includeFileName), settings, includedFiles: includedFiles);
 				}
 				return $"#error include file '{includeName}' not found";
 			}
