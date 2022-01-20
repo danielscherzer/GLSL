@@ -86,19 +86,19 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GLSLhelper">
-      <Version>0.3.52</Version>
+      <Version>0.3.53</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Composition">
       <Version>16.9.20</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.0-previews-3-31605-261" ExcludeAssets="runtime">
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.31902.203" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Shell.15.0">
-      <Version>17.0.0-previews-3-31605-261</Version>
+      <Version>17.0.32112.339</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.4194-preview4">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5234">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
