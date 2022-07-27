@@ -35,7 +35,7 @@ deploy:
   description: 'Released Created By Appveyor'
   provider: GitHub
   auth_token:
-    secure: rgkHI4xJxcv3RdU4raAipHeo5lbwXL8uMblC8lPQm9esgm0c89S869xBwoHIZ/aS
+    secure: fGVm8Adn/cp+0vP/TKHUVPiJiE4I5ZcBP5WD1GTvIagnWtZuZL7OdYVdPJxri006
   artifact: Latest build
   draft: false
   prerelease: false
