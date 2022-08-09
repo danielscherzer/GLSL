@@ -69,25 +69,24 @@ namespace DMS.GLSL.Errors
 		{
 			if (!(taskGL is null)) return;
 			//start up GL task for doing shader compilations in background
-			taskGL = Task.Factory.StartNew(TaskGlAction, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-		}
-
-		private void TaskGlAction()
-		{
-			//create a game window for rendering context, until run is called it is invisible so no problem
-			var context = new GameWindow(1, 1);
-			while (!compileRequests.IsAddingCompleted)
+			void TaskGlAction()
 			{
-				var compileData = compileRequests.Take(); //block until compile requested
-				var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir, settings);
-				var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
-				var errorLog = new GLSLhelper.ShaderLogParser(log);
-				if (!string.IsNullOrWhiteSpace(log) && settings.PrintShaderCompilerLog)
+				//create a game window for rendering context, until run is called it is invisible so no problem
+				var context = new GameWindow(1, 1);
+				while (!compileRequests.IsAddingCompleted)
 				{
-					logger.Log($"Dumping shader log:\n{log}\n", false);
+					var compileData = compileRequests.Take(); //block until compile requested
+					var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir, settings);
+					var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
+					var errorLog = new GLSLhelper.ShaderLogParser(log);
+					if (!string.IsNullOrWhiteSpace(log) && settings.PrintShaderCompilerLog)
+					{
+						logger.Log($"Dumping shader log:\n{log}\n", false);
+					}
+					compileData.CompilationFinished?.Invoke(errorLog.Lines);
 				}
-				compileData.CompilationFinished?.Invoke(errorLog.Lines);
 			}
+			taskGL = Task.Factory.StartNew(TaskGlAction, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
 		}
 
 		private static string AutoDetectShaderContentType(string shaderCode)
@@ -225,7 +224,7 @@ namespace DMS.GLSL.Errors
 				var id = GL.CreateShader(glShaderType);
 				if (0 == id)
 				{
-					var message = $"Could not create {shaderType} instance. Are your drivers up-to-date?";
+					var message = $"Could not create {shaderType} instance. Are your graphics card (OpenGL) drivers up-to-date?";
 					logger.Log(message, true);
 					return message;
 				}
