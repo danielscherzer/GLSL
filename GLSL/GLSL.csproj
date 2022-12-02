@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GLSLhelper">
-      <Version>0.3.58</Version>
+      <Version>0.3.59</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Composition">
       <Version>16.9.20</Version>
@@ -95,7 +95,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="OpenTK">
-      <Version>3.3.2</Version>
+      <Version>3.3.3</Version>
     </PackageReference>
     <PackageReference Include="System.Drawing.Primitives">
       <Version>4.3.0</Version>
