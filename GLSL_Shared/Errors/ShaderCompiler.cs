@@ -34,7 +34,7 @@ namespace DMS.GLSL.Errors
 			compileRequests.TryAdd(data); //put compile on request list
 		}
 
-		private struct CompileData
+		private readonly struct CompileData
 		{
 			public CompileData(string shaderCode, string shaderType, OnCompilationFinished compilationFinished, string documentDir)
 			{
