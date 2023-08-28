@@ -24,25 +24,54 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		Resources\ShaderPreview.png = Resources\ShaderPreview.png
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glslang", "Glslang\Glslang.csproj", "{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		GLSL_Shared\GLSL_Shared.projitems*{1263f508-47ff-4ae9-9783-2685e3984fcf}*SharedItemsImports = 4
-		GLSL_Shared\GLSL_Shared.projitems*{77a49588-564d-45af-919a-7b556d8739e1}*SharedItemsImports = 4
-		GLSL_Shared\GLSL_Shared.projitems*{ad626879-876f-4811-b58b-270cbcaadb75}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x64.Build.0 = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Debug|x86.Build.0 = Debug|Any CPU
 		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x64.ActiveCfg = Release|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x64.Build.0 = Release|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x86.ActiveCfg = Release|Any CPU
+		{1263F508-47FF-4AE9-9783-2685E3984FCF}.Release|x86.Build.0 = Release|Any CPU
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|Any CPU.Build.0 = Debug|x64
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|x64.ActiveCfg = Debug|x64
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|x64.Build.0 = Debug|x64
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|x86.ActiveCfg = Debug|x86
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Debug|x86.Build.0 = Debug|x86
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|Any CPU.ActiveCfg = Release|x64
 		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|Any CPU.Build.0 = Release|x64
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x64.ActiveCfg = Release|x64
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x64.Build.0 = Release|x64
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x86.ActiveCfg = Release|x86
+		{77A49588-564D-45AF-919A-7B556D8739E1}.Release|x86.Build.0 = Release|x86
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Debug|x64.Build.0 = Debug|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Debug|x86.Build.0 = Debug|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Release|x64.ActiveCfg = Release|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Release|x64.Build.0 = Release|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Release|x86.ActiveCfg = Release|Any CPU
+		{DEF91BF6-E90F-4556-AE03-1EC303A8BA5F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +81,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D87299C6-9928-4877-8271-684E940A5265}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		GLSL_Shared\GLSL_Shared.projitems*{1263f508-47ff-4ae9-9783-2685e3984fcf}*SharedItemsImports = 4
+		GLSL_Shared\GLSL_Shared.projitems*{77a49588-564d-45af-919a-7b556d8739e1}*SharedItemsImports = 4
+		GLSL_Shared\GLSL_Shared.projitems*{ad626879-876f-4811-b58b-270cbcaadb75}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

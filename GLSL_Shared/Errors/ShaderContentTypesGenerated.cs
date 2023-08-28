@@ -8,12 +8,11 @@ namespace DMS.GLSL.Errors
 	{
 		public const string GlslShader = "glslShader";
 
-		public static string DefaultFileExtension(string shaderType)
+		public static string DefaultFileExtension(string shaderContentType)
 		{
-			switch (shaderType)
+			switch (shaderContentType)
 			{
 				case AutoDetect: return ".glsl";
-				case Fragment: return ".frag";
 				case Vertex: return ".vert";
 				case Geometry: return ".geom";
 				case Compute: return ".comp";
@@ -27,8 +26,8 @@ namespace DMS.GLSL.Errors
 				case RayAnyHit: return ".rahit";
 				case RayClosestHit: return ".rchit";
 				case RayCallable: return ".rcall";
+				default: return ".frag";
 			}
-			return ".frag";
 		}
 
 #pragma warning disable 649 //never used warning

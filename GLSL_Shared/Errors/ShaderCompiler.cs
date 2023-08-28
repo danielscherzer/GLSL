@@ -187,6 +187,7 @@ namespace DMS.GLSL.Errors
 				{
 					process.StartInfo.FileName = VsExpand.EnvironmentVariables(settings.ExternalCompilerExeFilePath);
 					var arguments = VsExpand.EnvironmentVariables(settings.ExternalCompilerArguments);
+					logger.Log($"Using external compiler '{settings.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
 					process.StartInfo.Arguments = $"{arguments} \"{shaderFileName}\""; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
 					process.StartInfo.UseShellExecute = false;
@@ -194,7 +195,6 @@ namespace DMS.GLSL.Errors
 					process.StartInfo.RedirectStandardError = true;
 					process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 					process.StartInfo.CreateNoWindow = true; //do not display a windows
-					logger.Log($"Using external compiler '{settings.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
 					process.Start();
 					if (!process.WaitForExit(10000))
 					{
@@ -214,6 +214,7 @@ namespace DMS.GLSL.Errors
 		[HandleProcessCorruptedStateExceptions]
 		private static string CompileOnGPU(string shaderCode, string shaderType, ILogger logger)
 		{
+			//GlslangInterop.GlslCompiler.Compile(shaderCode);
 			// detect shader type
 			if (!mappingContentTypeToShaderType.TryGetValue(shaderType, out ShaderType glShaderType))
 			{
