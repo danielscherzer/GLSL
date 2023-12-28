@@ -47,7 +47,8 @@ namespace DMS.GLSL.Errors
 					//if not currently compiling then compile shader from changed text otherwise add to the "to be compiled" list
 					if (settings.LiveCompiling)
 					{
-						shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors, GetDocumentDir(buffer));
+						var filePath = GetFilePath(buffer);
+						shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors, Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
 					}
 					else
 					{
@@ -67,12 +68,12 @@ namespace DMS.GLSL.Errors
 		private readonly ShaderCompiler shaderCompiler;
 		private readonly ICompilerSettings settings;
 
-		private static string GetDocumentDir(ITextBuffer textBuffer)
+		private static string GetFilePath(ITextBuffer textBuffer)
 		{
 			foreach (var prop in textBuffer.Properties.PropertyList)
 			{
 				if (!(prop.Value is ITextDocument doc)) continue;
-				return Path.GetDirectoryName(doc.FilePath);
+				return doc.FilePath;
 			}
 			return string.Empty;
 		}

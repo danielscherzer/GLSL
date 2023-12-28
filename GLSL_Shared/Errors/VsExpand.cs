@@ -32,6 +32,14 @@ namespace DMS.GLSL.Errors
 			return joinableTaskFactory.Run(() => EnvironmentVariablesAsync(text));
 		}
 
+		public static string EnvironmentVariables(string text, string fileDir, string fileName)
+		{
+			var joinableTaskFactory = ThreadHelper.JoinableTaskFactory;
+			text = text.Replace("%shaderDir%", fileDir)
+				.Replace("%shaderName%", Path.GetFileNameWithoutExtension(fileName))
+				.Replace("%shaderExt%", Path.GetExtension(fileName));
+			return joinableTaskFactory.Run(() => EnvironmentVariablesAsync(text));
+		}
 		private static readonly object _syncRoot = new object();
 	}
 }
