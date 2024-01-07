@@ -26,28 +26,30 @@ namespace DMS.GLSL.Errors
 
 		internal delegate void OnCompilationFinished(IEnumerable<GLSLhelper.ShaderLogLine> errorLog);
 
-		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler, string documentDir)
+		internal void RequestCompile(string shaderCode, string sShaderType, OnCompilationFinished compilationFinishedHandler, string documentDir, string documentName)
 		{
 			StartGlThreadOnce();
 			while (compileRequests.TryTake(out _)) ; //remove pending compiles
-			var data = new CompileData(shaderCode, sShaderType, compilationFinishedHandler, documentDir);
+			var data = new CompileData(shaderCode, sShaderType, compilationFinishedHandler, documentDir, documentName);
 			compileRequests.TryAdd(data); //put compile on request list
 		}
 
 		private readonly struct CompileData
 		{
-			public CompileData(string shaderCode, string shaderType, OnCompilationFinished compilationFinished, string documentDir)
+			public CompileData(string shaderCode, string shaderType, OnCompilationFinished compilationFinished, string documentDir, string documentName)
 			{
 				ShaderCode = shaderCode;
 				ShaderType = shaderType;
 				CompilationFinished = compilationFinished;
 				DocumentDir = documentDir;
+				DocumentName = documentName;
 			}
 
 			public string ShaderCode { get; }
 			public string ShaderType { get; }
 			public OnCompilationFinished CompilationFinished { get; }
 			public string DocumentDir { get; }
+			public string DocumentName { get; }
 		}
 
 		private static readonly IReadOnlyDictionary<string, ShaderType> mappingContentTypeToShaderType = new Dictionary<string, ShaderType>()
@@ -77,7 +79,7 @@ namespace DMS.GLSL.Errors
 				{
 					var compileData = compileRequests.Take(); //block until compile requested
 					var expandedCode = ExpandedCode(compileData.ShaderCode, compileData.DocumentDir, settings);
-					var log = Compile(expandedCode, compileData.ShaderType, logger, settings);
+					var log = Compile(expandedCode, compileData.ShaderType, compileData.DocumentDir, compileData.DocumentName, logger, settings);
 					var errorLog = new GLSLhelper.ShaderLogParser(log);
 					if (!string.IsNullOrWhiteSpace(log) && settings.PrintShaderCompilerLog)
 					{
@@ -158,7 +160,7 @@ namespace DMS.GLSL.Errors
 			}
 		}
 
-		private static string Compile(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)
+		private static string Compile(string shaderCode, string shaderContentType, string documentDir, string documentName, ILogger logger, ICompilerSettings settings)
 		{
 			if (ShaderContentTypes.AutoDetect == shaderContentType)
 			{
@@ -171,11 +173,11 @@ namespace DMS.GLSL.Errors
 			}
 			else
 			{
-				return CompileExternal(shaderCode, shaderContentType, logger, settings);
+				return CompileExternal(shaderCode, shaderContentType, documentDir, documentName, logger, settings);
 			}
 		}
 
-		private static string CompileExternal(string shaderCode, string shaderContentType, ILogger logger, ICompilerSettings settings)
+		private static string CompileExternal(string shaderCode, string shaderContentType, string documentDir, string documentName, ILogger logger, ICompilerSettings settings)
 		{
 			//create temp shader file for external compiler
 			var tempPath = Path.GetTempPath();
@@ -186,7 +188,7 @@ namespace DMS.GLSL.Errors
 				using (var process = new Process())
 				{
 					process.StartInfo.FileName = VsExpand.EnvironmentVariables(settings.ExternalCompilerExeFilePath);
-					var arguments = VsExpand.EnvironmentVariables(settings.ExternalCompilerArguments);
+					var arguments = VsExpand.EnvironmentVariables(settings.ExternalCompilerArguments, documentDir, documentName);
 					logger.Log($"Using external compiler '{settings.ExternalCompilerExeFilePath}' with arguments '{arguments}' on temporal shader file '{shaderFileName}'", true);
 					process.StartInfo.Arguments = $"{arguments} \"{shaderFileName}\""; //arguments
 					process.StartInfo.WorkingDirectory = tempPath;
