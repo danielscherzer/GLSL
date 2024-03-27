@@ -37,11 +37,11 @@ namespace DMS.GLSL.Outlining
 			if (0 == spans.Count) yield break;
 			var currentRegionSpans = regionSpans;
 			if (0 == currentRegionSpans.Count) yield break;
-			SnapshotSpan entire = new SnapshotSpan(spans[0].Start, spans[spans.Count - 1].End).TranslateTo(currentRegionSpans[0].Snapshot, SpanTrackingMode.EdgeInclusive);
+			//SnapshotSpan entire = new SnapshotSpan(spans[0].Start, spans[spans.Count - 1].End).TranslateTo(currentRegionSpans[0].Snapshot, SpanTrackingMode.EdgeInclusive);
 
 			foreach (var region in currentRegionSpans)
 			{
-				if (entire.OverlapsWith(region))
+				//if (entire.OverlapsWith(region)) // this makes problems when I scroll collapsed regions outside the window and back
 				{
 					yield return new TagSpan<IOutliningRegionTag>(region, new OutliningRegionTag(false, false, ellipsis, region.GetText()));
 				}
