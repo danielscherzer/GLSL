@@ -18,10 +18,11 @@ namespace DMS.GLSL.Errors
 	internal class SquiggleTaggerProvider : IViewTaggerProvider
 	{
 		[ImportingConstructor]
-		public SquiggleTaggerProvider(ShaderCompiler shaderCompiler, ICompilerSettings settings)
+		public SquiggleTaggerProvider(ShaderCompiler shaderCompiler, ICompilerSettings settings, ILogger logger)
 		{
 			this.shaderCompiler = shaderCompiler ?? throw new ArgumentNullException(nameof(shaderCompiler));
 			this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
@@ -48,7 +49,17 @@ namespace DMS.GLSL.Errors
 					if (settings.LiveCompiling)
 					{
 						var filePath = GetFilePath(buffer);
-						shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors, Path.GetDirectoryName(filePath), Path.GetFileName(filePath));
+						try
+						{
+							if (!File.Exists(filePath)) return;
+							var dir = Path.GetDirectoryName(filePath);
+							var name = Path.GetFileName(filePath);
+							shaderCompiler.RequestCompile(shaderCode, shaderType, tagger.UpdateErrors, dir, name);
+						}
+						catch(SystemException ex)
+						{
+							logger.Log(ex.Message);
+						}
 					}
 					else
 					{
@@ -67,6 +78,7 @@ namespace DMS.GLSL.Errors
 
 		private readonly ShaderCompiler shaderCompiler;
 		private readonly ICompilerSettings settings;
+		private readonly ILogger logger;
 
 		private static string GetFilePath(ITextBuffer textBuffer)
 		{
